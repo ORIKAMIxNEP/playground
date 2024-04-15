@@ -14,9 +14,9 @@ ssh-keygen -t ed25519 && cat ~/.ssh/id_ed25519.pub
 ```
 #### リポジトリのクローン
 ```console
-git clone git@github.com:ORIKAMIxNEP/sandbox.git
-```
-#### リポジトリのクローン
-```console
 git clone git@github.com:ORIKAMIxNEP/sandbox.git && cd sandbox
+```
+#### JDKのインストール
+```console
+sudo apt install openjdk-17-jdk -y
 ```
