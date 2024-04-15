@@ -22,5 +22,5 @@ sudo apt install openjdk-17-jdk -y
 ```
 #### PostgreSQLのインストール
 ```console
-sudo apt install postgresql postgresql-contrib
+sudo apt install postgresql postgresql-contrib -y
 ```
