@@ -20,3 +20,7 @@ git clone git@github.com:ORIKAMIxNEP/sandbox.git && cd sandbox
 ```console
 sudo apt install openjdk-17-jdk -y
 ```
+#### PostgreSQLのインストール
+```console
+sudo apt install postgresql postgresql-contrib
+```
