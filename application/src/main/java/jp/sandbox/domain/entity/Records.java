@@ -6,10 +6,10 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Users {
-  @Id private final int userId;
+public class Records {
+  @Id private final int recordId;
 
-  private final String name;
+  private final String record1;
 
-  private final String password;
+  private final String record2;
 }

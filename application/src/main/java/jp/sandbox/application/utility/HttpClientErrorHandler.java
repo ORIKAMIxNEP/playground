@@ -35,7 +35,7 @@ public class HttpClientErrorHandler {
           true, ResponseEntity.badRequest().body(bindingResult.getAllErrors()));
     }
 
-    // ユーザーログインをしていない場合
+    // レコードログインをしていない場合
     if (httpServletRequest != null && !sessionManager.isLoggedIn(httpServletRequest)) {
       return new HttpClientErrorHandlerResponse(
           true, ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication Error"));
