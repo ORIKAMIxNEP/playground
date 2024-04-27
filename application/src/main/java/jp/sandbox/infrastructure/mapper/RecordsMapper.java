@@ -54,7 +54,7 @@ public interface RecordsMapper {
       WHERE
         record_id = #{recordId}
       """)
-  void updateRecord(final int recordId, final String record1, final String record2);
+  void update(final int recordId, final String record1, final String record2);
 
   // レコード1更新
   @Update(

@@ -21,8 +21,8 @@ public class RecordsRepository {
   }
 
   // レコード更新
-  public void updateRecord(final int recordId, final String record1, final String record2) {
-    recordsMapper.updateRecord(recordId, record1, record2);
+  public void update(final int recordId, final String record1, final String record2) {
+    recordsMapper.update(recordId, record1, record2);
   }
 
   // レコード1更新
