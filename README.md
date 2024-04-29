@@ -1,4 +1,4 @@
-# sandbox
+# spring-boot-template
 ## 環境構築
 #### パッケージの更新
 ```console
@@ -16,7 +16,7 @@ ssh-keygen -t ed25519 && cat ~/.ssh/id_ed25519.pub
 ```
 #### リポジトリのクローン
 ```console
-git clone git@github.com:ORIKAMIxNEP/sandbox.git && cd sandbox
+git clone git@github.com:ORIKAMIxNEP/spring-boot-template.git && cd spring-boot-template
 ```
 #### JDKのインストール
 ```console
