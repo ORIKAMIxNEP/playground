@@ -16,7 +16,7 @@ ssh-keygen -t ed25519 && cat ~/.ssh/id_ed25519.pub
 ```
 #### リポジトリのクローン
 ```console
-GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=no' git clone git@github.com:ORIKAMIxNEP/spring-boot-template.git && cd spring-boot-template
+GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=no' git clone git@github.com:ORIKAMIxNEP/spring-boot-template.git
 ```
 #### JDKのインストール
 ```console
