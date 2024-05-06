@@ -46,21 +46,21 @@ public class RecordController {
   // レコード取得
   @GetMapping
   @ResponseBody
-  public ResponseEntity<?> update(@RequestHeader("X-CSRF-Token") String clientCsrfToken) {
+  public ResponseEntity<?> fetch(@RequestHeader("X-CSRF-Token") String clientCsrfToken) {
     final HttpClientErrorHandlerResponse httpClientErrorHandlerResponse =
         httpClientErrorHandler.handle(clientCsrfToken, null);
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-//    return ResponseEntity.ok(recordService.fetch());
-      return ResponseEntity.ok(0);
+    return ResponseEntity.ok(recordService.fetch());
+    //        return ResponseEntity.ok(0);
   }
 
   // レコード更新
   @PutMapping
   @ResponseBody
   public ResponseEntity<?> update(
-      @RequestHeader("X-CSRF-Token") String clientCsrfToken,
+      @RequestHeader("X-CSRF-TOKEN") String clientCsrfToken,
       @RequestBody @Validated final UpdateRequest updateRequest,
       final BindingResult bindingResult) {
     final HttpClientErrorHandlerResponse httpClientErrorHandlerResponse =

@@ -32,7 +32,7 @@ public class RecordService {
 
   // レコード取得
   public FetchResponse fetch() {
-    final Records records = recordsRepository.fetch(0);
+    final Records records = recordsRepository.fetch(1);
 
     return new FetchResponse(records.getRecord1(), records.getRecord2());
   }
@@ -42,21 +42,21 @@ public class RecordService {
     final String record1 = updateRequest.record1();
     final String record2 = updateRequest.record2();
 
-    recordsRepository.update(0, record1, record2);
+    recordsRepository.update(1, record1, record2);
 
     return new UpdateResponse(true);
   }
 
   // レコード1更新
   public UpdateRecord1Response updateRecord1(final UpdateRecord1Request updateRecord1Request) {
-    recordsRepository.updateRecord1(0, updateRecord1Request.record1());
+    recordsRepository.updateRecord1(1, updateRecord1Request.record1());
 
     return new UpdateRecord1Response(true);
   }
 
   // レコード削除
   public DeleteResponse delete() {
-    recordsRepository.delete(0);
+    recordsRepository.delete(1);
 
     return new DeleteResponse(true);
   }

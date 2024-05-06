@@ -1,2 +1,3 @@
 ### FetchRecord
-GET http://localhost:8080
+GET http://localhost:8080/record
+X-CSRF-TOKEN: test
