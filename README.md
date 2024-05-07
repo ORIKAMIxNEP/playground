@@ -10,7 +10,7 @@ sudo apt update && sudo apt list --upgradable && sudo apt upgrade -y && sudo apt
 
 #### Dockerのインストール
 
-[Install Docker Engine](https://docs.docker.com/engine/install/)
+[Install Docker Engine](https://docs.docker.com/engine/install/ubuntu/)
 
 #### Gitのインストールと設定
 
