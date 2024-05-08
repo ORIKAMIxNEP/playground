@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class RecordsRepository implements jp.spring_boot_template.domain.repository.RecordsRepository {
+public class RecordsRepository
+    implements jp.spring_boot_template.domain.repository.RecordsRepository {
   private final RecordsMapper recordsMapper;
 
   // レコード追加
