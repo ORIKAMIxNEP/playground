@@ -1,6 +1,5 @@
-package jp.spring_boot_template.application.utility;
+package jp.spring_boot_template.presentation.error_handler;
 
-import jp.spring_boot_template.domain.dto.utility.HttpClientErrorHandlerResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package jp.spring_boot_template.domain.dto.utility;
+package jp.spring_boot_template.presentation.error_handler;
 
 import org.springframework.http.ResponseEntity;
 

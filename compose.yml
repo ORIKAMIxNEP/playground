@@ -5,7 +5,7 @@ services:
       dockerfile: docker/application/Dockerfile
       args:
         CSRF_TOKEN: $CSRF_TOKEN
-    env_file: .env
+    env_file: application/.env
     tty: true
     depends_on:
       - database

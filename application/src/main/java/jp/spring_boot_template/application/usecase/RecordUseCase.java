@@ -1,13 +1,13 @@
-package jp.spring_boot_template.application.service;
+package jp.spring_boot_template.application.usecase;
 
-import jp.spring_boot_template.domain.dto.record.AddRequest;
-import jp.spring_boot_template.domain.dto.record.AddResponse;
-import jp.spring_boot_template.domain.dto.record.DeleteResponse;
-import jp.spring_boot_template.domain.dto.record.FetchResponse;
-import jp.spring_boot_template.domain.dto.record.UpdateRecord1Request;
-import jp.spring_boot_template.domain.dto.record.UpdateRecord1Response;
-import jp.spring_boot_template.domain.dto.record.UpdateRequest;
-import jp.spring_boot_template.domain.dto.record.UpdateResponse;
+import jp.spring_boot_template.application.dto.record.AddRequest;
+import jp.spring_boot_template.application.dto.record.AddResponse;
+import jp.spring_boot_template.application.dto.record.DeleteResponse;
+import jp.spring_boot_template.application.dto.record.FetchResponse;
+import jp.spring_boot_template.application.dto.record.UpdateRecord1Request;
+import jp.spring_boot_template.application.dto.record.UpdateRecord1Response;
+import jp.spring_boot_template.application.dto.record.UpdateRequest;
+import jp.spring_boot_template.application.dto.record.UpdateResponse;
 import jp.spring_boot_template.domain.entity.Records;
 import jp.spring_boot_template.infrastructure.repository.RecordsRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class RecordService {
+public class RecordUseCase {
   private final RecordsRepository recordsRepository;
 
   // レコード追加
   public AddResponse add(final AddRequest addRequest) {
-    final String record1 = addRequest.record1();
+    final short record1 = addRequest.record1();
     final String record2 = addRequest.record2();
 
     recordsRepository.add(record1, record2);
@@ -39,7 +39,7 @@ public class RecordService {
 
   // レコード更新
   public UpdateResponse update(final UpdateRequest updateRequest) {
-    final String record1 = updateRequest.record1();
+    final short record1 = updateRequest.record1();
     final String record2 = updateRequest.record2();
 
     recordsRepository.update(1, record1, record2);

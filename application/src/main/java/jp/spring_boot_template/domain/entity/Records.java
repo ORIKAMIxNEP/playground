@@ -9,7 +9,7 @@ import lombok.Data;
 public class Records {
   @Id private final int recordId;
 
-  private final String record1;
+  private final short record1;
 
   private final String record2;
 }

@@ -1,11 +1,11 @@
-package jp.spring_boot_template.web.controller;
+package jp.spring_boot_template.presentation.controller;
 
-import jp.spring_boot_template.application.service.RecordService;
-import jp.spring_boot_template.application.utility.HttpClientErrorHandler;
-import jp.spring_boot_template.domain.dto.record.AddRequest;
-import jp.spring_boot_template.domain.dto.record.UpdateRecord1Request;
-import jp.spring_boot_template.domain.dto.record.UpdateRequest;
-import jp.spring_boot_template.domain.dto.utility.HttpClientErrorHandlerResponse;
+import jp.spring_boot_template.application.dto.record.AddRequest;
+import jp.spring_boot_template.application.dto.record.UpdateRecord1Request;
+import jp.spring_boot_template.application.dto.record.UpdateRequest;
+import jp.spring_boot_template.application.usecase.RecordUseCase;
+import jp.spring_boot_template.presentation.error_handler.HttpClientErrorHandler;
+import jp.spring_boot_template.presentation.error_handler.HttpClientErrorHandlerResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class RecordController {
   private final HttpClientErrorHandler httpClientErrorHandler;
-  private final RecordService recordService;
+  private final RecordUseCase recordUseCase;
 
   // レコード追加
   @PostMapping
@@ -40,7 +40,7 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    return ResponseEntity.ok(recordService.add(addRequest));
+    return ResponseEntity.ok(recordUseCase.add(addRequest));
   }
 
   // レコード取得
@@ -52,8 +52,7 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    return ResponseEntity.ok(recordService.fetch());
-    //        return ResponseEntity.ok(0);
+    return ResponseEntity.ok(recordUseCase.fetch());
   }
 
   // レコード更新
@@ -68,7 +67,7 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    return ResponseEntity.ok(recordService.update(updateRequest));
+    return ResponseEntity.ok(recordUseCase.update(updateRequest));
   }
 
   // レコード1更新
@@ -83,7 +82,7 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    return ResponseEntity.ok(recordService.updateRecord1(updateRecord1Request));
+    return ResponseEntity.ok(recordUseCase.updateRecord1(updateRecord1Request));
   }
 
   // レコード削除
@@ -95,6 +94,6 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    return ResponseEntity.ok(recordService.delete());
+    return ResponseEntity.ok(recordUseCase.delete());
   }
 }
