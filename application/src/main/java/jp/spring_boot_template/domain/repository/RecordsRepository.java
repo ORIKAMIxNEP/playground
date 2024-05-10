@@ -12,7 +12,7 @@ public interface RecordsRepository {
   // レコード更新
   void update(final int recordId, final short record1, final String record2);
 
-  // レコード1更新
+  // レコードレコード1更新
   void updateRecord1(final int recordId, final short record1);
 
   // レコード削除
