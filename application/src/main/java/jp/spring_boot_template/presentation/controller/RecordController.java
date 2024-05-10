@@ -70,7 +70,7 @@ public class RecordController {
     return ResponseEntity.ok(recordUseCase.update(updateRequest));
   }
 
-  // レコード1更新
+  // レコードレコード1更新
   @PatchMapping("/record1")
   @ResponseBody
   public ResponseEntity<?> updateRecord1(
