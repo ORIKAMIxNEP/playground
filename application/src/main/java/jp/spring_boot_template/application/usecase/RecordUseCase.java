@@ -47,7 +47,7 @@ public class RecordUseCase {
     return new UpdateResponse(true);
   }
 
-  // レコード1更新
+  // レコードレコード1更新
   public UpdateRecord1Response updateRecord1(final UpdateRecord1Request updateRecord1Request) {
     recordsRepository.updateRecord1(1, updateRecord1Request.record1());
 
