@@ -26,7 +26,7 @@ public class RecordsRepository
     recordsMapper.update(recordId, record1, record2);
   }
 
-  // レコード1更新
+  // レコードレコード1更新
   public void updateRecord1(final int recordId, final short record1) {
     recordsMapper.updateRecord1(recordId, record1);
   }
