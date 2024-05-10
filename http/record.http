@@ -1,19 +1,19 @@
-### Add
+### AddRecord
 POST http://localhost:8080/record
 X-CSRF-TOKEN: test
 
-### Fetch
+### FetchRecord
 GET http://localhost:8080/record
 X-CSRF-TOKEN: test
 
-### Update
+### UpdateRecord
 PUT http://localhost:8080/record
 X-CSRF-TOKEN: test
 
-### UpdateRecord1
+### UpdateRecordRecord1
 PATCH http://localhost:8080/record
 X-CSRF-TOKEN: test
 
-### Delete
+### DeleteRecord
 DELETE http://localhost:8080/record
 X-CSRF-TOKEN: test
