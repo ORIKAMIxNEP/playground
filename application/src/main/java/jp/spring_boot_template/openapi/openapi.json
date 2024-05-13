@@ -1,0 +1,14 @@
+{
+  "groupId": "jp.spring-boot-template",
+  "artifactId": "spring-boot-template-generated",
+  "artifactVersion": "0.0.1-SNAPSHOT",
+  "apiPackage": "jp.spring_boot_template.presentation.generated.api",
+  "modelPackage": "jp.spring_boot_template.presentation.generated.model",
+  "java17": true,
+  "components": {},
+  "info": {},
+  "library": "spring-boot",
+  "interfaceOnly": true,
+  "dateLibrary": "java8",
+  "openapi": "3.0.3"
+}
