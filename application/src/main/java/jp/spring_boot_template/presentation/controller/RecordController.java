@@ -6,23 +6,24 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jp.spring_boot_template.application.dto.AddInput;
 import jp.spring_boot_template.application.dto.DeleteInput;
-import jp.spring_boot_template.application.dto.DeleteOutput;
 import jp.spring_boot_template.application.dto.FetchInput;
 import jp.spring_boot_template.application.dto.UpdateColumn1Input;
-import jp.spring_boot_template.application.dto.UpdateColumn1Output;
 import jp.spring_boot_template.application.dto.UpdateInput;
-import jp.spring_boot_template.application.dto.UpdateOutput;
 import jp.spring_boot_template.application.usecase.RecordUseCaseImpl;
 import jp.spring_boot_template.presentation.controller.dto.AddRequest;
 import jp.spring_boot_template.presentation.controller.dto.AddResponse;
 import jp.spring_boot_template.presentation.controller.dto.DeleteRequest;
+import jp.spring_boot_template.presentation.controller.dto.DeleteResponse;
 import jp.spring_boot_template.presentation.controller.dto.FetchRequest;
 import jp.spring_boot_template.presentation.controller.dto.FetchResponse;
 import jp.spring_boot_template.presentation.controller.dto.UpdateColumn1Request;
+import jp.spring_boot_template.presentation.controller.dto.UpdateColumn1Response;
 import jp.spring_boot_template.presentation.controller.dto.UpdateRequest;
+import jp.spring_boot_template.presentation.controller.dto.UpdateResponse;
 import jp.spring_boot_template.presentation.error_handler.HttpClientErrorHandler;
 import jp.spring_boot_template.presentation.error_handler.HttpClientErrorHandlerResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -45,7 +46,7 @@ public class RecordController {
   private final RecordUseCaseImpl recordUseCaseImpl;
 
   // レコード追加
-  @PostMapping
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(
       summary = "レコードを追加する",
@@ -79,7 +80,7 @@ public class RecordController {
   }
 
   // レコード取得
-  @GetMapping
+  @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(
       summary = "レコードを取得する",
@@ -108,7 +109,7 @@ public class RecordController {
   }
 
   // レコード更新
-  @PutMapping
+  @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(
       summary = "レコードを更新する",
@@ -121,7 +122,7 @@ public class RecordController {
             content =
                 @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = UpdateOutput.class)))
+                    schema = @Schema(implementation = UpdateResponse.class)))
       })
   public ResponseEntity<?> update(
       @RequestHeader("X-CSRF-TOKEN") String clientCsrfToken,
@@ -142,7 +143,7 @@ public class RecordController {
   }
 
   // レコードカラム1更新
-  @PatchMapping("/column1")
+  @PatchMapping(value = "/column1", consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(
       summary = "レコードカラム1を追加する",
@@ -155,7 +156,7 @@ public class RecordController {
             content =
                 @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = UpdateColumn1Output.class)))
+                    schema = @Schema(implementation = UpdateColumn1Response.class)))
       })
   public ResponseEntity<?> updateColumn1(
       @RequestHeader("X-CSRF-Token") String clientCsrfToken,
@@ -175,7 +176,7 @@ public class RecordController {
   }
 
   // レコード削除
-  @DeleteMapping
+  @DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(
       summary = "レコードを削除する",
@@ -188,7 +189,7 @@ public class RecordController {
             content =
                 @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = DeleteOutput.class)))
+                    schema = @Schema(implementation = DeleteResponse.class)))
       })
   public ResponseEntity<?> delete(
       @RequestHeader("X-CSRF-Token") String clientCsrfToken,

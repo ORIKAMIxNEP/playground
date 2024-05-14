@@ -19,16 +19,21 @@ public class HttpClientErrorHandler {
 
     // CSRFトークンが異なる場合
     if (!csrfToken.equals(clientCsrfToken)) {
-      return new HttpClientErrorHandlerResponse(
-          true, ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid CSRF Token Error"));
+      return HttpClientErrorHandlerResponse.builder()
+          .error(true)
+          .responseEntity(
+              ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid CSRF Token Error"))
+          .build();
     }
 
     // バリデーションエラーがある場合
     if (bindingResult != null && bindingResult.hasErrors()) {
-      return new HttpClientErrorHandlerResponse(
-          true, ResponseEntity.badRequest().body(bindingResult.getAllErrors()));
+      return HttpClientErrorHandlerResponse.builder()
+          .error(true)
+          .responseEntity(ResponseEntity.badRequest().body(bindingResult.getAllErrors()))
+          .build();
     }
 
-    return new HttpClientErrorHandlerResponse(false, null);
+    return HttpClientErrorHandlerResponse.builder().error(false).responseEntity(null).build();
   }
 }
