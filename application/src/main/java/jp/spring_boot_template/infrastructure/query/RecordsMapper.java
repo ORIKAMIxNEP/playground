@@ -1,6 +1,6 @@
-package jp.spring_boot_template.infrastructure.mapper;
+package jp.spring_boot_template.infrastructure.query;
 
-import jp.spring_boot_template.domain.entity.Records;
+import jp.spring_boot_template.domain.model.entity.Records;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,13 +16,13 @@ public interface RecordsMapper {
       """
       INSERT INTO
         records(
-          record1, record2
+          column1, column2
         )
       VALUES(
-        #{record1}, #{record2}
+        #{column1}, #{column2}
       )
       """)
-  void insert(final short record1, final String record2);
+  void insert(final short column1, final String column2);
 
   // レコード選択
   @Select(
@@ -38,10 +38,10 @@ public interface RecordsMapper {
       id = "Records",
       value = {
         @Result(column = "record_id", property = "recordId"),
-        @Result(column = "record1", property = "record1"),
-        @Result(column = "record2", property = "record2")
+        @Result(column = "column1", property = "column1"),
+        @Result(column = "column2", property = "column2")
       })
-  Records select(final int recordId);
+  Records select(final long recordId);
 
   // レコード更新
   @Update(
@@ -49,24 +49,24 @@ public interface RecordsMapper {
       UPDATE
         records
       SET
-        record1 = #{record1},
-        record2 = #{record2}
+        column1 = #{column1},
+        column2 = #{column2}
       WHERE
         record_id = #{recordId}
       """)
-  void update(final int recordId, final short record1, final String record2);
+  void update(final long recordId, final short column1, final String column2);
 
-  // レコードレコード1更新
+  // レコードカラム1更新
   @Update(
       """
       UPDATE
         records
       SET
-        record1 = #{record1}
+        column1 = #{column1}
       WHERE
         record_id = #{recordId}
       """)
-  void updateRecord1(final int recordId, final short record1);
+  void updateColumn1(final long recordId, final short column1);
 
   // レコード削除
   @Delete(
@@ -76,5 +76,5 @@ public interface RecordsMapper {
       WHERE
         record_id = #{recordId}
       """)
-  void delete(final int recordId);
+  void delete(final long recordId);
 }

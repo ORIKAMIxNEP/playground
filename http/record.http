@@ -1,19 +1,48 @@
 ### AddRecord
 POST http://localhost:8080/record
+Content-Type: application/json
 X-CSRF-TOKEN: test
+
+{
+  "column1": 0,
+  "column2": "a"
+}
 
 ### FetchRecord
 GET http://localhost:8080/record
+Content-Type: application/json
 X-CSRF-TOKEN: test
+
+{
+  "recordId": 1
+}
 
 ### UpdateRecord
 PUT http://localhost:8080/record
+Content-Type: application/json
 X-CSRF-TOKEN: test
 
-### UpdateRecordRecord1
-PATCH http://localhost:8080/record
+{
+  "recordId": 1,
+  "column1": 0,
+  "column2": "a"
+}
+
+### UpdateRecordColumn1
+PATCH http://localhost:8080/record/column1
+Content-Type: application/json
 X-CSRF-TOKEN: test
+
+{
+  "recordId": 1,
+  "column1": 0
+}
 
 ### DeleteRecord
 DELETE http://localhost:8080/record
+Content-Type: application/json
 X-CSRF-TOKEN: test
+
+{
+  "recordId": 1
+}

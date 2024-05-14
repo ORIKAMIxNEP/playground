@@ -1,63 +1,29 @@
 package jp.spring_boot_template.application.usecase;
 
-import jp.spring_boot_template.application.dto.record.AddRequest;
-import jp.spring_boot_template.application.dto.record.AddResponse;
-import jp.spring_boot_template.application.dto.record.DeleteResponse;
-import jp.spring_boot_template.application.dto.record.FetchResponse;
-import jp.spring_boot_template.application.dto.record.UpdateRecord1Request;
-import jp.spring_boot_template.application.dto.record.UpdateRecord1Response;
-import jp.spring_boot_template.application.dto.record.UpdateRequest;
-import jp.spring_boot_template.application.dto.record.UpdateResponse;
-import jp.spring_boot_template.domain.entity.Records;
-import jp.spring_boot_template.infrastructure.repository.RecordsRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import jp.spring_boot_template.application.dto.AddInput;
+import jp.spring_boot_template.application.dto.AddOutput;
+import jp.spring_boot_template.application.dto.DeleteInput;
+import jp.spring_boot_template.application.dto.DeleteOutput;
+import jp.spring_boot_template.application.dto.FetchInput;
+import jp.spring_boot_template.application.dto.FetchOutput;
+import jp.spring_boot_template.application.dto.UpdateColumn1Input;
+import jp.spring_boot_template.application.dto.UpdateColumn1Output;
+import jp.spring_boot_template.application.dto.UpdateInput;
+import jp.spring_boot_template.application.dto.UpdateOutput;
 
-@Service
-@RequiredArgsConstructor
-@Transactional
-public class RecordUseCase {
-  private final RecordsRepository recordsRepository;
-
+public interface RecordUseCase {
   // レコード追加
-  public AddResponse add(final AddRequest addRequest) {
-    final short record1 = addRequest.record1();
-    final String record2 = addRequest.record2();
-
-    recordsRepository.add(record1, record2);
-
-    return new AddResponse(true);
-  }
+  AddOutput add(final AddInput addInput);
 
   // レコード取得
-  public FetchResponse fetch() {
-    final Records records = recordsRepository.fetch(1);
-
-    return new FetchResponse(records.getRecord1(), records.getRecord2());
-  }
+  FetchOutput fetch(final FetchInput fetchInput);
 
   // レコード更新
-  public UpdateResponse update(final UpdateRequest updateRequest) {
-    final short record1 = updateRequest.record1();
-    final String record2 = updateRequest.record2();
+  UpdateOutput update(final UpdateInput updateInput);
 
-    recordsRepository.update(1, record1, record2);
-
-    return new UpdateResponse(true);
-  }
-
-  // レコードレコード1更新
-  public UpdateRecord1Response updateRecord1(final UpdateRecord1Request updateRecord1Request) {
-    recordsRepository.updateRecord1(1, updateRecord1Request.record1());
-
-    return new UpdateRecord1Response(true);
-  }
+  // レコードカラム1更新
+  UpdateColumn1Output updateColumn1(final UpdateColumn1Input updateColumn1Input);
 
   // レコード削除
-  public DeleteResponse delete() {
-    recordsRepository.delete(1);
-
-    return new DeleteResponse(true);
-  }
+  DeleteOutput delete(final DeleteInput deleteInput);
 }

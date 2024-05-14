@@ -11,23 +11,24 @@ import org.springframework.validation.BindingResult;
 @RequiredArgsConstructor
 public class HttpClientErrorHandler {
   @Value("${csrf.token}")
-  private final String csrfToken;
+  private String csrfToken;
 
   // HTTPクライアントエラー処理
-  public ResponseEntity<String> handle(
-      final String clientCsrfToken, final BindingResult bindingResult, final Object useCaseResponse) {
+  public HttpClientErrorHandlerResponse handle(
+      final String clientCsrfToken, final BindingResult bindingResult) {
 
     // CSRFトークンが異なる場合
     if (!csrfToken.equals(clientCsrfToken)) {
-      return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid CSRF Token Error");
+      return new HttpClientErrorHandlerResponse(
+          true, ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid CSRF Token Error"));
     }
 
-    // バリデーションエラーがあった場合
+    // バリデーションエラーがある場合
     if (bindingResult != null && bindingResult.hasErrors()) {
-      //return ResponseEntity.badRequest().body(bindingResult.getAllErrors()));
-      return ResponseEntity.badRequest(bindingResult.getAllErrors());
+      return new HttpClientErrorHandlerResponse(
+          true, ResponseEntity.badRequest().body(bindingResult.getAllErrors()));
     }
 
-    return ResponseEntity.ok(useCaseResponse);
+    return new HttpClientErrorHandlerResponse(false, null);
   }
 }
