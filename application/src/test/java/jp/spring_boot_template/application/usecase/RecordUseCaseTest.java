@@ -18,10 +18,10 @@ import org.assertj.core.api.Assertions.assertThat;
 @RequiredArgsConstructor
 public class RecordUseCaseTest {
     @Mock
-    RecordsRepository recordsRepositoryMock;
+    private final RecordsRepository recordsRepositoryMock;
 
     @InjectMocks
-    private RecordUseCase recordUseCase;
+    private final RecordUseCase recordUseCase;
 
     @BeforeEach
     void setup() {
