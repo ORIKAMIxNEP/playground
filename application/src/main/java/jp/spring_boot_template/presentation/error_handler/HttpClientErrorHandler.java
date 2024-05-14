@@ -11,7 +11,7 @@ import org.springframework.validation.BindingResult;
 @RequiredArgsConstructor
 public class HttpClientErrorHandler {
   @Value("${csrf.token}")
-  private String csrfToken;
+  private final String csrfToken;
 
   // HTTPクライアントエラー処理
   public HttpClientErrorHandlerResponse handle(
