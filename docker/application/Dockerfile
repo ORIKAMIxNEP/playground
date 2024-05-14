@@ -1,5 +1,6 @@
 FROM eclipse-temurin:17-jdk-jammy
 WORKDIR /usr/src/application
 COPY ../../application .
-RUN chmod +x gradlew
-ENTRYPOINT ["sh", "-c", "./gradlew bootRun -Pargs=--csrf.token=${CSRF_TOKEN}"]
+ENV CSRF_TOKEN=${CSRF_TOKEN}
+# RUN chmod +x gradlew
+ENTRYPOINT ["sh", "./gradlew", "bootRun"]
