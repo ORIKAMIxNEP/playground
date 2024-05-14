@@ -18,15 +18,18 @@ import org.assertj.core.api.Assertions.assertThat;
 @RequiredArgsConstructor
 public class RecordControllerTest {
     @Mock
-    RecordUseCase recordUseCaseMock;
+    private final RecordUseCase recordUseCaseMock;
 
     @InjectMocks
-    private RecordController recordController;
+    private final RecordController recordController;
 
     @BeforeEach
     void setup() {
         MockitoAnnotations.openMocks(this);
     }
+
+    @Value("${csrf.token}")
+    private final String csrfToken;
 
     @Test
     public void addTest01() {
