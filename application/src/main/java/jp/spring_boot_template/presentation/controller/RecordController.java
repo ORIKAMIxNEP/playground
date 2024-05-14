@@ -35,7 +35,7 @@ public class RecordController {
             responses = {@ApiResponse(responseCode = "200", description = "OK",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ListTaskResponseDto.class)))})
-  public ResponseEntity<?> add(
+  public ResponseEntity<String> add(
       @RequestHeader("X-CSRF-Token") String clientCsrfToken,
       @RequestBody @Validated final AddRequest addRequest,
       final BindingResult bindingResult) {
