@@ -31,6 +31,10 @@ public class RecordController {
   // レコード追加
   @PostMapping
   @ResponseBody
+  @Operation(summary = "レコードを追加する", tags = {"record"}, description = "カラム1、カラム2を送信してレコードを追加する",
+            responses = {@ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ListTaskResponseDto.class)))})
   public ResponseEntity<?> add(
       @RequestHeader("X-CSRF-Token") String clientCsrfToken,
       @RequestBody @Validated final AddRequest addRequest,
@@ -46,6 +50,10 @@ public class RecordController {
   // レコード取得
   @GetMapping
   @ResponseBody
+  @Operation(summary = "レコードを取得する", tags = {"record"}, description = "レコードを取得してレコードID、カラム1、カラム2を受信する",
+            responses = {@ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ListTaskResponseDto.class)))})
   public ResponseEntity<?> fetch(@RequestHeader("X-CSRF-Token") String clientCsrfToken) {
     final HttpClientErrorHandlerResponse httpClientErrorHandlerResponse =
         httpClientErrorHandler.handle(clientCsrfToken, null);
@@ -58,6 +66,10 @@ public class RecordController {
   // レコード更新
   @PutMapping
   @ResponseBody
+  @Operation(summary = "レコードを更新する", tags = {"record"}, description = "レコードID、カラム1、カラム2を送信してレコードを更新する",
+            responses = {@ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ListTaskResponseDto.class)))})
   public ResponseEntity<?> update(
       @RequestHeader("X-CSRF-TOKEN") String clientCsrfToken,
       @RequestBody @Validated final UpdateRequest updateRequest,
@@ -73,6 +85,10 @@ public class RecordController {
   // レコードレコード1更新
   @PatchMapping("/record1")
   @ResponseBody
+  @Operation(summary = "レコードカラム1を追加する", tags = {"record"}, description = "レコードID、カラム1を送信してレコードを更新する",
+            responses = {@ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ListTaskResponseDto.class)))})
   public ResponseEntity<?> updateRecord1(
       @RequestHeader("X-CSRF-Token") String clientCsrfToken,
       @RequestBody @Validated final UpdateRecord1Request updateRecord1Request,
@@ -88,6 +104,10 @@ public class RecordController {
   // レコード削除
   @DeleteMapping
   @ResponseBody
+  @Operation(summary = "レコードを削除する", tags = {"record"}, description = "レコードIDを送信してレコードを削除する",
+            responses = {@ApiResponse(responseCode = "200", description = "OK",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ListTaskResponseDto.class)))})
   public ResponseEntity<?> delete(@RequestHeader("X-CSRF-Token") String clientCsrfToken) {
     final HttpClientErrorHandlerResponse httpClientErrorHandlerResponse =
         httpClientErrorHandler.handle(clientCsrfToken, null);
