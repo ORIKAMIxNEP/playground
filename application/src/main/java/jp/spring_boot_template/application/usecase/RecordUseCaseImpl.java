@@ -5,7 +5,6 @@ import jp.spring_boot_template.application.dto.AddInput;
 import jp.spring_boot_template.application.dto.AddOutput;
 import jp.spring_boot_template.application.dto.DeleteInput;
 import jp.spring_boot_template.application.dto.DeleteOutput;
-import jp.spring_boot_template.application.dto.FetchInput;
 import jp.spring_boot_template.application.dto.FetchOutput;
 import jp.spring_boot_template.application.dto.UpdateColumn1Input;
 import jp.spring_boot_template.application.dto.UpdateColumn1Output;
@@ -31,8 +30,8 @@ public class RecordUseCaseImpl implements RecordUseCase {
   }
 
   // レコード取得
-  public FetchOutput fetch(final FetchInput fetchInput) {
-    final Records records = recordsRepositoryImpl.fetch(fetchInput.recordId());
+  public FetchOutput fetch() {
+    final Records records = recordsRepositoryImpl.fetch(1);
 
     // レコードが存在しない場合
     if (Objects.isNull(records)) {

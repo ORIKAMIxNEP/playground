@@ -7,7 +7,6 @@ import jp.spring_boot_template.application.dto.AddInput;
 import jp.spring_boot_template.application.dto.AddOutput;
 import jp.spring_boot_template.application.dto.DeleteInput;
 import jp.spring_boot_template.application.dto.DeleteOutput;
-import jp.spring_boot_template.application.dto.FetchInput;
 import jp.spring_boot_template.application.dto.FetchOutput;
 import jp.spring_boot_template.application.dto.UpdateColumn1Input;
 import jp.spring_boot_template.application.dto.UpdateColumn1Output;
@@ -48,9 +47,9 @@ public class RecordUseCaseImplTest {
         .thenReturn(Records.builder().recordId(1).column1((short) 0).column2("a").build());
     when(recordsRepositoryImplMock.fetch(2)).thenReturn(null);
 
-    assertThat(recordUseCaseImpl.fetch(FetchInput.builder().recordId(1).build()))
+    assertThat(recordUseCaseImpl.fetch())
         .isEqualTo(FetchOutput.builder().success(true).column1((short) 0).column2("a").build());
-    assertThat(recordUseCaseImpl.fetch(FetchInput.builder().recordId(2).build()))
+    assertThat(recordUseCaseImpl.fetch())
         .isEqualTo(FetchOutput.builder().success(false).column1(null).column2(null).build());
   }
 

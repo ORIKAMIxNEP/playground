@@ -5,16 +5,19 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jp.spring_boot_template.application.dto.AddInput;
+import jp.spring_boot_template.application.dto.AddOutput;
 import jp.spring_boot_template.application.dto.DeleteInput;
-import jp.spring_boot_template.application.dto.FetchInput;
+import jp.spring_boot_template.application.dto.DeleteOutput;
+import jp.spring_boot_template.application.dto.FetchOutput;
 import jp.spring_boot_template.application.dto.UpdateColumn1Input;
+import jp.spring_boot_template.application.dto.UpdateColumn1Output;
 import jp.spring_boot_template.application.dto.UpdateInput;
+import jp.spring_boot_template.application.dto.UpdateOutput;
 import jp.spring_boot_template.application.usecase.RecordUseCaseImpl;
 import jp.spring_boot_template.presentation.controller.dto.AddRequest;
 import jp.spring_boot_template.presentation.controller.dto.AddResponse;
 import jp.spring_boot_template.presentation.controller.dto.DeleteRequest;
 import jp.spring_boot_template.presentation.controller.dto.DeleteResponse;
-import jp.spring_boot_template.presentation.controller.dto.FetchRequest;
 import jp.spring_boot_template.presentation.controller.dto.FetchResponse;
 import jp.spring_boot_template.presentation.controller.dto.UpdateColumn1Request;
 import jp.spring_boot_template.presentation.controller.dto.UpdateColumn1Response;
@@ -70,17 +73,14 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-
-    return ResponseEntity.ok(
+    final AddOutput addOutput =
         recordUseCaseImpl.add(
-            AddInput.builder()
-                .column1(addRequest.column1())
-                .column2(addRequest.column2())
-                .build()));
+            AddInput.builder().column1(addRequest.column1()).column2(addRequest.column2()).build());
+    return ResponseEntity.ok(AddResponse.builder().success(addOutput.success()).build());
   }
 
   // レコード取得
-  @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping()
   @ResponseBody
   @Operation(
       summary = "レコードを取得する",
@@ -95,17 +95,18 @@ public class RecordController {
                     mediaType = "application/json",
                     schema = @Schema(implementation = FetchResponse.class)))
       })
-  public ResponseEntity<?> fetch(
-      @RequestHeader("X-CSRF-Token") String clientCsrfToken,
-      @RequestBody @Validated final FetchRequest fetchRequest,
-      final BindingResult bindingResult) {
+  public ResponseEntity<?> fetch(@RequestHeader("X-CSRF-Token") String clientCsrfToken) {
     final HttpClientErrorHandlerResponse httpClientErrorHandlerResponse =
-        httpClientErrorHandler.handle(clientCsrfToken, bindingResult);
+        httpClientErrorHandler.handle(clientCsrfToken, null);
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
+    final FetchOutput fetchOutput = recordUseCaseImpl.fetch();
     return ResponseEntity.ok(
-        recordUseCaseImpl.fetch(FetchInput.builder().recordId(fetchRequest.recordId()).build()));
+        FetchResponse.builder()
+            .column1(fetchOutput.column1())
+            .column2(fetchOutput.column2())
+            .build());
   }
 
   // レコード更新
@@ -133,13 +134,14 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    return ResponseEntity.ok(
+    final UpdateOutput updateOutput =
         recordUseCaseImpl.update(
             UpdateInput.builder()
                 .recordId(updateRequest.recordId())
                 .column1(updateRequest.column1())
                 .column2(updateRequest.column2())
-                .build()));
+                .build());
+    return ResponseEntity.ok(UpdateResponse.builder().success(updateOutput.success()));
   }
 
   // レコードカラム1更新
@@ -167,12 +169,14 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    return ResponseEntity.ok(
+    final UpdateColumn1Output updateColumn1Output =
         recordUseCaseImpl.updateColumn1(
             UpdateColumn1Input.builder()
                 .recordId(updateColumn1Request.recordId())
                 .column1(updateColumn1Request.column1())
-                .build()));
+                .build());
+    return ResponseEntity.ok(
+        UpdateColumn1Response.builder().success(updateColumn1Output.success()));
   }
 
   // レコード削除
@@ -200,7 +204,8 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    return ResponseEntity.ok(
-        recordUseCaseImpl.delete(DeleteInput.builder().recordId(deleteRequest.recordId()).build()));
+    final DeleteOutput deleteOutput =
+        recordUseCaseImpl.delete(DeleteInput.builder().recordId(deleteRequest.recordId()).build());
+    return ResponseEntity.ok(DeleteResponse.builder().success(deleteOutput.success()));
   }
 }
