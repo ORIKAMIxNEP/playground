@@ -5,4 +5,4 @@ import lombok.Builder;
 
 @Schema(description = "ステータス")
 @Builder
-public record AddResponse(@Schema(description = "成功", type = "boolean", example = true) boolean success) {}
+public record AddResponse(@Schema(name = "成功", type = "boolean", example = true) boolean success) {}
