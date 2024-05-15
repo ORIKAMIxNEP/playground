@@ -4,7 +4,7 @@ import jp.spring_boot_template.domain.model.entity.Records;
 
 public interface RecordsRepository {
   // レコード追加
-  void add(final short column1, final String column2);
+  void add(final byte column1, final String column2);
 
   // レコード取得
   Records fetch(final long recordId);
