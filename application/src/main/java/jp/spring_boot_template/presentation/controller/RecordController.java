@@ -208,4 +208,32 @@ public class RecordController {
         recordUseCaseImpl.delete(DeleteInput.builder().recordId(deleteRequest.recordId()).build());
     return ResponseEntity.ok(DeleteResponse.builder().success(deleteOutput.success()));
   }
+
+  // レコード○○
+  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  @Operation(
+      summary = "レコードを○○する",
+      tags = {"record"},
+      description = "レコードを○○する",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "OK",
+            content =
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = BlueprintResponse.class)))
+      })
+  public ResponseEntity<?> blueprint(
+      @RequestHeader("X-CSRF-Token") String clientCsrfToken,
+      @RequestBody @Validated final BlueprintRequest blueprintRequest,
+      final BindingResult bindingResult) {
+    final HttpClientErrorHandlerResponse httpClientErrorHandlerResponse =
+        httpClientErrorHandler.handle(clientCsrfToken, bindingResult);
+    if (httpClientErrorHandlerResponse.error()) {
+      return httpClientErrorHandlerResponse.responseEntity();
+    }
+    return ResponseEntity.ok(BlueprintResponse.builder().success(true).build());
+  }
 }
