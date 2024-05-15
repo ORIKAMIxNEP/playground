@@ -37,18 +37,18 @@ public class RecordUseCaseImplTest {
 
   @Test
   public void addTest() {
-    assertThat(recordUseCaseImpl.add(AddInput.builder().column1((short) 0).column2("a").build()))
+    assertThat(recordUseCaseImpl.add(AddInput.builder().column1((byte) 0).column2("a").build()))
         .isEqualTo(AddOutput.builder().success(true).build());
   }
 
   @Test
   public void fetchTest() {
     when(recordsRepositoryImplMock.fetch(1))
-        .thenReturn(Records.builder().recordId(1).column1((short) 0).column2("a").build());
+        .thenReturn(Records.builder().recordId(1).column1((byte) 0).column2("a").build());
     when(recordsRepositoryImplMock.fetch(2)).thenReturn(null);
 
     assertThat(recordUseCaseImpl.fetch())
-        .isEqualTo(FetchOutput.builder().success(true).column1((short) 0).column2("a").build());
+        .isEqualTo(FetchOutput.builder().success(true).column1((byte) 0).column2("a").build());
     assertThat(recordUseCaseImpl.fetch())
         .isEqualTo(FetchOutput.builder().success(false).column1(null).column2(null).build());
   }
@@ -56,39 +56,39 @@ public class RecordUseCaseImplTest {
   @Test
   public void updateTest() {
     when(recordsRepositoryImplMock.fetch(1))
-        .thenReturn(Records.builder().recordId(1).column1((short) 0).column2("a").build());
+        .thenReturn(Records.builder().recordId(1).column1((byte) 0).column2("a").build());
     when(recordsRepositoryImplMock.fetch(2)).thenReturn(null);
 
     assertThat(
             recordUseCaseImpl.update(
-                UpdateInput.builder().recordId(1).column1((short) 0).column2("a").build()))
+                UpdateInput.builder().recordId(1).column1((byte) 0).column2("a").build()))
         .isEqualTo(UpdateOutput.builder().success(true).build());
     assertThat(
             recordUseCaseImpl.update(
-                UpdateInput.builder().recordId(2).column1((short) 0).column2("a").build()))
+                UpdateInput.builder().recordId(2).column1((byte) 0).column2("a").build()))
         .isEqualTo(UpdateOutput.builder().success(false).build());
   }
 
   @Test
   public void updateColumn1Test() {
     when(recordsRepositoryImplMock.fetch(1))
-        .thenReturn(Records.builder().recordId(1).column1((short) 0).column2("a").build());
+        .thenReturn(Records.builder().recordId(1).column1((byte) 0).column2("a").build());
     when(recordsRepositoryImplMock.fetch(2)).thenReturn(null);
 
     assertThat(
             recordUseCaseImpl.updateColumn1(
-                UpdateColumn1Input.builder().recordId(1).column1((short) 0).build()))
+                UpdateColumn1Input.builder().recordId(1).column1((byte) 0).build()))
         .isEqualTo(UpdateColumn1Output.builder().success(true).build());
     assertThat(
             recordUseCaseImpl.updateColumn1(
-                UpdateColumn1Input.builder().recordId(2).column1((short) 0).build()))
+                UpdateColumn1Input.builder().recordId(2).column1((byte) 0).build()))
         .isEqualTo(UpdateColumn1Output.builder().success(false).build());
   }
 
   @Test
   public void deleteTest() {
     when(recordsRepositoryImplMock.fetch(1))
-        .thenReturn(Records.builder().recordId(1).column1((short) 0).column2("a").build());
+        .thenReturn(Records.builder().recordId(1).column1((byte) 0).column2("a").build());
     when(recordsRepositoryImplMock.fetch(2)).thenReturn(null);
 
     assertThat(recordUseCaseImpl.delete(DeleteInput.builder().recordId(1).build()))
