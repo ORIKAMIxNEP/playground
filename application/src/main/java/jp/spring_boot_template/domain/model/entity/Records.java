@@ -11,7 +11,7 @@ import lombok.Data;
 public class Records {
   @Id private final long recordId;
 
-  private final short column1;
+  private final byte column1;
 
   private final String column2;
 }
