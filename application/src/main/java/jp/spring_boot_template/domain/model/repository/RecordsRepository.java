@@ -10,10 +10,10 @@ public interface RecordsRepository {
   Records fetch(final long recordId);
 
   // レコード更新
-  void update(final long recordId, final short column1, final String column2);
+  void update(final long recordId, final byte column1, final String column2);
 
   // レコードカラム1更新
-  void updateColumn1(final long recordId, final short column1);
+  void updateColumn1(final long recordId, final byte column1);
 
   // レコード削除
   void delete(final long recordId);
