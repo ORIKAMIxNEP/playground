@@ -3,6 +3,6 @@ package jp.spring_boot_template.presentation.controller.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
-@Schema(description = "ステータス")
+@Schema(name = "ステータス")
 @Builder
-public record UpdateResponse(@Schema(description = "成功") boolean success) {}
+public record UpdateResponse(@Schema(name = "成功", type = "boolean", example = true) boolean success) {}
