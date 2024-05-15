@@ -12,7 +12,7 @@ public class RecordsRepositoryImpl implements RecordsRepository {
   private final RecordsMapper recordsMapper;
 
   // レコード追加
-  public void add(final short column1, final String column2) {
+  public void add(final byte column1, final String column2) {
     recordsMapper.insert(column1, column2);
   }
 
@@ -22,12 +22,12 @@ public class RecordsRepositoryImpl implements RecordsRepository {
   }
 
   // レコード更新
-  public void update(final long recordId, final short column1, final String column2) {
+  public void update(final long recordId, final byte column1, final String column2) {
     recordsMapper.update(recordId, column1, column2);
   }
 
   // レコードカラム1更新
-  public void updateColumn1(final long recordId, final short column1) {
+  public void updateColumn1(final long recordId, final byte column1) {
     recordsMapper.updateColumn1(recordId, column1);
   }
 
