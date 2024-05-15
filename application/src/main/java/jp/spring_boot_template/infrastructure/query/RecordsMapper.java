@@ -22,7 +22,7 @@ public interface RecordsMapper {
         #{column1}, #{column2}
       )
       """)
-  void insert(final short column1, final String column2);
+  void insert(final byte column1, final String column2);
 
   // レコード選択
   @Select(
@@ -54,7 +54,7 @@ public interface RecordsMapper {
       WHERE
         record_id = #{recordId}
       """)
-  void update(final long recordId, final short column1, final String column2);
+  void update(final long recordId, final byte column1, final String column2);
 
   // レコードカラム1更新
   @Update(
@@ -66,7 +66,7 @@ public interface RecordsMapper {
       WHERE
         record_id = #{recordId}
       """)
-  void updateColumn1(final long recordId, final short column1);
+  void updateColumn1(final long recordId, final byte column1);
 
   // レコード削除
   @Delete(
