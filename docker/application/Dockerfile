@@ -4,4 +4,5 @@ COPY ../../application .
 ENV CSRF_TOKEN=${CSRF_TOKEN}
 ENV POSTGRES_USER=${POSTGRES_USER}
 ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-ENTRYPOINT ["sh", "./gradlew", "bootRun"]
+RUN chmod +x gradlew
+ENTRYPOINT ["./gradlew", "bootRun"]

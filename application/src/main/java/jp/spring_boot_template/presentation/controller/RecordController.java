@@ -16,6 +16,8 @@ import jp.spring_boot_template.application.dto.UpdateOutput;
 import jp.spring_boot_template.application.usecase.RecordUseCaseImpl;
 import jp.spring_boot_template.presentation.controller.dto.AddRequest;
 import jp.spring_boot_template.presentation.controller.dto.AddResponse;
+import jp.spring_boot_template.presentation.controller.dto.BlueprintRequest;
+import jp.spring_boot_template.presentation.controller.dto.BlueprintResponse;
 import jp.spring_boot_template.presentation.controller.dto.DeleteRequest;
 import jp.spring_boot_template.presentation.controller.dto.DeleteResponse;
 import jp.spring_boot_template.presentation.controller.dto.FetchResponse;
@@ -52,9 +54,9 @@ public class RecordController {
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(
-      summary = "レコードを追加する",
       tags = {"record"},
-      description = "カラム1、カラム2を送信してレコードを追加する",
+      summary = "レコードを追加する",
+      description = "カラム1、カラム2を受け取ってレコードを追加する",
       responses = {
         @ApiResponse(
             responseCode = "200",
@@ -83,9 +85,9 @@ public class RecordController {
   @GetMapping()
   @ResponseBody
   @Operation(
-      summary = "レコードを取得する",
       tags = {"record"},
-      description = "レコードを取得してレコードID、カラム1、カラム2を受信する",
+      summary = "レコードを取得する",
+      description = "レコードを取得してレコードID、カラム1、カラム2を返す",
       responses = {
         @ApiResponse(
             responseCode = "200",
@@ -113,9 +115,9 @@ public class RecordController {
   @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(
-      summary = "レコードを更新する",
       tags = {"record"},
-      description = "レコードID、カラム1、カラム2を送信してレコードを更新する",
+      summary = "レコードを更新する",
+      description = "レコードID、カラム1、カラム2を受け取ってレコードを更新する",
       responses = {
         @ApiResponse(
             responseCode = "200",
@@ -148,9 +150,9 @@ public class RecordController {
   @PatchMapping(value = "/column1", consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(
-      summary = "レコードカラム1を追加する",
       tags = {"record"},
-      description = "レコードID、カラム1を送信してレコードを更新する",
+      summary = "レコードカラム1を追加する",
+      description = "レコードID、カラム1を受け取ってレコードを更新する",
       responses = {
         @ApiResponse(
             responseCode = "200",
@@ -183,9 +185,9 @@ public class RecordController {
   @DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(
-      summary = "レコードを削除する",
       tags = {"record"},
-      description = "レコードIDを送信してレコードを削除する",
+      summary = "レコードを削除する",
+      description = "レコードIDを受け取ってレコードを削除する",
       responses = {
         @ApiResponse(
             responseCode = "200",
@@ -210,11 +212,11 @@ public class RecordController {
   }
 
   // レコード○○
-  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/blueprint", consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(
-      summary = "レコードを○○する",
       tags = {"record"},
+      summary = "レコードを○○する",
       description = "レコードを○○する",
       responses = {
         @ApiResponse(
@@ -234,6 +236,7 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    return ResponseEntity.ok(BlueprintResponse.builder().success(true).build());
+    return ResponseEntity.ok(
+        BlueprintResponse.builder().recordId(blueprintRequest.recordId()).build());
   }
 }
