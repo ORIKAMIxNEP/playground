@@ -1,6 +1,6 @@
 package jp.spring_boot_template.presentation.controller;
 
-import jp.spring_boot_template.application.usecase.RecordUseCaseImpl;
+import jp.spring_boot_template.application.usecase.record.RecordUseCaseImpl;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;

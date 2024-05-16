@@ -1,15 +1,15 @@
-package jp.spring_boot_template.application.usecase;
+package jp.spring_boot_template.application.usecase.record;
 
 import java.util.Objects;
-import jp.spring_boot_template.application.dto.AddInput;
-import jp.spring_boot_template.application.dto.AddOutput;
-import jp.spring_boot_template.application.dto.DeleteInput;
-import jp.spring_boot_template.application.dto.DeleteOutput;
-import jp.spring_boot_template.application.dto.FetchOutput;
-import jp.spring_boot_template.application.dto.UpdateColumn1Input;
-import jp.spring_boot_template.application.dto.UpdateColumn1Output;
-import jp.spring_boot_template.application.dto.UpdateInput;
-import jp.spring_boot_template.application.dto.UpdateOutput;
+import jp.spring_boot_template.application.dto.record.AddInput;
+import jp.spring_boot_template.application.dto.record.AddOutput;
+import jp.spring_boot_template.application.dto.record.DeleteInput;
+import jp.spring_boot_template.application.dto.record.DeleteOutput;
+import jp.spring_boot_template.application.dto.record.FetchOutput;
+import jp.spring_boot_template.application.dto.record.UpdateColumn1Input;
+import jp.spring_boot_template.application.dto.record.UpdateColumn1Output;
+import jp.spring_boot_template.application.dto.record.UpdateInput;
+import jp.spring_boot_template.application.dto.record.UpdateOutput;
 import jp.spring_boot_template.domain.model.entity.Records;
 import jp.spring_boot_template.infrastructure.repository.RecordsRepositoryImpl;
 import lombok.RequiredArgsConstructor;
