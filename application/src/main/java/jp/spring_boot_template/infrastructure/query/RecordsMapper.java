@@ -1,17 +1,11 @@
 package jp.spring_boot_template.infrastructure.query;
 
 import jp.spring_boot_template.domain.model.entity.Records;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 @Mapper
 public interface RecordsMapper {
-  // レコード挿入
+  // レコード追加
   @Insert(
       """
       INSERT INTO
@@ -22,9 +16,9 @@ public interface RecordsMapper {
         #{column1}, #{column2}
       )
       """)
-  void insert(final byte column1, final String column2);
+  void addRecord(final byte column1, final String column2);
 
-  // レコード選択
+  // レコード取得
   @Select(
       """
       SELECT
@@ -41,7 +35,7 @@ public interface RecordsMapper {
         @Result(column = "column1", property = "column1"),
         @Result(column = "column2", property = "column2")
       })
-  Records select(final long recordId);
+  Records fetchRecord(final long recordId);
 
   // レコード更新
   @Update(
@@ -54,7 +48,7 @@ public interface RecordsMapper {
       WHERE
         record_id = #{recordId}
       """)
-  void update(final long recordId, final byte column1, final String column2);
+  void updateRecord(final long recordId, final byte column1, final String column2);
 
   // レコードカラム1更新
   @Update(
@@ -66,7 +60,7 @@ public interface RecordsMapper {
       WHERE
         record_id = #{recordId}
       """)
-  void updateColumn1(final long recordId, final byte column1);
+  void updateRecordColumn1(final long recordId, final byte column1);
 
   // レコード削除
   @Delete(
@@ -76,5 +70,5 @@ public interface RecordsMapper {
       WHERE
         record_id = #{recordId}
       """)
-  void delete(final long recordId);
+  void deleteRecord(final long recordId);
 }
