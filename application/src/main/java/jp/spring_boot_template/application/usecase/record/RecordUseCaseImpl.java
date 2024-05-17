@@ -1,7 +1,6 @@
 package jp.spring_boot_template.application.usecase.record;
 
 import java.util.Objects;
-
 import jp.spring_boot_template.application.dto.record.AddInput;
 import jp.spring_boot_template.application.dto.record.AddOutput;
 import jp.spring_boot_template.application.dto.record.DeleteInput;
