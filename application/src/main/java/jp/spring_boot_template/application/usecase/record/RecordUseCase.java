@@ -1,28 +1,28 @@
 package jp.spring_boot_template.application.usecase.record;
 
-import jp.spring_boot_template.application.dto.record.AddInput;
-import jp.spring_boot_template.application.dto.record.AddOutput;
-import jp.spring_boot_template.application.dto.record.DeleteInput;
-import jp.spring_boot_template.application.dto.record.DeleteOutput;
-import jp.spring_boot_template.application.dto.record.FetchOutput;
-import jp.spring_boot_template.application.dto.record.UpdateColumn1Input;
-import jp.spring_boot_template.application.dto.record.UpdateColumn1Output;
-import jp.spring_boot_template.application.dto.record.UpdateInput;
-import jp.spring_boot_template.application.dto.record.UpdateOutput;
+import jp.spring_boot_template.application.dto.record.AddRecordInput;
+import jp.spring_boot_template.application.dto.record.AddRecordOutput;
+import jp.spring_boot_template.application.dto.record.DeleteRecordInput;
+import jp.spring_boot_template.application.dto.record.DeleteRecordOutput;
+import jp.spring_boot_template.application.dto.record.FetchRecordOutput;
+import jp.spring_boot_template.application.dto.record.UpdateRecordColumn1Input;
+import jp.spring_boot_template.application.dto.record.UpdateRecordColumn1Output;
+import jp.spring_boot_template.application.dto.record.UpdateRecordInput;
+import jp.spring_boot_template.application.dto.record.UpdateRecordOutput;
 
 public interface RecordUseCase {
   // レコード追加
-  AddOutput add(final AddInput addInput);
+  AddRecordOutput add(final AddRecordInput addRecordInput);
 
   // レコード取得
-  FetchOutput fetch();
+  FetchRecordOutput fetch();
 
   // レコード更新
-  UpdateOutput update(final UpdateInput updateInput);
+  UpdateRecordOutput update(final UpdateRecordInput updateRecordInput);
 
   // レコードカラム1更新
-  UpdateColumn1Output updateColumn1(final UpdateColumn1Input updateColumn1Input);
+  UpdateRecordColumn1Output updateColumn1(final UpdateRecordColumn1Input updateRecordColumn1Input);
 
   // レコード削除
-  DeleteOutput delete(final DeleteInput deleteInput);
+  DeleteRecordOutput delete(final DeleteRecordInput deleteRecordInput);
 }

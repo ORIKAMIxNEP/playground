@@ -3,15 +3,15 @@ package jp.spring_boot_template.application.usecase;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-import jp.spring_boot_template.application.dto.record.AddInput;
-import jp.spring_boot_template.application.dto.record.AddOutput;
-import jp.spring_boot_template.application.dto.record.DeleteInput;
-import jp.spring_boot_template.application.dto.record.DeleteOutput;
-import jp.spring_boot_template.application.dto.record.FetchOutput;
-import jp.spring_boot_template.application.dto.record.UpdateColumn1Input;
-import jp.spring_boot_template.application.dto.record.UpdateColumn1Output;
-import jp.spring_boot_template.application.dto.record.UpdateInput;
-import jp.spring_boot_template.application.dto.record.UpdateOutput;
+import jp.spring_boot_template.application.dto.record.AddRecordInput;
+import jp.spring_boot_template.application.dto.record.AddRecordOutput;
+import jp.spring_boot_template.application.dto.record.DeleteRecordInput;
+import jp.spring_boot_template.application.dto.record.DeleteRecordOutput;
+import jp.spring_boot_template.application.dto.record.FetchRecordOutput;
+import jp.spring_boot_template.application.dto.record.UpdateRecordColumn1Input;
+import jp.spring_boot_template.application.dto.record.UpdateRecordColumn1Output;
+import jp.spring_boot_template.application.dto.record.UpdateRecordInput;
+import jp.spring_boot_template.application.dto.record.UpdateRecordOutput;
 import jp.spring_boot_template.application.usecase.record.RecordUseCaseImpl;
 import jp.spring_boot_template.domain.model.entity.Records;
 import jp.spring_boot_template.infrastructure.repository.RecordsRepositoryImpl;
@@ -38,8 +38,9 @@ public class RecordUseCaseImplTest {
 
   @Test
   public void addTest() {
-    assertThat(recordUseCaseImpl.add(AddInput.builder().column1((byte) 0).column2("a").build()))
-        .isEqualTo(AddOutput.builder().success(true).build());
+    assertThat(
+            recordUseCaseImpl.add(AddRecordInput.builder().column1((byte) 0).column2("a").build()))
+        .isEqualTo(AddRecordOutput.builder().success(true).build());
   }
 
   @Test
@@ -49,9 +50,10 @@ public class RecordUseCaseImplTest {
     when(recordsRepositoryImplMock.fetch(2)).thenReturn(null);
 
     assertThat(recordUseCaseImpl.fetch())
-        .isEqualTo(FetchOutput.builder().success(true).column1((byte) 0).column2("a").build());
+        .isEqualTo(
+            FetchRecordOutput.builder().success(true).column1((byte) 0).column2("a").build());
     assertThat(recordUseCaseImpl.fetch())
-        .isEqualTo(FetchOutput.builder().success(false).column1(null).column2(null).build());
+        .isEqualTo(FetchRecordOutput.builder().success(false).column1(null).column2(null).build());
   }
 
   @Test
@@ -62,12 +64,12 @@ public class RecordUseCaseImplTest {
 
     assertThat(
             recordUseCaseImpl.update(
-                UpdateInput.builder().recordId(1).column1((byte) 0).column2("a").build()))
-        .isEqualTo(UpdateOutput.builder().success(true).build());
+                UpdateRecordInput.builder().recordId(1).column1((byte) 0).column2("a").build()))
+        .isEqualTo(UpdateRecordOutput.builder().success(true).build());
     assertThat(
             recordUseCaseImpl.update(
-                UpdateInput.builder().recordId(2).column1((byte) 0).column2("a").build()))
-        .isEqualTo(UpdateOutput.builder().success(false).build());
+                UpdateRecordInput.builder().recordId(2).column1((byte) 0).column2("a").build()))
+        .isEqualTo(UpdateRecordOutput.builder().success(false).build());
   }
 
   @Test
@@ -78,12 +80,12 @@ public class RecordUseCaseImplTest {
 
     assertThat(
             recordUseCaseImpl.updateColumn1(
-                UpdateColumn1Input.builder().recordId(1).column1((byte) 0).build()))
-        .isEqualTo(UpdateColumn1Output.builder().success(true).build());
+                UpdateRecordColumn1Input.builder().recordId(1).column1((byte) 0).build()))
+        .isEqualTo(UpdateRecordColumn1Output.builder().success(true).build());
     assertThat(
             recordUseCaseImpl.updateColumn1(
-                UpdateColumn1Input.builder().recordId(2).column1((byte) 0).build()))
-        .isEqualTo(UpdateColumn1Output.builder().success(false).build());
+                UpdateRecordColumn1Input.builder().recordId(2).column1((byte) 0).build()))
+        .isEqualTo(UpdateRecordColumn1Output.builder().success(false).build());
   }
 
   @Test
@@ -92,9 +94,9 @@ public class RecordUseCaseImplTest {
         .thenReturn(Records.builder().recordId(1).column1((byte) 0).column2("a").build());
     when(recordsRepositoryImplMock.fetch(2)).thenReturn(null);
 
-    assertThat(recordUseCaseImpl.delete(DeleteInput.builder().recordId(1).build()))
-        .isEqualTo(DeleteOutput.builder().success(true).build());
-    assertThat(recordUseCaseImpl.delete(DeleteInput.builder().recordId(2).build()))
-        .isEqualTo(DeleteOutput.builder().success(false).build());
+    assertThat(recordUseCaseImpl.delete(DeleteRecordInput.builder().recordId(1).build()))
+        .isEqualTo(DeleteRecordOutput.builder().success(true).build());
+    assertThat(recordUseCaseImpl.delete(DeleteRecordInput.builder().recordId(2).build()))
+        .isEqualTo(DeleteRecordOutput.builder().success(false).build());
   }
 }

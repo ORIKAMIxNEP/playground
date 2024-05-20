@@ -27,24 +27,24 @@ public class RecordControllerTest {
 
   //    @Test
   //    public void addTest01() {
-  //        assertThat(recordController.add(1,"record2")).isEqualTo(new AddOutput(true));
+  //        assertThat(recordController.add(1,"record2")).isEqualTo(new AddRecordOutput(true));
   //    }
   //
   //    @Test
   //    public void fetchTest01() {
-  //        when(recordUseCaseMock.fetch().thenReturn(new FetchOutput(1,"record2")));
-  //        assertThat(recordController.fetch()).isEqualTo(new FetchOutput(1,"record2"));
+  //        when(recordUseCaseMock.fetch().thenReturn(new FetchRecordOutput(1,"record2")));
+  //        assertThat(recordController.fetch()).isEqualTo(new FetchRecordOutput(1,"record2"));
   //    }
 
   //  @Test
   //  public void fetchTest() {
-  //    when(recordUseCaseImplMock.fetch().thenReturn(new FetchOutput(0, "a")));
-  //    assertThat(recordController.fetch()).isEqualTo(new FetchOutput(0, "a"));
+  //    when(recordUseCaseImplMock.fetch().thenReturn(new FetchRecordOutput(0, "a")));
+  //    assertThat(recordController.fetch()).isEqualTo(new FetchRecordOutput(0, "a"));
   //  }
   //
   //  @Test
   //  public void updateTest() {
-  //    assertThat(recordController.update(0, "a")).isEqualTo(new UpdateOutput(true));
+  //    assertThat(recordController.update(0, "a")).isEqualTo(new UpdateRecordOutput(true));
   //  }
   //
   //  @Test
@@ -54,6 +54,6 @@ public class RecordControllerTest {
   //
   //  @Test
   //  public void deleteTest() {
-  //    assertThat(recordController.delete()).isEqualTo(new DeleteOutput(true));
+  //    assertThat(recordController.delete()).isEqualTo(new DeleteRecordOutput(true));
   //  }
 }

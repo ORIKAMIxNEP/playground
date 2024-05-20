@@ -3,4 +3,4 @@ package jp.spring_boot_template.application.dto.record;
 import lombok.Builder;
 
 @Builder
-public record DeleteInput(long recordId) {}
+public record UpdateRecordColumn1Input(long recordId, byte column1) {}

@@ -4,15 +4,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jp.spring_boot_template.application.dto.record.AddInput;
-import jp.spring_boot_template.application.dto.record.AddOutput;
-import jp.spring_boot_template.application.dto.record.DeleteInput;
-import jp.spring_boot_template.application.dto.record.DeleteOutput;
-import jp.spring_boot_template.application.dto.record.FetchOutput;
-import jp.spring_boot_template.application.dto.record.UpdateColumn1Input;
-import jp.spring_boot_template.application.dto.record.UpdateColumn1Output;
-import jp.spring_boot_template.application.dto.record.UpdateInput;
-import jp.spring_boot_template.application.dto.record.UpdateOutput;
+import jp.spring_boot_template.application.dto.record.AddRecordInput;
+import jp.spring_boot_template.application.dto.record.AddRecordOutput;
+import jp.spring_boot_template.application.dto.record.DeleteRecordInput;
+import jp.spring_boot_template.application.dto.record.DeleteRecordOutput;
+import jp.spring_boot_template.application.dto.record.FetchRecordOutput;
+import jp.spring_boot_template.application.dto.record.UpdateRecordColumn1Input;
+import jp.spring_boot_template.application.dto.record.UpdateRecordColumn1Output;
+import jp.spring_boot_template.application.dto.record.UpdateRecordInput;
+import jp.spring_boot_template.application.dto.record.UpdateRecordOutput;
 import jp.spring_boot_template.application.usecase.record.RecordUseCaseImpl;
 import jp.spring_boot_template.presentation.controller.dto.AddRequest;
 import jp.spring_boot_template.presentation.controller.dto.AddResponse;
@@ -75,10 +75,13 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    final AddOutput addOutput =
+    final AddRecordOutput addRecordOutput =
         recordUseCaseImpl.add(
-            AddInput.builder().column1(addRequest.column1()).column2(addRequest.column2()).build());
-    return ResponseEntity.ok(AddResponse.builder().success(addOutput.success()).build());
+            AddRecordInput.builder()
+                .column1(addRequest.column1())
+                .column2(addRequest.column2())
+                .build());
+    return ResponseEntity.ok(AddResponse.builder().success(addRecordOutput.success()).build());
   }
 
   // レコード取得
@@ -103,11 +106,11 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    final FetchOutput fetchOutput = recordUseCaseImpl.fetch();
+    final FetchRecordOutput fetchRecordOutput = recordUseCaseImpl.fetch();
     return ResponseEntity.ok(
         FetchResponse.builder()
-            .column1(fetchOutput.column1())
-            .column2(fetchOutput.column2())
+            .column1(fetchRecordOutput.column1())
+            .column2(fetchRecordOutput.column2())
             .build());
   }
 
@@ -136,14 +139,14 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    final UpdateOutput updateOutput =
+    final UpdateRecordOutput updateRecordOutput =
         recordUseCaseImpl.update(
-            UpdateInput.builder()
+            UpdateRecordInput.builder()
                 .recordId(updateRequest.recordId())
                 .column1(updateRequest.column1())
                 .column2(updateRequest.column2())
                 .build());
-    return ResponseEntity.ok(UpdateResponse.builder().success(updateOutput.success()));
+    return ResponseEntity.ok(UpdateResponse.builder().success(updateRecordOutput.success()));
   }
 
   // レコードカラム1更新
@@ -171,14 +174,14 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    final UpdateColumn1Output updateColumn1Output =
+    final UpdateRecordColumn1Output updateRecordColumn1Output =
         recordUseCaseImpl.updateColumn1(
-            UpdateColumn1Input.builder()
+            UpdateRecordColumn1Input.builder()
                 .recordId(updateColumn1Request.recordId())
                 .column1(updateColumn1Request.column1())
                 .build());
     return ResponseEntity.ok(
-        UpdateColumn1Response.builder().success(updateColumn1Output.success()));
+        UpdateColumn1Response.builder().success(updateRecordColumn1Output.success()));
   }
 
   // レコード削除
@@ -206,9 +209,10 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    final DeleteOutput deleteOutput =
-        recordUseCaseImpl.delete(DeleteInput.builder().recordId(deleteRequest.recordId()).build());
-    return ResponseEntity.ok(DeleteResponse.builder().success(deleteOutput.success()));
+    final DeleteRecordOutput deleteRecordOutput =
+        recordUseCaseImpl.delete(
+            DeleteRecordInput.builder().recordId(deleteRequest.recordId()).build());
+    return ResponseEntity.ok(DeleteResponse.builder().success(deleteRecordOutput.success()));
   }
 
   // レコード○○
