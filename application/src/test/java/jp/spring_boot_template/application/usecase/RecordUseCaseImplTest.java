@@ -37,66 +37,66 @@ public class RecordUseCaseImplTest {
   }
 
   @Test
-  public void addTest() {
+  public void addRecordTest() {
     assertThat(
-            recordUseCaseImpl.add(AddRecordInput.builder().column1((byte) 0).column2("a").build()))
+            recordUseCaseImpl.addRecord(AddRecordInput.builder().column1((byte) 0).column2("a").build()))
         .isEqualTo(AddRecordOutput.builder().success(true).build());
   }
 
   @Test
-  public void fetchTest() {
-    when(recordsRepositoryImplMock.fetch(1))
+  public void fetchRecordTest() {
+    when(recordsRepositoryImplMock.fetchRecord(1))
         .thenReturn(Records.builder().recordId(1).column1((byte) 0).column2("a").build());
-    when(recordsRepositoryImplMock.fetch(2)).thenReturn(null);
+    when(recordsRepositoryImplMock.fetchRecord(2)).thenReturn(null);
 
-    assertThat(recordUseCaseImpl.fetch())
+    assertThat(recordUseCaseImpl.fetchRecord())
         .isEqualTo(
             FetchRecordOutput.builder().success(true).column1((byte) 0).column2("a").build());
-    assertThat(recordUseCaseImpl.fetch())
+    assertThat(recordUseCaseImpl.fetchRecord())
         .isEqualTo(FetchRecordOutput.builder().success(false).column1(null).column2(null).build());
   }
 
   @Test
-  public void updateTest() {
-    when(recordsRepositoryImplMock.fetch(1))
+  public void updateRecordTest() {
+    when(recordsRepositoryImplMock.fetchRecord(1))
         .thenReturn(Records.builder().recordId(1).column1((byte) 0).column2("a").build());
-    when(recordsRepositoryImplMock.fetch(2)).thenReturn(null);
+    when(recordsRepositoryImplMock.fetchRecord(2)).thenReturn(null);
 
     assertThat(
-            recordUseCaseImpl.update(
+            recordUseCaseImpl.updateRecord(
                 UpdateRecordInput.builder().recordId(1).column1((byte) 0).column2("a").build()))
         .isEqualTo(UpdateRecordOutput.builder().success(true).build());
     assertThat(
-            recordUseCaseImpl.update(
+            recordUseCaseImpl.updateRecord(
                 UpdateRecordInput.builder().recordId(2).column1((byte) 0).column2("a").build()))
         .isEqualTo(UpdateRecordOutput.builder().success(false).build());
   }
 
   @Test
-  public void updateColumn1Test() {
-    when(recordsRepositoryImplMock.fetch(1))
+  public void updateRecordColumn1Test() {
+    when(recordsRepositoryImplMock.fetchRecord(1))
         .thenReturn(Records.builder().recordId(1).column1((byte) 0).column2("a").build());
-    when(recordsRepositoryImplMock.fetch(2)).thenReturn(null);
+    when(recordsRepositoryImplMock.fetchRecord(2)).thenReturn(null);
 
     assertThat(
-            recordUseCaseImpl.updateColumn1(
+            recordUseCaseImpl.updateRecordColumn1(
                 UpdateRecordColumn1Input.builder().recordId(1).column1((byte) 0).build()))
         .isEqualTo(UpdateRecordColumn1Output.builder().success(true).build());
     assertThat(
-            recordUseCaseImpl.updateColumn1(
+            recordUseCaseImpl.updateRecordColumn1(
                 UpdateRecordColumn1Input.builder().recordId(2).column1((byte) 0).build()))
         .isEqualTo(UpdateRecordColumn1Output.builder().success(false).build());
   }
 
   @Test
-  public void deleteTest() {
-    when(recordsRepositoryImplMock.fetch(1))
+  public void deleteRecordTest() {
+    when(recordsRepositoryImplMock.fetchRecord(1))
         .thenReturn(Records.builder().recordId(1).column1((byte) 0).column2("a").build());
-    when(recordsRepositoryImplMock.fetch(2)).thenReturn(null);
+    when(recordsRepositoryImplMock.fetchRecord(2)).thenReturn(null);
 
-    assertThat(recordUseCaseImpl.delete(DeleteRecordInput.builder().recordId(1).build()))
+    assertThat(recordUseCaseImpl.deleteRecord(DeleteRecordInput.builder().recordId(1).build()))
         .isEqualTo(DeleteRecordOutput.builder().success(true).build());
-    assertThat(recordUseCaseImpl.delete(DeleteRecordInput.builder().recordId(2).build()))
+    assertThat(recordUseCaseImpl.deleteRecord(DeleteRecordInput.builder().recordId(2).build()))
         .isEqualTo(DeleteRecordOutput.builder().success(false).build());
   }
 }

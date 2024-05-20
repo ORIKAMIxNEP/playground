@@ -66,7 +66,7 @@ public class RecordController {
                     mediaType = "application/json",
                     schema = @Schema(implementation = AddResponse.class)))
       })
-  public ResponseEntity<?> add(
+  public ResponseEntity<?> addRecord(
       @RequestHeader("X-CSRF-Token") String clientCsrfToken,
       @RequestBody @Validated final AddRequest addRequest,
       final BindingResult bindingResult) {
@@ -76,7 +76,7 @@ public class RecordController {
       return httpClientErrorHandlerResponse.responseEntity();
     }
     final AddRecordOutput addRecordOutput =
-        recordUseCaseImpl.add(
+        recordUseCaseImpl.addRecord(
             AddRecordInput.builder()
                 .column1(addRequest.column1())
                 .column2(addRequest.column2())
@@ -100,7 +100,7 @@ public class RecordController {
                     mediaType = "application/json",
                     schema = @Schema(implementation = FetchResponse.class)))
       })
-  public ResponseEntity<?> fetch(@RequestHeader("X-CSRF-Token") String clientCsrfToken) {
+  public ResponseEntity<?> fetchRecord(@RequestHeader("X-CSRF-Token") String clientCsrfToken) {
     final HttpClientErrorHandlerResponse httpClientErrorHandlerResponse =
         httpClientErrorHandler.handle(clientCsrfToken, null);
     if (httpClientErrorHandlerResponse.error()) {
@@ -130,7 +130,7 @@ public class RecordController {
                     mediaType = "application/json",
                     schema = @Schema(implementation = UpdateResponse.class)))
       })
-  public ResponseEntity<?> update(
+  public ResponseEntity<?> updateRecord(
       @RequestHeader("X-CSRF-TOKEN") String clientCsrfToken,
       @RequestBody @Validated final UpdateRequest updateRequest,
       final BindingResult bindingResult) {
@@ -140,7 +140,7 @@ public class RecordController {
       return httpClientErrorHandlerResponse.responseEntity();
     }
     final UpdateRecordOutput updateRecordOutput =
-        recordUseCaseImpl.update(
+        recordUseCaseImpl.updateRecord(
             UpdateRecordInput.builder()
                 .recordId(updateRequest.recordId())
                 .column1(updateRequest.column1())
@@ -165,7 +165,7 @@ public class RecordController {
                     mediaType = "application/json",
                     schema = @Schema(implementation = UpdateColumn1Response.class)))
       })
-  public ResponseEntity<?> updateColumn1(
+  public ResponseEntity<?> updateRecordColumn1(
       @RequestHeader("X-CSRF-Token") String clientCsrfToken,
       @RequestBody @Validated final UpdateColumn1Request updateColumn1Request,
       final BindingResult bindingResult) {
@@ -175,7 +175,7 @@ public class RecordController {
       return httpClientErrorHandlerResponse.responseEntity();
     }
     final UpdateRecordColumn1Output updateRecordColumn1Output =
-        recordUseCaseImpl.updateColumn1(
+        recordUseCaseImpl.updateRecordColumn1(
             UpdateRecordColumn1Input.builder()
                 .recordId(updateColumn1Request.recordId())
                 .column1(updateColumn1Request.column1())
@@ -200,7 +200,7 @@ public class RecordController {
                     mediaType = "application/json",
                     schema = @Schema(implementation = DeleteResponse.class)))
       })
-  public ResponseEntity<?> delete(
+  public ResponseEntity<?> deleteRecord(
       @RequestHeader("X-CSRF-Token") String clientCsrfToken,
       @RequestBody @Validated final DeleteRequest deleteRequest,
       final BindingResult bindingResult) {
@@ -210,18 +210,18 @@ public class RecordController {
       return httpClientErrorHandlerResponse.responseEntity();
     }
     final DeleteRecordOutput deleteRecordOutput =
-        recordUseCaseImpl.delete(
+        recordUseCaseImpl.deleteRecord(
             DeleteRecordInput.builder().recordId(deleteRequest.recordId()).build());
     return ResponseEntity.ok(DeleteResponse.builder().success(deleteRecordOutput.success()));
   }
 
-  // レコード○○
-  @PostMapping(value = "/blueprint", consumes = MediaType.APPLICATION_JSON_VALUE)
+  // レコードhoge
+  @PostMapping(value = "/hoge", consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(
       tags = {"record"},
-      summary = "レコードを○○する",
-      description = "レコードを○○する",
+      summary = "レコードをhogeする",
+      description = "レコードをhogeする",
       responses = {
         @ApiResponse(
             responseCode = "200",
@@ -231,7 +231,7 @@ public class RecordController {
                     mediaType = "application/json",
                     schema = @Schema(implementation = BlueprintResponse.class)))
       })
-  public ResponseEntity<?> blueprint(
+  public ResponseEntity<?> hoge(
       @RequestHeader("X-CSRF-Token") String clientCsrfToken,
       @RequestBody @Validated final BlueprintRequest blueprintRequest,
       final BindingResult bindingResult) {

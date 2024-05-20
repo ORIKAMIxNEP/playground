@@ -23,14 +23,14 @@ public class RecordUseCaseImpl implements RecordUseCase {
   private final RecordsRepositoryImpl recordsRepositoryImpl;
 
   // レコード追加
-  public AddRecordOutput add(final AddRecordInput addRecordInput) {
-    recordsRepositoryImpl.add(addRecordInput.column1(), addRecordInput.column2());
+  public AddRecordOutput addRecord(final AddRecordInput addRecordInput) {
+    recordsRepositoryImpl.addRecord(addRecordInput.column1(), addRecordInput.column2());
 
     return AddRecordOutput.builder().success(true).build();
   }
 
   // レコード取得
-  public FetchRecordOutput fetch() {
+  public FetchRecordOutput fetchRecord() {
     final Records records = recordsRepositoryImpl.fetch(1);
 
     // レコードが存在しない場合
@@ -46,45 +46,45 @@ public class RecordUseCaseImpl implements RecordUseCase {
   }
 
   // レコード更新
-  public UpdateRecordOutput update(final UpdateRecordInput updateRecordInput) {
+  public UpdateRecordOutput updateRecord(final UpdateRecordInput updateRecordInput) {
     final long recordId = updateRecordInput.recordId();
 
     // レコードが存在しない場合
-    if (Objects.isNull(recordsRepositoryImpl.fetch(recordId))) {
+    if (Objects.isNull(recordsRepositoryImpl.fetchRecord(recordId))) {
       return UpdateRecordOutput.builder().success(false).build();
     }
 
-    recordsRepositoryImpl.update(
+    recordsRepositoryImpl.updateRecord(
         recordId, updateRecordInput.column1(), updateRecordInput.column2());
 
     return UpdateRecordOutput.builder().success(true).build();
   }
 
   // レコードカラム1更新
-  public UpdateRecordColumn1Output updateColumn1(
+  public UpdateRecordColumn1Output updateColumn1Record(
       final UpdateRecordColumn1Input updateRecordColumn1Input) {
     final long recordId = updateRecordColumn1Input.recordId();
 
     // レコードが存在しない場合
-    if (Objects.isNull(recordsRepositoryImpl.fetch(recordId))) {
+    if (Objects.isNull(recordsRepositoryImpl.fetchRecord(recordId))) {
       return UpdateRecordColumn1Output.builder().success(false).build();
     }
 
-    recordsRepositoryImpl.updateColumn1(recordId, updateRecordColumn1Input.column1());
+    recordsRepositoryImpl.updateRecordColumn1(recordId, updateRecordColumn1Input.column1());
 
     return UpdateRecordColumn1Output.builder().success(true).build();
   }
 
   // レコード削除
-  public DeleteRecordOutput delete(final DeleteRecordInput deleteRecordInput) {
+  public DeleteRecordOutput deleteRecord(final DeleteRecordInput deleteRecordInput) {
     final long recordId = deleteRecordInput.recordId();
 
     // レコードが存在しない場合
-    if (Objects.isNull(recordsRepositoryImpl.fetch(recordId))) {
+    if (Objects.isNull(recordsRepositoryImpl.fetchRecord(recordId))) {
       return DeleteRecordOutput.builder().success(false).build();
     }
 
-    recordsRepositoryImpl.delete(recordId);
+    recordsRepositoryImpl.deleteRecord(recordId);
 
     return DeleteRecordOutput.builder().success(true).build();
   }

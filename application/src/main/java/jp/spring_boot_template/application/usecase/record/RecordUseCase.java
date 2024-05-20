@@ -12,17 +12,17 @@ import jp.spring_boot_template.application.dto.record.UpdateRecordOutput;
 
 public interface RecordUseCase {
   // レコード追加
-  AddRecordOutput add(final AddRecordInput addRecordInput);
+  AddRecordOutput addRecord(final AddRecordInput addRecordInput);
 
   // レコード取得
-  FetchRecordOutput fetch();
+  FetchRecordOutput fetchRecord();
 
   // レコード更新
-  UpdateRecordOutput update(final UpdateRecordInput updateRecordInput);
+  UpdateRecordOutput updateRecord(final UpdateRecordInput updateRecordInput);
 
   // レコードカラム1更新
-  UpdateRecordColumn1Output updateColumn1(final UpdateRecordColumn1Input updateRecordColumn1Input);
+  UpdateRecordColumn1Output updateColumn1Record(final UpdateRecordColumn1Input updateRecordColumn1Input);
 
   // レコード削除
-  DeleteRecordOutput delete(final DeleteRecordInput deleteRecordInput);
+  DeleteRecordOutput deleteRecord(final DeleteRecordInput deleteRecordInput);
 }
