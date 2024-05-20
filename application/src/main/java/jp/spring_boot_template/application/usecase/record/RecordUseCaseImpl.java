@@ -31,7 +31,7 @@ public class RecordUseCaseImpl implements RecordUseCase {
 
   // レコード取得
   public FetchRecordOutput fetchRecord() {
-    final Records records = recordsRepositoryImpl.fetch(1);
+    final Records records = recordsRepositoryImpl.fetchRecord(1);
 
     // レコードが存在しない場合
     if (Objects.isNull(records)) {
@@ -61,7 +61,7 @@ public class RecordUseCaseImpl implements RecordUseCase {
   }
 
   // レコードカラム1更新
-  public UpdateRecordColumn1Output updateColumn1Record(
+  public UpdateRecordColumn1Output updateRecordColumn1(
       final UpdateRecordColumn1Input updateRecordColumn1Input) {
     final long recordId = updateRecordColumn1Input.recordId();
 

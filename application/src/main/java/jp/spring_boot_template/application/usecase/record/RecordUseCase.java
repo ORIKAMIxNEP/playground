@@ -21,7 +21,8 @@ public interface RecordUseCase {
   UpdateRecordOutput updateRecord(final UpdateRecordInput updateRecordInput);
 
   // レコードカラム1更新
-  UpdateRecordColumn1Output updateColumn1Record(final UpdateRecordColumn1Input updateRecordColumn1Input);
+  UpdateRecordColumn1Output updateRecordColumn1(
+      final UpdateRecordColumn1Input updateRecordColumn1Input);
 
   // レコード削除
   DeleteRecordOutput deleteRecord(final DeleteRecordInput deleteRecordInput);

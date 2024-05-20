@@ -106,7 +106,7 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    final FetchRecordOutput fetchRecordOutput = recordUseCaseImpl.fetch();
+    final FetchRecordOutput fetchRecordOutput = recordUseCaseImpl.fetchRecord();
     return ResponseEntity.ok(
         FetchResponse.builder()
             .column1(fetchRecordOutput.column1())

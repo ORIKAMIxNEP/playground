@@ -39,7 +39,8 @@ public class RecordUseCaseImplTest {
   @Test
   public void addRecordTest() {
     assertThat(
-            recordUseCaseImpl.addRecord(AddRecordInput.builder().column1((byte) 0).column2("a").build()))
+            recordUseCaseImpl.addRecord(
+                AddRecordInput.builder().column1((byte) 0).column2("a").build()))
         .isEqualTo(AddRecordOutput.builder().success(true).build());
   }
 
