@@ -9,7 +9,7 @@ import lombok.Builder;
     description = "追加するレコードのデータ",
     requiredProperties = {"column1", "column2"})
 @Builder
-public record AddRequest(
+public record AddRecordRequest(
     @Schema(
             title = "レコードカラム1",
             type = "integer",

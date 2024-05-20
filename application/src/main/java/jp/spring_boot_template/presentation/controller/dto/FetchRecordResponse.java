@@ -5,7 +5,7 @@ import lombok.Builder;
 
 @Schema(description = "取得したレコードのデータ")
 @Builder
-public record FetchResponse(
+public record FetchRecordResponse(
     @Schema(
             title = "レコードカラム1",
             type = "integer",
