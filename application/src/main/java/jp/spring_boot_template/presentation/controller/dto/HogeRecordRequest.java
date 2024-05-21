@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 @Schema(
-    description = "○○するレコードのID",
+    description = "hogeするレコードのID",
     requiredProperties = {"recordId"})
 @Builder
 public record HogeRecordRequest(
