@@ -1,8 +1,5 @@
 package jp.spring_boot_template.application.usecase;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
-
 import jp.spring_boot_template.application.dto.record.AddRecordInput;
 import jp.spring_boot_template.application.dto.record.AddRecordOutput;
 import jp.spring_boot_template.application.dto.record.DeleteRecordInput;
@@ -12,9 +9,9 @@ import jp.spring_boot_template.application.dto.record.UpdateRecordColumn1Input;
 import jp.spring_boot_template.application.dto.record.UpdateRecordColumn1Output;
 import jp.spring_boot_template.application.dto.record.UpdateRecordInput;
 import jp.spring_boot_template.application.dto.record.UpdateRecordOutput;
-import jp.spring_boot_template.application.usecase.record.RecordUseCaseImpl;
-import jp.spring_boot_template.domain.model.entity.Records;
-import jp.spring_boot_template.infrastructure.repository.RecordsRepositoryImpl;
+import jp.spring_boot_template.application.record.impl.RecordUseCaseImpl;
+import jp.spring_boot_template.domain.record.Record;
+import jp.spring_boot_template.infrastructure.record.RecordRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,10 +21,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(SpringExtension.class)
 @RequiredArgsConstructor
 public class RecordUseCaseImplTest {
-  @Mock private final RecordsRepositoryImpl recordsRepositoryImplMock;
+  @Mock private final RecordRepositoryImpl recordRepositoryImplMock;
 
   @InjectMocks private final RecordUseCaseImpl recordUseCaseImpl;
 
@@ -46,9 +46,9 @@ public class RecordUseCaseImplTest {
 
   @Test
   public void fetchRecordTest() {
-    when(recordsRepositoryImplMock.fetchRecord(1))
-        .thenReturn(Records.builder().recordId(1).column1((byte) 0).column2("a").build());
-    when(recordsRepositoryImplMock.fetchRecord(2)).thenReturn(null);
+    when(recordRepositoryImplMock.fetchRecord(1))
+        .thenReturn(Record.builder().recordId(1).column1((byte) 0).column2("a").build());
+    when(recordRepositoryImplMock.fetchRecord(2)).thenReturn(null);
 
     assertThat(recordUseCaseImpl.fetchRecord())
         .isEqualTo(
@@ -59,9 +59,9 @@ public class RecordUseCaseImplTest {
 
   @Test
   public void updateRecordTest() {
-    when(recordsRepositoryImplMock.fetchRecord(1))
-        .thenReturn(Records.builder().recordId(1).column1((byte) 0).column2("a").build());
-    when(recordsRepositoryImplMock.fetchRecord(2)).thenReturn(null);
+    when(recordRepositoryImplMock.fetchRecord(1))
+        .thenReturn(Record.builder().recordId(1).column1((byte) 0).column2("a").build());
+    when(recordRepositoryImplMock.fetchRecord(2)).thenReturn(null);
 
     assertThat(
             recordUseCaseImpl.updateRecord(
@@ -75,9 +75,9 @@ public class RecordUseCaseImplTest {
 
   @Test
   public void updateRecordColumn1Test() {
-    when(recordsRepositoryImplMock.fetchRecord(1))
-        .thenReturn(Records.builder().recordId(1).column1((byte) 0).column2("a").build());
-    when(recordsRepositoryImplMock.fetchRecord(2)).thenReturn(null);
+    when(recordRepositoryImplMock.fetchRecord(1))
+        .thenReturn(Record.builder().recordId(1).column1((byte) 0).column2("a").build());
+    when(recordRepositoryImplMock.fetchRecord(2)).thenReturn(null);
 
     assertThat(
             recordUseCaseImpl.updateRecordColumn1(
@@ -91,9 +91,9 @@ public class RecordUseCaseImplTest {
 
   @Test
   public void deleteRecordTest() {
-    when(recordsRepositoryImplMock.fetchRecord(1))
-        .thenReturn(Records.builder().recordId(1).column1((byte) 0).column2("a").build());
-    when(recordsRepositoryImplMock.fetchRecord(2)).thenReturn(null);
+    when(recordRepositoryImplMock.fetchRecord(1))
+        .thenReturn(Record.builder().recordId(1).column1((byte) 0).column2("a").build());
+    when(recordRepositoryImplMock.fetchRecord(2)).thenReturn(null);
 
     assertThat(recordUseCaseImpl.deleteRecord(DeleteRecordInput.builder().recordId(1).build()))
         .isEqualTo(DeleteRecordOutput.builder().success(true).build());

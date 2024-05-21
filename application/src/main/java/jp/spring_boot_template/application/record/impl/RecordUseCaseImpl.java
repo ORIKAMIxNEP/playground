@@ -1,47 +1,49 @@
-package jp.spring_boot_template.application.usecase.record;
+package com.spring_boot_template.application.record.impl;
 
-import java.util.Objects;
-import jp.spring_boot_template.application.dto.record.AddRecordInput;
-import jp.spring_boot_template.application.dto.record.AddRecordOutput;
-import jp.spring_boot_template.application.dto.record.DeleteRecordInput;
-import jp.spring_boot_template.application.dto.record.DeleteRecordOutput;
-import jp.spring_boot_template.application.dto.record.FetchRecordOutput;
-import jp.spring_boot_template.application.dto.record.UpdateRecordColumn1Input;
-import jp.spring_boot_template.application.dto.record.UpdateRecordColumn1Output;
-import jp.spring_boot_template.application.dto.record.UpdateRecordInput;
-import jp.spring_boot_template.application.dto.record.UpdateRecordOutput;
-import jp.spring_boot_template.domain.model.entity.Records;
-import jp.spring_boot_template.infrastructure.repository.RecordsRepositoryImpl;
+import com.spring_boot_template.application.dto.record.AddRecordInput;
+import com.spring_boot_template.application.dto.record.AddRecordOutput;
+import com.spring_boot_template.application.dto.record.DeleteRecordInput;
+import com.spring_boot_template.application.dto.record.DeleteRecordOutput;
+import com.spring_boot_template.application.dto.record.FetchRecordOutput;
+import com.spring_boot_template.application.dto.record.UpdateRecordColumn1Input;
+import com.spring_boot_template.application.dto.record.UpdateRecordColumn1Output;
+import com.spring_boot_template.application.dto.record.UpdateRecordInput;
+import com.spring_boot_template.application.dto.record.UpdateRecordOutput;
+import com.spring_boot_template.application.record.RecordUseCase;
+import com.spring_boot_template.domain.record.Record;
+import com.spring_boot_template.infrastructure.record.RecordRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class RecordUseCaseImpl implements RecordUseCase {
-  private final RecordsRepositoryImpl recordsRepositoryImpl;
+  private final RecordRepositoryImpl recordRepositoryImpl;
 
   // レコード追加
   public AddRecordOutput addRecord(final AddRecordInput addRecordInput) {
-    recordsRepositoryImpl.addRecord(addRecordInput.column1(), addRecordInput.column2());
+    recordRepositoryImpl.addRecord(addRecordInput.column1(), addRecordInput.column2());
 
     return AddRecordOutput.builder().success(true).build();
   }
 
   // レコード取得
   public FetchRecordOutput fetchRecord() {
-    final Records records = recordsRepositoryImpl.fetchRecord(1);
+    final Record record = recordRepositoryImpl.fetchRecord(1);
 
     // レコードが存在しない場合
-    if (Objects.isNull(records)) {
+    if (Objects.isNull(record)) {
       return FetchRecordOutput.builder().success(false).column1(null).column2(null).build();
     }
 
     return FetchRecordOutput.builder()
         .success(true)
-        .column1(records.getColumn1())
-        .column2(records.getColumn2())
+        .column1(record.getColumn1())
+        .column2(record.getColumn2())
         .build();
   }
 
@@ -50,11 +52,11 @@ public class RecordUseCaseImpl implements RecordUseCase {
     final long recordId = updateRecordInput.recordId();
 
     // レコードが存在しない場合
-    if (Objects.isNull(recordsRepositoryImpl.fetchRecord(recordId))) {
+    if (Objects.isNull(recordRepositoryImpl.fetchRecord(recordId))) {
       return UpdateRecordOutput.builder().success(false).build();
     }
 
-    recordsRepositoryImpl.updateRecord(
+    recordRepositoryImpl.updateRecord(
         recordId, updateRecordInput.column1(), updateRecordInput.column2());
 
     return UpdateRecordOutput.builder().success(true).build();
@@ -66,11 +68,11 @@ public class RecordUseCaseImpl implements RecordUseCase {
     final long recordId = updateRecordColumn1Input.recordId();
 
     // レコードが存在しない場合
-    if (Objects.isNull(recordsRepositoryImpl.fetchRecord(recordId))) {
+    if (Objects.isNull(recordRepositoryImpl.fetchRecord(recordId))) {
       return UpdateRecordColumn1Output.builder().success(false).build();
     }
 
-    recordsRepositoryImpl.updateRecordColumn1(recordId, updateRecordColumn1Input.column1());
+    recordRepositoryImpl.updateRecordColumn1(recordId, updateRecordColumn1Input.column1());
 
     return UpdateRecordColumn1Output.builder().success(true).build();
   }
@@ -80,11 +82,11 @@ public class RecordUseCaseImpl implements RecordUseCase {
     final long recordId = deleteRecordInput.recordId();
 
     // レコードが存在しない場合
-    if (Objects.isNull(recordsRepositoryImpl.fetchRecord(recordId))) {
+    if (Objects.isNull(recordRepositoryImpl.fetchRecord(recordId))) {
       return DeleteRecordOutput.builder().success(false).build();
     }
 
-    recordsRepositoryImpl.deleteRecord(recordId);
+    recordRepositoryImpl.deleteRecord(recordId);
 
     return DeleteRecordOutput.builder().success(true).build();
   }

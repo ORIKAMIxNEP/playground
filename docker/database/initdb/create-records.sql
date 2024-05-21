@@ -1,4 +1,4 @@
-CREATE TABLE records
+CREATE TABLE record
 (
     record_id BIGSERIAL,
     column1   SMALLINT    NOT NULL,
@@ -6,6 +6,6 @@ CREATE TABLE records
     PRIMARY KEY (record_id)
 );
 
-INSERT INTO records (column1, column2)
+INSERT INTO record (column1, column2)
 VALUES (0, 'a');
 

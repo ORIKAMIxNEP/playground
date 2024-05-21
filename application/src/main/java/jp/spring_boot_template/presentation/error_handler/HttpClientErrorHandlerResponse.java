@@ -1,4 +1,4 @@
-package jp.spring_boot_template.presentation.error_handler;
+package com.spring_boot_template.presentation.error_handler;
 
 import lombok.Builder;
 import org.springframework.http.ResponseEntity;

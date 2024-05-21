@@ -1,13 +1,11 @@
-package jp.spring_boot_template.domain.model.repository;
+package com.spring_boot_template.domain.record;
 
-import jp.spring_boot_template.domain.model.entity.Records;
-
-public interface RecordsRepository {
+public interface RecordRepository {
   // レコード追加
   void addRecord(final byte column1, final String column2);
 
   // レコード取得
-  Records fetchRecord(final long recordId);
+  Record fetchRecord(final long recordId);
 
   // レコード更新
   void updateRecord(final long recordId, final byte column1, final String column2);

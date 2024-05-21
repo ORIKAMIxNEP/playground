@@ -1,6 +1,6 @@
-package jp.spring_boot_template.infrastructure.query;
+package com.spring_boot_template.infrastructure.record;
 
-import jp.spring_boot_template.domain.model.entity.Records;
+import com.spring_boot_template.domain.record.Record;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -10,12 +10,12 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 @Mapper
-public interface RecordsMapper {
+public interface RecordMapper {
   // レコード追加
   @Insert(
       """
       INSERT INTO
-        records(
+        record(
           column1, column2
         )
       VALUES(
@@ -30,24 +30,24 @@ public interface RecordsMapper {
       SELECT
         *
       FROM
-        records
+        record
       WHERE
         record_id = #{recordId}
       """)
   @Results(
-      id = "Records",
+      id = "Record",
       value = {
         @Result(column = "record_id", property = "recordId"),
         @Result(column = "column1", property = "column1"),
         @Result(column = "column2", property = "column2")
       })
-  Records fetchRecord(final long recordId);
+  Record fetchRecord(final long recordId);
 
   // レコード更新
   @Update(
       """
       UPDATE
-        records
+        record
       SET
         column1 = #{column1},
         column2 = #{column2}
@@ -60,7 +60,7 @@ public interface RecordsMapper {
   @Update(
       """
       UPDATE
-        records
+        record
       SET
         column1 = #{column1}
       WHERE
@@ -72,7 +72,7 @@ public interface RecordsMapper {
   @Delete(
       """
       DELETE FROM
-        records
+        record
       WHERE
         record_id = #{recordId}
       """)

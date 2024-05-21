@@ -1,4 +1,4 @@
-package jp.spring_boot_template.configuration;
+package com.spring_boot_template.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

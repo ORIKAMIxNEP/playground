@@ -1,11 +1,11 @@
-package jp.spring_boot_template.domain.model.entity;
+package com.spring_boot_template.domain.record;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
-public class Records {
+public class Record {
   private final long recordId;
 
   private final byte column1;

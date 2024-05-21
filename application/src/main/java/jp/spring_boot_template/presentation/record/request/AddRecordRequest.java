@@ -1,4 +1,4 @@
-package jp.spring_boot_template.presentation.controller.dto;
+package com.spring_boot_template.presentation.record.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -6,18 +6,16 @@ import jakarta.validation.constraints.Size;
 import lombok.Builder;
 
 @Schema(
-    description = "更新するレコードのデータ",
-    requiredProperties = {"recordId", "column1", "column2"})
+    description = "追加するレコードのデータ",
+    requiredProperties = {"column1", "column2"})
 @Builder
-public record UpdateRecordRequest(
-    @Schema(title = "レコードID", type = "integer", format = "int64", minimum = "1", example = "1")
-        long recordId,
+public record AddRecordRequest(
     @Schema(
             title = "レコードカラム1",
             type = "integer",
             format = "int32",
-            maximum = "127",
             minimum = "0",
+            maximum = "127",
             example = "0")
         byte column1,
     @NotBlank

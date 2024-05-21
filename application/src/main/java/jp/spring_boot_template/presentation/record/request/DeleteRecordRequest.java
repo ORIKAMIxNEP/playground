@@ -1,4 +1,4 @@
-package jp.spring_boot_template.presentation.controller.dto;
+package com.spring_boot_template.presentation.record.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
