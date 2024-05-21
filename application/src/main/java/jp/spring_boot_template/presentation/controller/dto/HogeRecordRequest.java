@@ -7,6 +7,6 @@ import lombok.Builder;
     description = "○○するレコードのID",
     requiredProperties = {"recordId"})
 @Builder
-public record hogeRecordRequest(
+public record HogeRecordRequest(
     @Schema(title = "レコードID", type = "integer", format = "int64", minimum = "1", example = "1")
         long recordId) {}
