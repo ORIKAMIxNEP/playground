@@ -23,8 +23,8 @@ import jp.spring_boot_template.presentation.controller.dto.UpdateRecordColumn1Re
 import jp.spring_boot_template.presentation.controller.dto.UpdateRecordColumn1Response;
 import jp.spring_boot_template.presentation.controller.dto.UpdateRecordRequest;
 import jp.spring_boot_template.presentation.controller.dto.UpdateRecordResponse;
-import jp.spring_boot_template.presentation.controller.dto.hogeRecordRequest;
-import jp.spring_boot_template.presentation.controller.dto.hogeRecordResponse;
+import jp.spring_boot_template.presentation.controller.dto.HogeRecordRequest;
+import jp.spring_boot_template.presentation.controller.dto.HogeRecordResponse;
 import jp.spring_boot_template.presentation.error_handler.HttpClientErrorHandler;
 import jp.spring_boot_template.presentation.error_handler.HttpClientErrorHandlerResponse;
 import lombok.RequiredArgsConstructor;
@@ -230,11 +230,11 @@ public class RecordController {
             content =
                 @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = hogeRecordResponse.class)))
+                    schema = @Schema(implementation = HogeRecordResponse.class)))
       })
   public ResponseEntity<?> hogeRecord(
       @RequestHeader("X-CSRF-Token") String clientCsrfToken,
-      @RequestBody @Validated final hogeRecordRequest hogeRecordRequest,
+      @RequestBody @Validated final HogeRecordRequest hogeRecordRequest,
       final BindingResult bindingResult) {
     final HttpClientErrorHandlerResponse httpClientErrorHandlerResponse =
         httpClientErrorHandler.handle(clientCsrfToken, bindingResult);
@@ -242,6 +242,6 @@ public class RecordController {
       return httpClientErrorHandlerResponse.responseEntity();
     }
     return ResponseEntity.ok(
-        hogeRecordResponse.builder().recordId(hogeRecordRequest.recordId()).build());
+        HogeRecordResponse.builder().recordId(hogeRecordRequest.recordId()).build());
   }
 }
