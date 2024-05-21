@@ -110,6 +110,7 @@ public class RecordController {
     final FetchRecordOutput fetchRecordOutput = recordUseCaseImpl.fetchRecord();
     return ResponseEntity.ok(
         FetchRecordResponse.builder()
+            .success(fetchRecordOutput.success())
             .column1(fetchRecordOutput.column1())
             .column2(fetchRecordOutput.column2())
             .build());

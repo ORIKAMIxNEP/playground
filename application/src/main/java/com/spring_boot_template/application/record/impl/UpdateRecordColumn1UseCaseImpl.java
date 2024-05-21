@@ -12,15 +12,16 @@ import com.spring_boot_template.application.dto.record.UpdateRecordOutput;
 import com.spring_boot_template.application.record.RecordUseCase;
 import com.spring_boot_template.domain.record.Record;
 import com.spring_boot_template.infrastructure.record.RecordRdbRepository;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class RecordUseCaseImpl implements RecordUseCase {
+public class UpdateRecordColumn1UseCaseImpl implements RecordUseCase {
   private final RecordRdbRepository recordRdbRepository;
 
   // レコード追加
