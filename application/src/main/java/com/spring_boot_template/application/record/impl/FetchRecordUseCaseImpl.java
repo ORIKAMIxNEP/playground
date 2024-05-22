@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class FetchRecordUseCaseImpl implements FetchRecordUseCase {
   private final RecordRdbRepository recordRdbRepository;
 
-  // レコード取得
   @Transactional
   public FetchRecordResponse execute(final FetchRecordRequest fetchRecordRequest) {
     final long recordId = fetchRecordRequest.recordId();

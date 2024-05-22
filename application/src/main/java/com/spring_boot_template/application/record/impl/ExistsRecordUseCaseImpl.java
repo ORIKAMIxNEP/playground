@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class ExistsRecordUseCaseImpl implements ExistsRecordUseCase {
   private final RecordRdbRepository recordRdbRepository;
 
-  // レコード存在確認
   @Transactional
   public boolean execute(final long recordId) {
     final Record record = Record.builder().recordId(recordId).build();

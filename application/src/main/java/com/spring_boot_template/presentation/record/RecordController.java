@@ -97,7 +97,7 @@ public final class RecordController {
       @RequestBody @Validated final FetchRecordRequest fetchRecordRequest,
       final BindingResult bindingResult) {
     final HttpClientErrorHandlerResponse httpClientErrorHandlerResponse =
-        httpClientErrorHandler.handle(clientCsrfToken, null);
+        httpClientErrorHandler.handle(clientCsrfToken, bindingResult);
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }

@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AddRecordUseCaseImpl implements AddRecordUseCase {
   private final RecordRdbRepository recordRdbRepository;
 
-  // レコード追加
   @Transactional
   public AddRecordResponse execute(final AddRecordRequest addRecordRequest) {
     final byte column1 = addRecordRequest.column1();

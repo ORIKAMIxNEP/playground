@@ -15,7 +15,6 @@ public class DeleteRecordUseCaseImpl implements DeleteRecordUseCase {
   private final RecordRdbRepository recordRdbRepository;
   private final ExistsRecordUseCaseImpl existsRecordUseCase;
 
-  // レコード削除
   @Transactional
   public DeleteRecordResponse execute(final DeleteRecordRequest deleteRecordRequest) {
     final long recordId = deleteRecordRequest.recordId();

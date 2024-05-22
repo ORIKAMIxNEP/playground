@@ -15,7 +15,6 @@ public class UpdateRecordUseCaseImpl implements UpdateRecordUseCase {
   private final RecordRdbRepository recordRdbRepository;
   private final ExistsRecordUseCaseImpl existsRecordUseCase;
 
-  // レコード更新
   @Transactional
   public UpdateRecordResponse execute(final UpdateRecordRequest updateRecordRequest) {
     final long recordId = updateRecordRequest.recordId();

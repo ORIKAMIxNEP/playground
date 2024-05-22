@@ -1,5 +1,8 @@
 package com.spring_boot_template.application.record;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doReturn;
+
 import com.spring_boot_template.application.record.impl.UpdateRecordColumn1UseCaseImpl;
 import com.spring_boot_template.domain.record.Record;
 import com.spring_boot_template.infrastructure.record.RecordRdbRepository;
@@ -11,9 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doReturn;
 
 @ExtendWith(SpringExtension.class)
 @RequiredArgsConstructor

@@ -11,7 +11,6 @@ import org.apache.ibatis.annotations.Update;
 
 @Mapper
 public interface RecordMapper {
-  // レコード追加
   @Insert(
       """
       INSERT INTO
@@ -24,7 +23,6 @@ public interface RecordMapper {
       """)
   void addRecord(final Record record);
 
-  // レコード取得
   @Select(
       """
       SELECT
@@ -43,7 +41,6 @@ public interface RecordMapper {
       })
   Record fetchRecord(final Record record);
 
-  // レコード更新
   @Update(
       """
       UPDATE
@@ -56,7 +53,6 @@ public interface RecordMapper {
       """)
   void updateRecord(final Record record);
 
-  // レコードカラム1更新
   @Update(
       """
       UPDATE
@@ -68,7 +64,6 @@ public interface RecordMapper {
       """)
   void updateRecordColumn1(final Record record);
 
-  // レコード削除
   @Delete(
       """
       DELETE FROM

@@ -15,7 +15,6 @@ public class UpdateRecordColumn1UseCaseImpl implements UpdateRecordColumn1UseCas
   private final RecordRdbRepository recordRdbRepository;
   private final ExistsRecordUseCaseImpl existsRecordUseCase;
 
-  // レコードカラム1更新
   @Transactional
   public UpdateRecordColumn1Response execute(
       final UpdateRecordColumn1Request updateRecordColumn1Request) {

@@ -4,6 +4,5 @@ import com.spring_boot_template.presentation.record.request.UpdateRecordColumn1R
 import com.spring_boot_template.presentation.record.response.UpdateRecordColumn1Response;
 
 public interface UpdateRecordColumn1UseCase {
-  // レコードカラム1更新
   UpdateRecordColumn1Response execute(final UpdateRecordColumn1Request updateRecordColumn1Request);
 }
