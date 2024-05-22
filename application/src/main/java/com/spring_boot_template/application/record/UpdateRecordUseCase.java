@@ -5,5 +5,5 @@ import com.spring_boot_template.presentation.record.response.UpdateRecordRespons
 
 public interface UpdateRecordUseCase {
   // レコード更新
-  UpdateRecordResponse updateRecord(final UpdateRecordRequest updateRecordRequest);
+  UpdateRecordResponse execute(final UpdateRecordRequest updateRecordRequest);
 }
