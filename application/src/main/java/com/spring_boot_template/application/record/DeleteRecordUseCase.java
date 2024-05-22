@@ -5,5 +5,5 @@ import com.spring_boot_template.presentation.record.response.DeleteRecordRespons
 
 public interface DeleteRecordUseCase {
   // レコード削除
-  DeleteRecordResponse deleteRecord(final DeleteRecordRequest deleteRecordRequest);
+  DeleteRecordResponse execute(final DeleteRecordRequest deleteRecordRequest);
 }
