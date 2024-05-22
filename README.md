@@ -5,7 +5,7 @@
 #### パッケージの更新
 
 ```console
-sudo apt update && sudo apt list --upgradable && sudo apt upgrade -y && sudo apt autoremove
+sudo apt update && sudo apt upgrade -y && sudo apt autoremove
 ```
 
 #### Dockerのインストール
