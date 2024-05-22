@@ -15,14 +15,14 @@ public interface RecordMapper {
   @Insert(
       """
       INSERT INTO
-        record(
+        records(
           column1, column2
         )
       VALUES(
-        #{column1}, #{column2}
+        #{record.column1()}, #{record.column2()}
       )
       """)
-  void addRecord(final byte column1, final String column2);
+  void addRecord(final Record record);
 
   // レコード取得
   @Select(
@@ -30,9 +30,9 @@ public interface RecordMapper {
       SELECT
         *
       FROM
-        record
+        records
       WHERE
-        record_id = #{recordId}
+        record_id = #{record.recordId()}
       """)
   @Results(
       id = "Record",
@@ -41,40 +41,40 @@ public interface RecordMapper {
         @Result(column = "column1", property = "column1"),
         @Result(column = "column2", property = "column2")
       })
-  Record fetchRecord(final long recordId);
+  Record fetchRecord(final Record record);
 
   // レコード更新
   @Update(
       """
       UPDATE
-        record
+        records
       SET
-        column1 = #{column1},
-        column2 = #{column2}
+        column1 = #{record.column1()},
+        column2 = #{record.column2()}
       WHERE
-        record_id = #{recordId}
+        record_id = #{record.recordId()}
       """)
-  void updateRecord(final long recordId, final byte column1, final String column2);
+  void updateRecord(final Record record);
 
   // レコードカラム1更新
   @Update(
       """
       UPDATE
-        record
+        records
       SET
-        column1 = #{column1}
+        column1 = #{record.column1()}
       WHERE
-        record_id = #{recordId}
+        record_id = #{record.recordId()}
       """)
-  void updateRecordColumn1(final long recordId, final byte column1);
+  void updateRecordColumn1(final Record record);
 
   // レコード削除
   @Delete(
       """
       DELETE FROM
-        record
+        records
       WHERE
-        record_id = #{recordId}
+        record_id = #{record.recordId()}
       """)
-  void deleteRecord(final long recordId);
+  void deleteRecord(final Record record);
 }
