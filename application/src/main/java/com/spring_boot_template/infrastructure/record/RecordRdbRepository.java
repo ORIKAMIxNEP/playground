@@ -11,27 +11,27 @@ public class RecordRdbRepository implements RecordRepository {
   private final RecordMapper recordMapper;
 
   // レコード追加
-  public void addRecord(final byte column1, final String column2) {
-    recordMapper.addRecord(column1, column2);
+  public void addRecord(final Record record) {
+    recordMapper.addRecord(record);
   }
 
   // レコード取得
-  public Record fetchRecord(final long recordId) {
-    return recordMapper.fetchRecord(recordId);
+  public Record fetchRecord(final Record record) {
+    return recordMapper.fetchRecord(record);
   }
 
   // レコード更新
-  public void updateRecord(final long recordId, final byte column1, final String column2) {
-    recordMapper.updateRecord(recordId, column1, column2);
+  public void updateRecord(final Record record) {
+    recordMapper.updateRecord(record);
   }
 
   // レコードカラム1更新
-  public void updateRecordColumn1(final long recordId, final byte column1) {
-    recordMapper.updateRecordColumn1(recordId, column1);
+  public void updateRecordColumn1(final Record record) {
+    recordMapper.updateRecordColumn1(record);
   }
 
   // レコード削除
-  public void deleteRecord(final long recordId) {
-    recordMapper.deleteRecord(recordId);
+  public void deleteRecord(final Record record) {
+    recordMapper.deleteRecord(record);
   }
 }
