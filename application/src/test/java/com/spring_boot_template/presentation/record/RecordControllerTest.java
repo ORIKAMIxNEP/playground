@@ -12,7 +12,7 @@
 // public class RecordControllerTest {
 //  @Mock private final RecordUseCaseImpl recordUseCaseImplMock;
 //
-//  @InjectMocks private final RecordController recordController;
+//  @InjectMocks private final TemplateController recordController;
 //
 //  private String csrfToken;
 // }

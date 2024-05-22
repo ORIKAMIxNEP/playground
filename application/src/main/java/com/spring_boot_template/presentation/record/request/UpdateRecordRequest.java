@@ -19,7 +19,7 @@ public record UpdateRecordRequest(
             maximum = "127",
             minimum = "0",
             example = "0")
-        byte column1,
+        Byte column1,
     @NotBlank
         @Size(max = 10)
         @Schema(title = "レコードカラム2", type = "string", maxLength = 10, example = "a")

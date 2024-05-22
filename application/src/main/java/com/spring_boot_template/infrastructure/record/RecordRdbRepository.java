@@ -22,10 +22,6 @@ public class RecordRdbRepository implements RecordRepository {
     recordMapper.updateRecord(record);
   }
 
-  public void updateRecordColumn1(final Record record) {
-    recordMapper.updateRecordColumn1(record);
-  }
-
   public void deleteRecord(final Record record) {
     recordMapper.deleteRecord(record);
   }

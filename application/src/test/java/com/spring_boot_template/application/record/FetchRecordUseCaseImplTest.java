@@ -6,7 +6,6 @@ import static org.mockito.Mockito.doReturn;
 import com.spring_boot_template.application.record.impl.FetchRecordUseCaseImpl;
 import com.spring_boot_template.domain.record.Record;
 import com.spring_boot_template.infrastructure.record.RecordRdbRepository;
-import com.spring_boot_template.presentation.record.request.FetchRecordRequest;
 import com.spring_boot_template.presentation.record.response.FetchRecordResponse;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;

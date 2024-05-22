@@ -53,17 +53,6 @@ public interface RecordMapper {
       """)
   void updateRecord(final Record record);
 
-  @Update(
-      """
-      UPDATE
-        records
-      SET
-        column1 = #{record.column1()}
-      WHERE
-        record_id = #{record.recordId()}
-      """)
-  void updateRecordColumn1(final Record record);
-
   @Delete(
       """
       DELETE FROM

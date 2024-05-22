@@ -1,9 +1,7 @@
 package com.spring_boot_template.application.record;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doReturn;
 
-import com.spring_boot_template.application.record.impl.UpdateRecordColumn1UseCaseImpl;
 import com.spring_boot_template.domain.record.Record;
 import com.spring_boot_template.infrastructure.record.RecordRdbRepository;
 import com.spring_boot_template.presentation.record.request.UpdateRecordColumn1Request;

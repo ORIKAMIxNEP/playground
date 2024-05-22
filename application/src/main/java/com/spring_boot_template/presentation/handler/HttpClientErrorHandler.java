@@ -11,14 +11,16 @@ import org.springframework.validation.BindingResult;
 @RequiredArgsConstructor
 public class HttpClientErrorHandler {
   @Value("${csrf.token}")
-  private String csrfToken;
+  private String configuredCsrfToken;
 
   // HTTPクライアントエラー処理
   public HttpClientErrorHandlerResponse handle(
-      final String clientCsrfToken, final BindingResult bindingResult) {
+      HttpClientErrorHandlerRequest httpClientErrorHandlerRequest) {
+    final String receivedCsrfToken = httpClientErrorHandlerRequest.getReceivedCsrfToken();
+    final BindingResult bindingResult = httpClientErrorHandlerRequest.getBindingResult();
 
     // CSRFトークンが異なる場合
-    if (!csrfToken.equals(clientCsrfToken)) {
+    if (!configuredCsrfToken.equals(receivedCsrfToken)) {
       return HttpClientErrorHandlerResponse.builder()
           .error(true)
           .responseEntity(

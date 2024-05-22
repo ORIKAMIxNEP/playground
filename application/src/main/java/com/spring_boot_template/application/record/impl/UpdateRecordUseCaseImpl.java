@@ -24,7 +24,7 @@ public class UpdateRecordUseCaseImpl implements UpdateRecordUseCase {
       return UpdateRecordResponse.builder().successful(false).build();
     }
 
-    final byte column1 = updateRecordRequest.column1();
+    final Byte column1 = updateRecordRequest.column1();
     final String column2 = updateRecordRequest.column2();
     final Record record =
         Record.builder().recordId(recordId).column1(column1).column2(column2).build();

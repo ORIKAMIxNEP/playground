@@ -7,7 +7,5 @@ public interface RecordRepository {
 
   void updateRecord(final Record record);
 
-  void updateRecordColumn1(final Record record);
-
   void deleteRecord(final Record record);
 }
