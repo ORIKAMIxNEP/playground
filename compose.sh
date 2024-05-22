@@ -4,8 +4,12 @@ if [ $# -eq 0 ]; then
     docker compose build --no-cache
     docker compose up -d
 else
-    while getopts "e:l:r" option; do
+    while getopts "de:l:" option; do
         case $option in
+            d)
+                # コンテナの停止（docker/database/initdbの更新）
+                docker compose down -v
+                ;;
             e)
                 # コンテナへの接続
                 if [ -n "$OPTARG" ]; then
@@ -17,12 +21,6 @@ else
                 if [ -n "$OPTARG" ]; then
                     docker compose logs "$OPTARG"
                 fi
-                ;;
-            r)
-                # コンテナのリスタート
-                docker compose down -v
-                docker compose build --no-cache
-                docker compose up -d
                 ;;
             \?)
                 echo "Invalid Option: -$OPTARG" >&2

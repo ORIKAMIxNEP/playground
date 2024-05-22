@@ -1,8 +1,5 @@
 package com.spring_boot_template.application.record;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doReturn;
-
 import com.spring_boot_template.application.record.impl.FetchRecordUseCaseImpl;
 import com.spring_boot_template.domain.record.Record;
 import com.spring_boot_template.infrastructure.record.RecordRdbRepository;
@@ -15,6 +12,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.doReturn;
+
 @ExtendWith(SpringExtension.class)
 @RequiredArgsConstructor
 public class FetchRecordUseCaseImplTest {
@@ -22,7 +22,6 @@ public class FetchRecordUseCaseImplTest {
 
   @InjectMocks private FetchRecordUseCaseImpl fetchRecordUseCaseImpl;
 
-  // レコード取得
   @Test
   public void executeTest() {
     doReturn(Record.builder().recordId(1).column1((byte) 0).column2("a").build())

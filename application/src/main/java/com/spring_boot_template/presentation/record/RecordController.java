@@ -5,8 +5,8 @@ import com.spring_boot_template.application.record.impl.DeleteRecordUseCaseImpl;
 import com.spring_boot_template.application.record.impl.FetchRecordUseCaseImpl;
 import com.spring_boot_template.application.record.impl.UpdateRecordColumn1UseCaseImpl;
 import com.spring_boot_template.application.record.impl.UpdateRecordUseCaseImpl;
-import com.spring_boot_template.presentation.error_handler.HttpClientErrorHandler;
-import com.spring_boot_template.presentation.error_handler.HttpClientErrorHandlerResponse;
+import com.spring_boot_template.presentation.handler.HttpClientErrorHandler;
+import com.spring_boot_template.presentation.handler.HttpClientErrorHandlerResponse;
 import com.spring_boot_template.presentation.record.request.AddRecordRequest;
 import com.spring_boot_template.presentation.record.request.DeleteRecordRequest;
 import com.spring_boot_template.presentation.record.request.FetchRecordRequest;
@@ -50,7 +50,6 @@ public final class RecordController {
   private final UpdateRecordColumn1UseCaseImpl updateRecordColumn1UseCaseImpl;
   private final DeleteRecordUseCaseImpl deleteRecordUseCaseImpl;
 
-  // レコード追加
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(
@@ -78,7 +77,6 @@ public final class RecordController {
     return ResponseEntity.ok(addRecordUseCaseImpl.execute(addRecordRequest));
   }
 
-  // レコード取得
   @GetMapping()
   @ResponseBody
   @Operation(
@@ -106,7 +104,6 @@ public final class RecordController {
     return ResponseEntity.ok(fetchRecordUseCaseImpl.execute(fetchRecordRequest));
   }
 
-  // レコード更新
   @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(
@@ -134,13 +131,12 @@ public final class RecordController {
     return ResponseEntity.ok(updateRecordUseCaseImpl.execute(updateRecordRequest));
   }
 
-  // レコードカラム1更新
   @PatchMapping(value = "/column1", consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(
       tags = {"record"},
-      summary = "レコードカラム1を追加する",
-      description = "レコードID、カラム1を受け取る" + " → レコードを更新する" + " → 成功したかを返す",
+      summary = "レコードカラム1を更新する",
+      description = "レコードID、カラム1を受け取る" + " → レコードカラム1を更新する" + " → 成功したかを返す",
       responses = {
         @ApiResponse(
             responseCode = "200",
@@ -162,7 +158,6 @@ public final class RecordController {
     return ResponseEntity.ok(updateRecordColumn1UseCaseImpl.execute(updateRecordColumn1Request));
   }
 
-  // レコード削除
   @DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(
@@ -190,7 +185,6 @@ public final class RecordController {
     return ResponseEntity.ok(deleteRecordUseCaseImpl.execute(deleteRecordRequest));
   }
 
-  // レコードhoge
   @PostMapping(value = "/hoge", consumes = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   @Operation(

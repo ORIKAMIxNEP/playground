@@ -1,9 +1,5 @@
 package com.spring_boot_template.application.record;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-
 import com.spring_boot_template.application.record.impl.AddRecordUseCaseImpl;
 import com.spring_boot_template.infrastructure.record.RecordRdbRepository;
 import com.spring_boot_template.presentation.record.request.AddRecordRequest;
@@ -15,6 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+
 @ExtendWith(SpringExtension.class)
 @RequiredArgsConstructor
 public class AddRecordUseCaseImplTest {
@@ -22,7 +22,6 @@ public class AddRecordUseCaseImplTest {
 
   @InjectMocks private AddRecordUseCaseImpl addRecordUseCaseImpl;
 
-  // レコード追加
   @Test
   public void executeTest() {
     doNothing().when(recordRdbRepositoryMock).addRecord(any());
