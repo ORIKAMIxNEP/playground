@@ -1,6 +1,7 @@
 package com.spring_boot_template.application.record.impl;
 
 import com.spring_boot_template.application.record.AddRecordUseCase;
+import com.spring_boot_template.domain.record.Record;
 import com.spring_boot_template.infrastructure.record.RecordRdbRepository;
 import com.spring_boot_template.presentation.record.request.AddRecordRequest;
 import com.spring_boot_template.presentation.record.response.AddRecordResponse;
@@ -10,14 +11,18 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class AddRecordUseCaseImpl implements AddRecordUseCase {
   private final RecordRdbRepository recordRdbRepository;
 
   // レコード追加
-  public AddRecordResponse addRecord(final AddRecordRequest addRecordRequest) {
-    recordRdbRepository.addRecord(addRecordRequest.column1(), addRecordRequest.column2());
+  @Transactional
+  public AddRecordResponse execute(final AddRecordRequest addRecordRequest) {
+    final byte column1 = addRecordRequest.column1();
+    final String column2 = addRecordRequest.column2();
+    final Record record = Record.builder().column1(column1).column2(column2).build();
 
-    return AddRecordResponse.builder().success(true).build();
+    recordRdbRepository.addRecord(record);
+
+    return AddRecordResponse.builder().successful(true).build();
   }
 }
