@@ -1,19 +1,15 @@
 package com.spring_boot_template.presentation.record;
 
-import com.spring_boot_template.application.dto.record.AddRecordInput;
-import com.spring_boot_template.application.dto.record.AddRecordOutput;
-import com.spring_boot_template.application.dto.record.DeleteRecordInput;
-import com.spring_boot_template.application.dto.record.DeleteRecordOutput;
-import com.spring_boot_template.application.dto.record.FetchRecordOutput;
-import com.spring_boot_template.application.dto.record.UpdateRecordColumn1Input;
-import com.spring_boot_template.application.dto.record.UpdateRecordColumn1Output;
-import com.spring_boot_template.application.dto.record.UpdateRecordInput;
-import com.spring_boot_template.application.dto.record.UpdateRecordOutput;
-import com.spring_boot_template.application.record.impl.RecordUseCaseImpl;
+import com.spring_boot_template.application.record.impl.AddRecordUseCaseImpl;
+import com.spring_boot_template.application.record.impl.DeleteRecordUseCaseImpl;
+import com.spring_boot_template.application.record.impl.FetchRecordUseCaseImpl;
+import com.spring_boot_template.application.record.impl.UpdateRecordColumn1UseCaseImpl;
+import com.spring_boot_template.application.record.impl.UpdateRecordUseCaseImpl;
 import com.spring_boot_template.presentation.error_handler.HttpClientErrorHandler;
 import com.spring_boot_template.presentation.error_handler.HttpClientErrorHandlerResponse;
 import com.spring_boot_template.presentation.record.request.AddRecordRequest;
 import com.spring_boot_template.presentation.record.request.DeleteRecordRequest;
+import com.spring_boot_template.presentation.record.request.FetchRecordRequest;
 import com.spring_boot_template.presentation.record.request.HogeRecordRequest;
 import com.spring_boot_template.presentation.record.request.UpdateRecordColumn1Request;
 import com.spring_boot_template.presentation.record.request.UpdateRecordRequest;
@@ -46,9 +42,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/record")
 @RequiredArgsConstructor
-public class RecordController {
+public final class RecordController {
   private final HttpClientErrorHandler httpClientErrorHandler;
-  private final RecordUseCaseImpl recordUseCaseImpl;
+  private final AddRecordUseCaseImpl addRecordUseCaseImpl;
+  private final FetchRecordUseCaseImpl fetchRecordUseCaseImpl;
+  private final UpdateRecordUseCaseImpl updateRecordUseCaseImpl;
+  private final UpdateRecordColumn1UseCaseImpl updateRecordColumn1UseCaseImpl;
+  private final DeleteRecordUseCaseImpl deleteRecordUseCaseImpl;
 
   // レコード追加
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -56,7 +56,7 @@ public class RecordController {
   @Operation(
       tags = {"record"},
       summary = "レコードを追加する",
-      description = "カラム1、カラム2を受け取ってレコードを追加する",
+      description = "カラム1、カラム2を受け取る" + " → レコードを追加する" + " → 成功したかを返す",
       responses = {
         @ApiResponse(
             responseCode = "200",
@@ -75,14 +75,7 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    final AddRecordOutput addRecordOutput =
-        recordUseCaseImpl.addRecord(
-            AddRecordInput.builder()
-                .column1(addRecordRequest.column1())
-                .column2(addRecordRequest.column2())
-                .build());
-    return ResponseEntity.ok(
-        AddRecordResponse.builder().success(addRecordOutput.success()).build());
+    return ResponseEntity.ok(addRecordUseCaseImpl.execute(addRecordRequest));
   }
 
   // レコード取得
@@ -91,7 +84,7 @@ public class RecordController {
   @Operation(
       tags = {"record"},
       summary = "レコードを取得する",
-      description = "レコードを取得してレコードID、カラム1、カラム2を返す",
+      description = "レコードIDを受け取る" + " → レコードを取得する" + " → レコードID、カラム1、カラム2を返す",
       responses = {
         @ApiResponse(
             responseCode = "200",
@@ -101,19 +94,16 @@ public class RecordController {
                     mediaType = "application/json",
                     schema = @Schema(implementation = FetchRecordResponse.class)))
       })
-  public ResponseEntity<?> fetchRecord(@RequestHeader("X-CSRF-Token") String clientCsrfToken) {
+  public ResponseEntity<?> fetchRecord(
+      @RequestHeader("X-CSRF-Token") String clientCsrfToken,
+      @RequestBody @Validated final FetchRecordRequest fetchRecordRequest,
+      final BindingResult bindingResult) {
     final HttpClientErrorHandlerResponse httpClientErrorHandlerResponse =
         httpClientErrorHandler.handle(clientCsrfToken, null);
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    final FetchRecordOutput fetchRecordOutput = recordUseCaseImpl.fetchRecord();
-    return ResponseEntity.ok(
-        FetchRecordResponse.builder()
-            .success(fetchRecordOutput.success())
-            .column1(fetchRecordOutput.column1())
-            .column2(fetchRecordOutput.column2())
-            .build());
+    return ResponseEntity.ok(fetchRecordUseCaseImpl.execute(fetchRecordRequest));
   }
 
   // レコード更新
@@ -122,7 +112,7 @@ public class RecordController {
   @Operation(
       tags = {"record"},
       summary = "レコードを更新する",
-      description = "レコードID、カラム1、カラム2を受け取ってレコードを更新する",
+      description = "レコードID、カラム1、カラム2を受け取る" + " → レコードを更新する" + " → 成功したかを返す",
       responses = {
         @ApiResponse(
             responseCode = "200",
@@ -141,14 +131,7 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    final UpdateRecordOutput updateRecordOutput =
-        recordUseCaseImpl.updateRecord(
-            UpdateRecordInput.builder()
-                .recordId(updateRecordRequest.recordId())
-                .column1(updateRecordRequest.column1())
-                .column2(updateRecordRequest.column2())
-                .build());
-    return ResponseEntity.ok(UpdateRecordResponse.builder().success(updateRecordOutput.success()));
+    return ResponseEntity.ok(updateRecordUseCaseImpl.execute(updateRecordRequest));
   }
 
   // レコードカラム1更新
@@ -157,7 +140,7 @@ public class RecordController {
   @Operation(
       tags = {"record"},
       summary = "レコードカラム1を追加する",
-      description = "レコードID、カラム1を受け取ってレコードを更新する",
+      description = "レコードID、カラム1を受け取る" + " → レコードを更新する" + " → 成功したかを返す",
       responses = {
         @ApiResponse(
             responseCode = "200",
@@ -176,14 +159,7 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    final UpdateRecordColumn1Output updateRecordColumn1Output =
-        recordUseCaseImpl.updateRecordColumn1(
-            UpdateRecordColumn1Input.builder()
-                .recordId(updateRecordColumn1Request.recordId())
-                .column1(updateRecordColumn1Request.column1())
-                .build());
-    return ResponseEntity.ok(
-        UpdateRecordColumn1Response.builder().success(updateRecordColumn1Output.success()));
+    return ResponseEntity.ok(updateRecordColumn1UseCaseImpl.execute(updateRecordColumn1Request));
   }
 
   // レコード削除
@@ -192,7 +168,7 @@ public class RecordController {
   @Operation(
       tags = {"record"},
       summary = "レコードを削除する",
-      description = "レコードIDを受け取ってレコードを削除する",
+      description = "レコードIDを受け取る" + " → レコードを削除する" + " → 成功したかを返す",
       responses = {
         @ApiResponse(
             responseCode = "200",
@@ -211,10 +187,7 @@ public class RecordController {
     if (httpClientErrorHandlerResponse.error()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
-    final DeleteRecordOutput deleteRecordOutput =
-        recordUseCaseImpl.deleteRecord(
-            DeleteRecordInput.builder().recordId(deleteRecordRequest.recordId()).build());
-    return ResponseEntity.ok(DeleteRecordResponse.builder().success(deleteRecordOutput.success()));
+    return ResponseEntity.ok(deleteRecordUseCaseImpl.execute(deleteRecordRequest));
   }
 
   // レコードhoge
@@ -223,7 +196,7 @@ public class RecordController {
   @Operation(
       tags = {"record"},
       summary = "レコードをhogeする",
-      description = "レコードをhogeする",
+      description = "fugaを受け取る" + " → レコードをhogeする" + " → piyoを返す",
       responses = {
         @ApiResponse(
             responseCode = "200",
