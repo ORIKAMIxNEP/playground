@@ -30,10 +30,10 @@ public class UpdateRecordColumn1UseCaseImplTest {
     assertThat(
             updateRecordColumn1UseCaseImpl.execute(
                 UpdateRecordColumn1Request.builder().recordId(1).column1((byte) 0).build()))
-        .isEqualTo(UpdateRecordColumn1Response.builder().successful(true).build());
+        .isEqualTo(UpdateRecordColumn1Response.builder().isSuccessful(true).build());
     assertThat(
             updateRecordColumn1UseCaseImpl.execute(
                 UpdateRecordColumn1Request.builder().recordId(2).column1((byte) 0).build()))
-        .isEqualTo(UpdateRecordColumn1Response.builder().successful(false).build());
+        .isEqualTo(UpdateRecordColumn1Response.builder().isSuccessful(false).build());
   }
 }

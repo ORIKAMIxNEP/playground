@@ -1,5 +1,6 @@
 package com.spring_boot_template.presentation.handler;
 
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -22,20 +23,20 @@ public class HttpClientErrorHandler {
     // CSRFトークンが異なる場合
     if (!configuredCsrfToken.equals(receivedCsrfToken)) {
       return HttpClientErrorHandlerResponse.builder()
-          .error(true)
+          .hasError(true)
           .responseEntity(
               ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid CSRF Token Error"))
           .build();
     }
 
     // バリデーションエラーがある場合
-    if (bindingResult != null && bindingResult.hasErrors()) {
+    if (Objects.nonNull(bindingResult) && bindingResult.hasErrors()) {
       return HttpClientErrorHandlerResponse.builder()
-          .error(true)
+          .hasError(true)
           .responseEntity(ResponseEntity.badRequest().body(bindingResult.getAllErrors()))
           .build();
     }
 
-    return HttpClientErrorHandlerResponse.builder().error(false).responseEntity(null).build();
+    return HttpClientErrorHandlerResponse.builder().hasError(false).responseEntity(null).build();
   }
 }

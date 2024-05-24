@@ -29,6 +29,6 @@ public class AddRecordUseCaseImplTest {
     assertThat(
             addRecordUseCaseImpl.execute(
                 AddRecordRequest.builder().column1((byte) 0).column2("a").build()))
-        .isEqualTo(AddRecordResponse.builder().successful(true).build());
+        .isEqualTo(AddRecordResponse.builder().isSuccessful(true).build());
   }
 }

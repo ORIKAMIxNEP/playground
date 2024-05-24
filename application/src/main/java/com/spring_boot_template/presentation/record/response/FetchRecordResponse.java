@@ -6,7 +6,7 @@ import lombok.Builder;
 @Schema(description = "取得したレコードのデータ")
 @Builder
 public record FetchRecordResponse(
-    @Schema(title = "成功したか", type = "boolean", example = "true") boolean successful,
+    @Schema(title = "成功したか", type = "boolean", example = "true") boolean isSuccessful,
     @Schema(
             title = "レコードカラム1",
             type = "integer",

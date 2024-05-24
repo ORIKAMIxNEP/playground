@@ -52,7 +52,7 @@ public final class AddRecordController {
                 .receivedCsrfToken(receivedCsrfToken)
                 .bindingResult(bindingResult)
                 .build());
-    if (httpClientErrorHandlerResponse.error()) {
+    if (httpClientErrorHandlerResponse.hasError()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
     return ResponseEntity.ok(addRecordUseCaseImpl.execute(addRecordRequest));

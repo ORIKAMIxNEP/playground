@@ -21,12 +21,16 @@ public class FetchRecordUseCaseImpl implements FetchRecordUseCase {
 
     // レコードが存在しない場合
     if (Objects.isNull(recordOutput)) {
-      return FetchRecordResponse.builder().successful(false).column1(null).column2(null).build();
+      return FetchRecordResponse.builder().isSuccessful(false).column1(null).column2(null).build();
     }
 
     final byte column1 = recordOutput.column1();
     final String column2 = recordOutput.column2();
 
-    return FetchRecordResponse.builder().successful(true).column1(column1).column2(column2).build();
+    return FetchRecordResponse.builder()
+        .isSuccessful(true)
+        .column1(column1)
+        .column2(column2)
+        .build();
   }
 }

@@ -30,9 +30,13 @@ public class FetchRecordUseCaseImplTest {
 
     assertThat(fetchRecordUseCaseImpl.execute(FetchRecordRequest.builder().recordId(1).build()))
         .isEqualTo(
-            FetchRecordResponse.builder().successful(true).column1((byte) 0).column2("a").build());
+            FetchRecordResponse.builder()
+                .isSuccessful(true)
+                .column1((byte) 0)
+                .column2("a")
+                .build());
     assertThat(fetchRecordUseCaseImpl.execute(FetchRecordRequest.builder().recordId(2).build()))
         .isEqualTo(
-            FetchRecordResponse.builder().successful(false).column1(null).column2(null).build());
+            FetchRecordResponse.builder().isSuccessful(false).column1(null).column2(null).build());
   }
 }

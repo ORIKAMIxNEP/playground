@@ -32,10 +32,10 @@ public class UpdateRecordUseCaseImplTest {
     assertThat(
             updateRecordUseCaseImpl.execute(
                 UpdateRecordRequest.builder().recordId(1).column1((byte) 0).column2("a").build()))
-        .isEqualTo(UpdateRecordResponse.builder().successful(true).build());
+        .isEqualTo(UpdateRecordResponse.builder().isSuccessful(true).build());
     assertThat(
             updateRecordUseCaseImpl.execute(
                 UpdateRecordRequest.builder().recordId(2).column1((byte) 0).column2("a").build()))
-        .isEqualTo(UpdateRecordResponse.builder().successful(false).build());
+        .isEqualTo(UpdateRecordResponse.builder().isSuccessful(false).build());
   }
 }

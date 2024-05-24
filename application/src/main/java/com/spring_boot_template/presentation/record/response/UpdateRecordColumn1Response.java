@@ -6,4 +6,4 @@ import lombok.Builder;
 @Schema(description = "レコードカラム1の更新が成功したか")
 @Builder
 public record UpdateRecordColumn1Response(
-    @Schema(title = "成功したか", type = "boolean", example = "true") boolean successful) {}
+    @Schema(title = "成功したか", type = "boolean", example = "true") boolean isSuccessful) {}

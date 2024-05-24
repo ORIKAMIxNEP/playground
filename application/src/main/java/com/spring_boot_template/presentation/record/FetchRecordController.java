@@ -45,7 +45,7 @@ public final class FetchRecordController {
     final HttpClientErrorHandlerResponse httpClientErrorHandlerResponse =
         httpClientErrorHandler.handle(
             HttpClientErrorHandlerRequest.builder().receivedCsrfToken(receivedCsrfToken).build());
-    if (httpClientErrorHandlerResponse.error()) {
+    if (httpClientErrorHandlerResponse.hasError()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
     return ResponseEntity.ok(fetchRecordUseCaseImpl.execute(recordId));

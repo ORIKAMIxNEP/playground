@@ -30,8 +30,8 @@ public class DeleteRecordUseCaseImplTest {
     doReturn(null).when(recordRdbRepositoryMock).fetchRecord(Record.builder().recordId(2).build());
 
     assertThat(deleteRecordUseCaseImpl.execute(DeleteRecordRequest.builder().recordId(1).build()))
-        .isEqualTo(DeleteRecordResponse.builder().successful(true).build());
+        .isEqualTo(DeleteRecordResponse.builder().isSuccessful(true).build());
     assertThat(deleteRecordUseCaseImpl.execute(DeleteRecordRequest.builder().recordId(2).build()))
-        .isEqualTo(DeleteRecordResponse.builder().successful(false).build());
+        .isEqualTo(DeleteRecordResponse.builder().isSuccessful(false).build());
   }
 }

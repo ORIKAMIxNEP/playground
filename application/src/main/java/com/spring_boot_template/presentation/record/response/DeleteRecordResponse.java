@@ -6,4 +6,4 @@ import lombok.Builder;
 @Schema(description = "削除が成功したか")
 @Builder
 public record DeleteRecordResponse(
-    @Schema(title = "成功したか", type = "boolean", example = "true") boolean successful) {}
+    @Schema(title = "成功したか", type = "boolean", example = "true") boolean isSuccessful) {}

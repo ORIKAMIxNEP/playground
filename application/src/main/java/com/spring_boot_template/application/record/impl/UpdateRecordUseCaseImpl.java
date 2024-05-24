@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class UpdateRecordUseCaseImpl implements UpdateRecordUseCase {
-  private final RecordRdbRepository recordRdbRepository;
   private final ExistsRecordUseCaseImpl existsRecordUseCase;
+  private final RecordRdbRepository recordRdbRepository;
 
   @Transactional
   public UpdateRecordResponse execute(final UpdateRecordRequest updateRecordRequest) {
@@ -21,7 +21,7 @@ public class UpdateRecordUseCaseImpl implements UpdateRecordUseCase {
 
     // レコードが存在しない場合
     if (!existsRecordUseCase.execute(recordId)) {
-      return UpdateRecordResponse.builder().successful(false).build();
+      return UpdateRecordResponse.builder().isSuccessful(false).build();
     }
 
     final Byte column1 = updateRecordRequest.column1();
@@ -31,6 +31,6 @@ public class UpdateRecordUseCaseImpl implements UpdateRecordUseCase {
 
     recordRdbRepository.updateRecord(record);
 
-    return UpdateRecordResponse.builder().successful(true).build();
+    return UpdateRecordResponse.builder().isSuccessful(true).build();
   }
 }

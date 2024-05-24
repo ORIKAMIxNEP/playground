@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class DeleteRecordUseCaseImpl implements DeleteRecordUseCase {
-  private final RecordRdbRepository recordRdbRepository;
   private final ExistsRecordUseCaseImpl existsRecordUseCase;
+  private final RecordRdbRepository recordRdbRepository;
 
   @Transactional
   public DeleteRecordResponse execute(final DeleteRecordRequest deleteRecordRequest) {
@@ -21,11 +21,13 @@ public class DeleteRecordUseCaseImpl implements DeleteRecordUseCase {
 
     // レコードが存在しない場合
     if (!existsRecordUseCase.execute(recordId)) {
-      return DeleteRecordResponse.builder().successful(false).build();
+      return DeleteRecordResponse.builder().isSuccessful(false).build();
     }
 
-    recordRdbRepository.deleteRecord(Record.builder().recordId(recordId).build());
+    final Record record = Record.builder().recordId(recordId).build();
 
-    return DeleteRecordResponse.builder().successful(true).build();
+    recordRdbRepository.deleteRecord(record);
+
+    return DeleteRecordResponse.builder().isSuccessful(true).build();
   }
 }

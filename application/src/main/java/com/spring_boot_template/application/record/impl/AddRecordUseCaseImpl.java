@@ -22,6 +22,6 @@ public class AddRecordUseCaseImpl implements AddRecordUseCase {
 
     recordRdbRepository.addRecord(record);
 
-    return AddRecordResponse.builder().successful(true).build();
+    return AddRecordResponse.builder().isSuccessful(true).build();
   }
 }

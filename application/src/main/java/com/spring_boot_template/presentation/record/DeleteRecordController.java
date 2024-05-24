@@ -52,7 +52,7 @@ public final class DeleteRecordController {
                 .receivedCsrfToken(receivedCsrfToken)
                 .bindingResult(bindingResult)
                 .build());
-    if (httpClientErrorHandlerResponse.error()) {
+    if (httpClientErrorHandlerResponse.hasError()) {
       return httpClientErrorHandlerResponse.responseEntity();
     }
     return ResponseEntity.ok(deleteRecordUseCaseImpl.execute(deleteRecordRequest));
