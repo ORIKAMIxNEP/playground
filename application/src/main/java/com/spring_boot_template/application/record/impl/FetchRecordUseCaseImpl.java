@@ -2,6 +2,7 @@ package com.spring_boot_template.application.record.impl;
 
 import com.spring_boot_template.application.record.FetchRecordUseCase;
 import com.spring_boot_template.domain.record.Record;
+import com.spring_boot_template.domain.record.RecordId;
 import com.spring_boot_template.infrastructure.record.RecordRdbRepository;
 import com.spring_boot_template.presentation.record.response.FetchRecordResponse;
 import java.util.Objects;
@@ -15,7 +16,7 @@ public class FetchRecordUseCaseImpl implements FetchRecordUseCase {
   private final RecordRdbRepository recordRdbRepository;
 
   @Transactional
-  public FetchRecordResponse execute(final long recordId) {
+  public FetchRecordResponse execute(final RecordId recordId) {
     final Record recordInput = Record.builder().recordId(recordId).build();
     final Record recordOutput = recordRdbRepository.fetchRecord(recordInput);
 
@@ -24,8 +25,8 @@ public class FetchRecordUseCaseImpl implements FetchRecordUseCase {
       return FetchRecordResponse.builder().isSuccessful(false).column1(null).column2(null).build();
     }
 
-    final byte column1 = recordOutput.column1();
-    final String column2 = recordOutput.column2();
+    final byte column1 = recordOutput.getColumn1();
+    final String column2 = recordOutput.getColumn2();
 
     return FetchRecordResponse.builder()
         .isSuccessful(true)

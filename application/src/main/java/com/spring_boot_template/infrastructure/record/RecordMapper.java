@@ -18,7 +18,7 @@ public interface RecordMapper {
           column1, column2
         )
       VALUES(
-        #{record.column1()}, #{record.column2()}
+        #{column1}, #{column2}
       )
       """)
   void addRecord(final Record record);
@@ -26,11 +26,13 @@ public interface RecordMapper {
   @Select(
       """
       SELECT
-        *
+        record_id, column1, column2
       FROM
         records
       WHERE
-        record_id = #{record.recordId()}
+        record_id = #{recordId}
+      FOR
+        UPDATE
       """)
   @Results(
       id = "Record",
@@ -46,10 +48,10 @@ public interface RecordMapper {
       UPDATE
         records
       SET
-        column1 = #{record.column1()},
-        column2 = #{record.column2()}
+        column1 = #{column1},
+        column2 = #{column2}
       WHERE
-        record_id = #{record.recordId()}
+        record_id = #{recordId}
       """)
   void updateRecord(final Record record);
 
@@ -58,7 +60,7 @@ public interface RecordMapper {
       DELETE FROM
         records
       WHERE
-        record_id = #{record.recordId()}
+        record_id = #{recordId}
       """)
   void deleteRecord(final Record record);
 }

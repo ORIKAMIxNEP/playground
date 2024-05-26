@@ -2,7 +2,7 @@ services:
   application:
     container_name: application
     build:
-      dockerfile: docker/application/Dockerfile
+      dockerfile: application/Dockerfile
       args:
         CSRF_TOKEN: $CSRF_TOKEN
     env_file: .env
