@@ -21,4 +21,4 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: "spring_boot_template"
     volumes:
-      - ./docker/database/initdb:/docker-entrypoint-initdb.d
+      - ./database/initdb:/docker-entrypoint-initdb.d
