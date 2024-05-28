@@ -1,5 +1,41 @@
 # spring-boot-template
 
+## 仕様
+
+#### API仕様
+
+[Swagger UI](http://localhost:8080/swagger-ui/index.html)
+
+#### Checkstyle定義
+
+[Google's Java Style](https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml)
+
+## 実行
+
+#### サービスの起動
+
+```console
+sh compose.sh
+```
+
+#### サービスの停止（docker/database/initdbの更新）
+
+```console
+sh compose.sh -d
+```
+
+#### サービスへの接続
+
+```console
+sh compose.sh -e 「サービス名」
+```
+
+#### サービスのログ出力
+
+```console
+sh compose.sh -l 「サービス名」
+```
+
 ## 環境構築
 
 #### パッケージの更新
@@ -27,7 +63,7 @@ ssh-keygen -t ed25519 && cat ~/.ssh/id_ed25519.pub
 #### リポジトリのクローン
 
 ```console
-GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=no' git clone git@github.com:ORIKAMIxNEP/spring-boot-template.git
+GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=no' git clone git@github.com:ORIKAMIxNEP/spring-boot-template.git && cd spring-boot-template
 ```
 
 #### JDKのインストール
@@ -43,7 +79,3 @@ CSRF_TOKEN=
 POSTGRES_USER=
 POSTGRES_PASSWORD=
 ```
-
-#### API仕様書
-
-[Swagger UI](http://localhost:8080/swagger-ui/index.html)
