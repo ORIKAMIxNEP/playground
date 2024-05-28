@@ -18,7 +18,7 @@ Content-Type: application/json
 X-CSRF-TOKEN: test
 
 {
-  "recordIdValue": 1,
+  "recordId": 1,
   "column1": 0,
   "column2": "a"
 }
@@ -29,5 +29,5 @@ Content-Type: application/json
 X-CSRF-TOKEN: test
 
 {
-  "recordIdValue": 1
+  "recordId": 1
 }
