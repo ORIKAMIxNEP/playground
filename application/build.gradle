@@ -3,7 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.2.4'
     id 'io.spring.dependency-management' version '1.1.4'
     id 'checkstyle'
-    id 'com.diffplug.spotless' version '6.22.0'
+    id 'com.diffplug.spotless' version '6.25.0'
 }
 apply plugin: 'com.diffplug.spotless'
 
@@ -49,11 +49,11 @@ test {
 }
 
 checkstyle {
-    toolVersion = '10.12.3'
+    toolVersion = '10.17.0'
 }
 
 spotless {
     java {
-        googleJavaFormat()
+        googleJavaFormat().aosp()
     }
 }
