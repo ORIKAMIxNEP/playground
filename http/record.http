@@ -9,7 +9,7 @@ X-CSRF-TOKEN: test
 }
 
 ### FetchRecord
-GET http://localhost:8080/record?recordId=1
+GET http://localhost:8080/record/1
 X-CSRF-TOKEN: test
 
 ### UpdateRecord
@@ -18,7 +18,7 @@ Content-Type: application/json
 X-CSRF-TOKEN: test
 
 {
-  "recordId": 1,
+  "recordIdValue": 1,
   "column1": 0,
   "column2": "a"
 }
@@ -29,5 +29,5 @@ Content-Type: application/json
 X-CSRF-TOKEN: test
 
 {
-  "recordId": 1
+  "recordIdValue": 1
 }
