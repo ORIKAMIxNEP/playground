@@ -6,11 +6,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-public class SecurityConfig {
-  @Bean
-  public SecurityFilterChain configHttpSecurity(final HttpSecurity httpSecurity) throws Exception {
-    httpSecurity.csrf().disable();
-
-    return httpSecurity.build();
-  }
+class SecurityConfig {
+    @Bean
+    public SecurityFilterChain configHttpSecurity(final HttpSecurity httpSecurity)
+            throws Exception {
+        httpSecurity.csrf().disable();
+        return httpSecurity.build();
+    }
 }
