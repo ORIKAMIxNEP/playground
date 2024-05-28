@@ -32,7 +32,7 @@
     <!-- https://checkstyle.org/filters/suppressionfilter.html -->
     <module name="SuppressionFilter">
         <property name="file" value="${org.checkstyle.google.suppressionfilter.config}"
-                  default="checkstyle-suppressions.xml" />
+                  default="checkstyle-suppressions.xml"/>
         <property name="optional" value="true"/>
     </module>
 
@@ -96,7 +96,7 @@
             <property name="tokens"
                       value="CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, STATIC_INIT,
                     INSTANCE_INIT, ANNOTATION_DEF, ENUM_DEF, INTERFACE_DEF, RECORD_DEF,
-                    COMPACT_CTOR_DEF, LITERAL_SWITCH"/>
+                    COMPACT_CTOR_DEF, LITERAL_SWITCH, LITERAL_CASE"/>
         </module>
         <module name="SuppressionXpathSingleFilter">
             <!-- suppresion is required till https://github.com/checkstyle/checkstyle/issues/7541 -->
@@ -173,11 +173,11 @@
             <property name="tokens" value="METHOD_REF"/>
             <property name="option" value="nl"/>
         </module>
-        <!--    <module name="PackageName">-->
-        <!--      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>-->
-        <!--      <message key="name.invalidPattern"-->
-        <!--             value="Package name ''{0}'' must match pattern ''{1}''."/>-->
-        <!--    </module>-->
+        <module name="PackageName">
+            <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+            <message key="name.invalidPattern"
+                     value="Package name ''{0}'' must match pattern ''{1}''."/>
+        </module>
         <module name="TypeName">
             <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF,
                     ANNOTATION_DEF, RECORD_DEF"/>
@@ -333,20 +333,20 @@
             <property name="allowedAnnotations" value="Override, Test"/>
             <property name="tokens" value="METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF, COMPACT_CTOR_DEF"/>
         </module>
-        <!--    <module name="MissingJavadocMethod">-->
-        <!--      <property name="scope" value="public"/>-->
-        <!--      <property name="minLineCount" value="2"/>-->
-        <!--      <property name="allowedAnnotations" value="Override, Test"/>-->
-        <!--      <property name="tokens" value="METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF,-->
-        <!--                                   COMPACT_CTOR_DEF"/>-->
-        <!--    </module>-->
-        <!--    <module name="MissingJavadocType">-->
-        <!--      <property name="scope" value="protected"/>-->
-        <!--      <property name="tokens"-->
-        <!--                value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF,-->
-        <!--                      RECORD_DEF, ANNOTATION_DEF"/>-->
-        <!--      <property name="excludeScope" value="nothing"/>-->
-        <!--    </module>-->
+        <!--        <module name="MissingJavadocMethod">-->
+        <!--            <property name="scope" value="public"/>-->
+        <!--            <property name="minLineCount" value="2"/>-->
+        <!--            <property name="allowedAnnotations" value="Override, Test"/>-->
+        <!--            <property name="tokens" value="METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF,-->
+        <!--                                           COMPACT_CTOR_DEF"/>-->
+        <!--        </module>-->
+        <!--        <module name="MissingJavadocType">-->
+        <!--            <property name="scope" value="protected"/>-->
+        <!--            <property name="tokens"-->
+        <!--                      value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF,-->
+        <!--                              RECORD_DEF, ANNOTATION_DEF"/>-->
+        <!--            <property name="excludeScope" value="nothing"/>-->
+        <!--        </module>-->
         <module name="MethodName">
             <property name="format" value="^[a-z][a-z0-9]\w*$"/>
             <message key="name.invalidPattern"
@@ -362,14 +362,14 @@
         <!-- https://checkstyle.org/filters/suppressionxpathfilter.html -->
         <module name="SuppressionXpathFilter">
             <property name="file" value="${org.checkstyle.google.suppressionxpathfilter.config}"
-                      default="checkstyle-xpath-suppressions.xml" />
+                      default="checkstyle-xpath-suppressions.xml"/>
             <property name="optional" value="true"/>
         </module>
-        <module name="SuppressWarningsHolder" />
+        <module name="SuppressWarningsHolder"/>
         <module name="SuppressionCommentFilter">
-            <property name="offCommentFormat" value="CHECKSTYLE.OFF\: ([\w\|]+)" />
-            <property name="onCommentFormat" value="CHECKSTYLE.ON\: ([\w\|]+)" />
-            <property name="checkFormat" value="$1" />
+            <property name="offCommentFormat" value="CHECKSTYLE.OFF\: ([\w\|]+)"/>
+            <property name="onCommentFormat" value="CHECKSTYLE.ON\: ([\w\|]+)"/>
+            <property name="checkFormat" value="$1"/>
         </module>
         <module name="SuppressWithNearbyCommentFilter">
             <property name="commentFormat" value="CHECKSTYLE.SUPPRESS\: ([\w\|]+)"/>
