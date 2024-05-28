@@ -7,17 +7,14 @@ else
     while getopts "de:l:" option; do
         case $option in
             d)
-                # コンテナの停止（docker/database/initdbの更新）
                 docker compose down -v
                 ;;
             e)
-                # コンテナへの接続
                 if [ -n "$OPTARG" ]; then
                     docker compose exec "$OPTARG" bash
                 fi
                 ;;
             l)
-                # サービスのログ出力
                 if [ -n "$OPTARG" ]; then
                     docker compose logs "$OPTARG"
                 fi
