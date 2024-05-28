@@ -1,11 +1,11 @@
 package com.spring_boot_template.domain.record;
 
 public interface RecordRepository {
-  void addRecord(final Record record);
+    void addRecord(final RecordEntity recordEntity);
 
-  Record fetchRecord(final Record record);
+    RecordEntity fetchRecord(final RecordEntity recordEntity);
 
-  void updateRecord(final Record record);
+    void updateRecord(final RecordEntity recordEntity);
 
-  void deleteRecord(final Record record);
+    void deleteRecord(final RecordEntity recordEntity);
 }
