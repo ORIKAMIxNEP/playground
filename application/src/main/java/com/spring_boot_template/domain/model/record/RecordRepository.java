@@ -1,4 +1,4 @@
-package com.spring_boot_template.domain.record;
+package com.spring_boot_template.domain.model.record;
 
 public interface RecordRepository {
     void addRecord(final RecordEntity recordEntity);
