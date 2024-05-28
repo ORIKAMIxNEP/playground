@@ -1,3 +1,3 @@
 package com.spring_boot_template.domain.record;
 
-public class Column1 {}
+public record Column1Value(byte value) {}
