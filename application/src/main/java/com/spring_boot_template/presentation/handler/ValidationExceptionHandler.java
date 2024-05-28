@@ -2,7 +2,6 @@ package com.spring_boot_template.presentation.handler;
 
 import com.spring_boot_template.domain.exception.ValidationException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
