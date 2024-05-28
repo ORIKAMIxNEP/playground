@@ -13,6 +13,6 @@ public final class ValidationExceptionHandler {
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<String> execute(final ValidationException exception) {
         final String message = exception.getMessage();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+        return ResponseEntity.badRequest().body(message);
     }
 }
