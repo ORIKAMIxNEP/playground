@@ -1,8 +1,7 @@
-package com.spring_boot_template.application.record;
+package com.spring_boot_template.application.usecase.record;
 
-import com.spring_boot_template.presentation.record.request.UpdateRecordRequest;
-import com.spring_boot_template.presentation.record.response.UpdateRecordResponse;
+import com.spring_boot_template.presentation.controller.record.request.UpdateRecordRequest;
 
 public interface UpdateRecordUseCase {
-  UpdateRecordResponse execute(final UpdateRecordRequest updateRecordRequest);
+    void execute(final UpdateRecordRequest updateRecordRequest);
 }
