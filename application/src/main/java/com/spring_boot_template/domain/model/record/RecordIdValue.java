@@ -1,3 +1,8 @@
 package com.spring_boot_template.domain.model.record;
 
-public record RecordIdValue(long value) {}
+import lombok.Value;
+
+@Value
+public class RecordIdValue {
+    long value;
+}
