@@ -24,17 +24,17 @@ public class FetchRecordUseCaseImpl implements FetchRecordUseCase {
         final RecordEntity recordEntityInput = new RecordEntity(recordIdValue);
         final RecordEntity recordEntityOutput = recordRdbRepository.fetchRecord(recordEntityInput);
 
-        System.out.println(recordEntityInput.getRecordId());
+        System.out.println(recordEntityInput.getRecordIdValue());
 
         // レコードが存在しない場合
         if (Objects.isNull(recordEntityOutput)) {
             throw new ValidationException("Record Not Found");
         }
 
-        final Column1Value column1Value = recordEntityOutput.getColumn1();
-        final byte column1 = column1Value.value();
-        final Column2Value column2Value = recordEntityOutput.getColumn2();
-        final String column2 = column2Value.value();
+        final Column1Value column1Value = recordEntityOutput.getColumn1Value();
+        final byte column1 = column1Value.getValue();
+        final Column2Value column2Value = recordEntityOutput.getColumn2Value();
+        final String column2 = column2Value.getValue();
 
         return new FetchRecordResponse(column1, column2);
     }
