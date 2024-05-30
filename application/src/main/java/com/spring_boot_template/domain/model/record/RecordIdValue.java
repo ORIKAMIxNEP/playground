@@ -1,8 +1,10 @@
 package com.spring_boot_template.domain.model.record;
 
-import lombok.Value;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@Value
+@RequiredArgsConstructor
+@Getter
 public class RecordIdValue {
-    long value;
+    private final String value;
 }

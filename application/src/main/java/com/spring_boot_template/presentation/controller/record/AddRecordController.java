@@ -2,7 +2,6 @@ package com.spring_boot_template.presentation.controller.record;
 
 import com.spring_boot_template.application.usecase.record.impl.AddRecordUseCaseImpl;
 import com.spring_boot_template.domain.exception.AccessDeniedException;
-import com.spring_boot_template.domain.exception.ValidationException;
 import com.spring_boot_template.presentation.controller.record.request.AddRecordRequest;
 import com.spring_boot_template.presentation.validator.CsrfTokenValidator;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,15 +29,6 @@ final class AddRecordController {
             description = "カラム1、カラム2を受け取る" + " → レコードを追加する",
             responses = {
                 @ApiResponse(responseCode = "204", description = "No Content"),
-                @ApiResponse(
-                        responseCode = "400",
-                        description = "Bad Request",
-                        content =
-                                @Content(
-                                        schema =
-                                                @Schema(
-                                                        implementation =
-                                                                ValidationException.class))),
                 @ApiResponse(
                         responseCode = "403",
                         description = "Forbidden",

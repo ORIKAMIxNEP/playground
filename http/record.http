@@ -1,7 +1,7 @@
 ### AddRecord
-POST http://localhost:8080/record
+POST {{baseUrl}}/record
 Content-Type: application/json
-X-CSRF-TOKEN: test
+X-CSRF-TOKEN: {{csrfToken}}
 
 {
   "column1": 0,
@@ -9,25 +9,25 @@ X-CSRF-TOKEN: test
 }
 
 ### FetchRecord
-GET http://localhost:8080/record/1
-X-CSRF-TOKEN: test
+GET {{baseUrl}}/record/01234567-89ab-cdef-0123-456789abcdef
+X-CSRF-TOKEN: {{csrfToken}}
 
 ### UpdateRecord
-PUT http://localhost:8080/record
+PUT {{baseUrl}}/record
 Content-Type: application/json
-X-CSRF-TOKEN: test
+X-CSRF-TOKEN: {{csrfToken}}
 
 {
-  "recordId": 1,
+  "recordId": "01234567-89ab-cdef-0123-456789abcdef",
   "column1": 0,
   "column2": "a"
 }
 
 ### DeleteRecord
-DELETE http://localhost:8080/record
+DELETE {{baseUrl}}/record
 Content-Type: application/json
-X-CSRF-TOKEN: test
+X-CSRF-TOKEN: {{csrfToken}}
 
 {
-  "recordId": 1
+  "recordId": "01234567-89ab-cdef-0123-456789abcdef"
 }

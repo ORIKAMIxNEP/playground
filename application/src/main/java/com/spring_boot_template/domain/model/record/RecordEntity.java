@@ -1,22 +1,14 @@
 package com.spring_boot_template.domain.model.record;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
 
-@Value
-@RequiredArgsConstructor
-@NoArgsConstructor(force = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class RecordEntity {
-    RecordIdValue recordIdValue;
-    Column1Value column1Value;
-    Column2Value column2Value;
-
-    public RecordEntity(final RecordIdValue recordIdValue) {
-        this(recordIdValue, null, null);
-    }
-
-    public RecordEntity(final Column1Value column1Value, final Column2Value column2Value) {
-        this(null, column1Value, column2Value);
-    }
+    private RecordIdValue recordIdValue;
+    private Column1Value column1Value;
+    private Column2Value column2Value;
 }

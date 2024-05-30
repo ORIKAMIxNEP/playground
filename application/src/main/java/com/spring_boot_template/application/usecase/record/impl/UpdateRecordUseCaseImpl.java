@@ -19,7 +19,7 @@ public class UpdateRecordUseCaseImpl implements UpdateRecordUseCase {
 
     @Transactional
     public void execute(final UpdateRecordRequest updateRecordRequest) {
-        final long recordId = updateRecordRequest.recordId();
+        final String recordId = updateRecordRequest.recordId();
         final RecordIdValue recordIdValue = new RecordIdValue(recordId);
 
         existsRecordUseCase.execute(recordIdValue);

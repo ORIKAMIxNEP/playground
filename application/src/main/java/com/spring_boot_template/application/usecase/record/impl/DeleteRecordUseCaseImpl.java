@@ -1,7 +1,6 @@
 package com.spring_boot_template.application.usecase.record.impl;
 
 import com.spring_boot_template.application.usecase.record.DeleteRecordUseCase;
-import com.spring_boot_template.domain.model.record.RecordEntity;
 import com.spring_boot_template.domain.model.record.RecordIdValue;
 import com.spring_boot_template.infrastructure.record.RecordRdbRepository;
 import com.spring_boot_template.presentation.controller.record.request.DeleteRecordRequest;
@@ -17,13 +16,10 @@ public class DeleteRecordUseCaseImpl implements DeleteRecordUseCase {
 
     @Transactional
     public void execute(final DeleteRecordRequest deleteRecordRequest) {
-        final long recordId = deleteRecordRequest.recordId();
+        final String recordId = deleteRecordRequest.recordId();
         final RecordIdValue recordIdValue = new RecordIdValue(recordId);
 
         existsRecordUseCase.execute(recordIdValue);
-
-        final RecordEntity recordEntity = new RecordEntity(recordIdValue);
-
-        recordRdbRepository.deleteRecord(recordEntity);
+        recordRdbRepository.deleteRecord(recordIdValue);
     }
 }

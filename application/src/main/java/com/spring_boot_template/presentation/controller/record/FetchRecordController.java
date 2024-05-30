@@ -61,7 +61,7 @@ final class FetchRecordController {
             })
     public ResponseEntity<?> fetchRecord(
             @RequestHeader("X-CSRF-Token") String receivedCsrfToken,
-            @PathVariable final long recordId) {
+            @PathVariable final String recordId) {
         csrfTokenValidator.execute(receivedCsrfToken);
         FetchRecordResponse fetchRecordResponse = fetchRecordUseCaseImpl.execute(recordId);
         return ResponseEntity.ok(fetchRecordResponse);

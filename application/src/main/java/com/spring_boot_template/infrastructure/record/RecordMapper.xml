@@ -21,9 +21,11 @@
     </resultMap>
 
     <insert id="addRecord">
-        INSERT INTO records(column1,
+        INSERT INTO records(record_id,
+                            column1,
                             column2)
-        VALUES (#{column1Value.value},
+        VALUES (#{recordIdValue.value},
+                #{column1Value.value},
                 #{column2Value.value})
     </insert>
 
@@ -32,7 +34,7 @@
                column1,
                column2
         FROM records
-        WHERE record_id = #{recordIdValue.value}
+        WHERE record_id = #{value}
     </select>
 
     <update id="updateRecord">
@@ -45,6 +47,6 @@
     <delete id="deleteRecord">
         DELETE
         FROM records
-        WHERE record_id = #{recordIdValue.value}
+        WHERE record_id = #{value}
     </delete>
 </mapper>
