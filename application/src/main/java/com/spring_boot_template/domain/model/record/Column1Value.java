@@ -1,3 +1,8 @@
 package com.spring_boot_template.domain.model.record;
 
-public record Column1Value(byte value) {}
+import lombok.Value;
+
+@Value
+public class Column1Value {
+    byte value;
+}
