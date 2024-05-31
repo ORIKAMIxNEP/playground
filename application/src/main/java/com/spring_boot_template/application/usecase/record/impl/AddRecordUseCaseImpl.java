@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AddRecordUseCaseImpl implements AddRecordUseCase {
     private final RecordRdbRepository recordRdbRepository;
 
+    @Override
     @Transactional
     public void execute(final AddRecordRequest addRecordRequest) {
         final String uuid = IdGenerator.generate();
