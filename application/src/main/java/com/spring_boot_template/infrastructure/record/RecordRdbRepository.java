@@ -11,18 +11,22 @@ import org.springframework.stereotype.Repository;
 public class RecordRdbRepository implements RecordRepository {
     private final RecordMapper recordMapper;
 
+    @Override
     public void addRecord(final RecordEntity recordEntity) {
         recordMapper.addRecord(recordEntity);
     }
 
+    @Override
     public RecordEntity fetchRecord(final RecordIdValue recordIdValue) {
         return recordMapper.fetchRecord(recordIdValue);
     }
 
+    @Override
     public void updateRecord(final RecordEntity recordEntity) {
         recordMapper.updateRecord(recordEntity);
     }
 
+    @Override
     public void deleteRecord(final RecordIdValue recordIdValue) {
         recordMapper.deleteRecord(recordIdValue);
     }
