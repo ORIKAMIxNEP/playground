@@ -1,7 +1,7 @@
 ### AddRecord
 POST {{baseUrl}}/record
 Content-Type: application/json
-X-CSRF-TOKEN: {{csrfToken}}
+X-Csrf-Token: {{csrfToken}}
 
 {
   "column1": 0,
@@ -9,16 +9,16 @@ X-CSRF-TOKEN: {{csrfToken}}
 }
 
 ### FetchRecord
-GET {{baseUrl}}/record/01234567-89ab-cdef-0123-456789abcdef
-X-CSRF-TOKEN: {{csrfToken}}
+GET {{baseUrl}}/record/0123456789ABCDEFGHJKMNPQRS
+X-Csrf-Token: {{csrfToken}}
 
 ### UpdateRecord
 PUT {{baseUrl}}/record
 Content-Type: application/json
-X-CSRF-TOKEN: {{csrfToken}}
+X-Csrf-Token: {{csrfToken}}
 
 {
-  "recordId": "01234567-89ab-cdef-0123-456789abcdef",
+  "recordId": "0123456789ABCDEFGHJKMNPQRS",
   "column1": 0,
   "column2": "a"
 }
@@ -26,8 +26,8 @@ X-CSRF-TOKEN: {{csrfToken}}
 ### DeleteRecord
 DELETE {{baseUrl}}/record
 Content-Type: application/json
-X-CSRF-TOKEN: {{csrfToken}}
+X-Csrf-Token: {{csrfToken}}
 
 {
-  "recordId": "01234567-89ab-cdef-0123-456789abcdef"
+  "recordId": "0123456789ABCDEFGHJKMNPQRS"
 }
