@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @RequiredArgsConstructor
 public final class ValidationExceptionHandler {
     @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<String> execute(final ValidationException exception) {
+    public ResponseEntity<String> handle(final ValidationException exception) {
         final String message = exception.getMessage();
+
         return ResponseEntity.badRequest().body(message);
     }
 }
