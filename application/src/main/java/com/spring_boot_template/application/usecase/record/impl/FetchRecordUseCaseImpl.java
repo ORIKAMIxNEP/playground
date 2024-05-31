@@ -8,7 +8,7 @@ import com.spring_boot_template.domain.model.record.RecordEntity;
 import com.spring_boot_template.domain.model.record.RecordIdValue;
 import com.spring_boot_template.infrastructure.record.RecordRdbRepository;
 import com.spring_boot_template.presentation.controller.record.response.FetchRecordResponse;
-import java.util.Objects;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,15 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class FetchRecordUseCaseImpl implements FetchRecordUseCase {
     private final RecordRdbRepository recordRdbRepository;
 
+    @Override
     @Transactional
     public FetchRecordResponse execute(final String recordId) {
         final RecordIdValue recordIdValue = new RecordIdValue(recordId);
-        final RecordEntity recordEntity = recordRdbRepository.fetchRecord(recordIdValue);
 
-        // レコードが存在しない場合
-        if (Objects.isNull(recordEntity)) {
-            throw new ValidationException("Record Not Found");
-        }
+        final RecordEntity recordEntity =
+                Optional.ofNullable(recordRdbRepository.fetchRecord(recordIdValue))
+                        .orElseThrow(() -> new ValidationException("Record Not Found"));
 
         final Column1Value column1Value = recordEntity.getColumn1Value();
         final byte column1 = column1Value.getValue();
