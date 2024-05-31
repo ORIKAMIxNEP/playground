@@ -1,5 +1,6 @@
 package com.spring_boot_template.application.usecase.record.impl;
 
+import com.spring_boot_template.application.usecase.record.ExistsRecordUseCase;
 import com.spring_boot_template.application.usecase.record.UpdateRecordUseCase;
 import com.spring_boot_template.domain.model.record.Column1Value;
 import com.spring_boot_template.domain.model.record.Column2Value;
@@ -14,9 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class UpdateRecordUseCaseImpl implements UpdateRecordUseCase {
-    private final ExistsRecordUseCaseImpl existsRecordUseCase;
+    private final ExistsRecordUseCase existsRecordUseCase;
     private final RecordRdbRepository recordRdbRepository;
 
+    @Override
     @Transactional
     public void execute(final UpdateRecordRequest updateRecordRequest) {
         final String recordId = updateRecordRequest.recordId();
