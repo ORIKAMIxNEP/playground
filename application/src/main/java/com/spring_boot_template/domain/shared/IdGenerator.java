@@ -1,10 +1,12 @@
 package com.spring_boot_template.domain.shared;
 
-import java.util.UUID;
+import de.huxhorn.sulky.ulid.ULID;
 
 public class IdGenerator {
     public static String generate() {
-        final UUID uuid = UUID.randomUUID();
-        return uuid.toString();
+        final ULID ulid = new ULID();
+        final ULID.Value ulidValue = ulid.nextValue();
+
+        return ulidValue.toString();
     }
 }
