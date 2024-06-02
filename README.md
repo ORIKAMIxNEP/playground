@@ -75,7 +75,6 @@ sudo apt install openjdk-17-jdk -y
 #### 環境変数の設定
 
 ```env
-CSRF_TOKEN=
 POSTGRES_USER=
 POSTGRES_PASSWORD=
 ```

@@ -3,8 +3,6 @@ services:
     container_name: application
     build:
       dockerfile: application/Dockerfile
-      args:
-        CSRF_TOKEN: $CSRF_TOKEN
     env_file: .env
     tty: true
     depends_on:
@@ -22,3 +20,5 @@ services:
       POSTGRES_DB: "spring_boot_template"
     volumes:
       - ./database/initdb:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"

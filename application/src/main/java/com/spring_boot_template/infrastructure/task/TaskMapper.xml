@@ -43,7 +43,7 @@
     <insert id="insertTask">
         INSERT INTO tasks(task_id,
                           task_name,
-                          taskStatus,
+                          task_status,
                           user_id,
                           due_date,
                           postpone_count)
@@ -58,7 +58,7 @@
     <select id="selectTaskByTaskId" resultMap="TaskEntity">
         SELECT task_id,
                task_name,
-               taskStatus,
+               task_status,
                user_id,
                due_date,
                postpone_count
