@@ -3,10 +3,9 @@ package com.spring_boot_template.domain.shared;
 import de.huxhorn.sulky.ulid.ULID;
 
 public class IdGenerator {
-    public static String generate() {
-        final ULID ulid = new ULID();
-        final ULID.Value ulidValue = ulid.nextValue();
+    private static final ULID ULID_INSTANCE = new ULID();
 
-        return ulidValue.toString();
+    public static String generate() {
+        return ULID_INSTANCE.nextValue().toString();
     }
 }

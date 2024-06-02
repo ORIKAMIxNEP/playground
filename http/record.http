@@ -1,7 +1,6 @@
 ### AddRecord
 POST {{baseUrl}}/record
 Content-Type: application/json
-X-Csrf-Token: {{csrfToken}}
 
 {
   "column1": 0,
@@ -10,12 +9,10 @@ X-Csrf-Token: {{csrfToken}}
 
 ### FetchRecord
 GET {{baseUrl}}/record/0123456789ABCDEFGHJKMNPQRS
-X-Csrf-Token: {{csrfToken}}
 
 ### UpdateRecord
 PUT {{baseUrl}}/record
 Content-Type: application/json
-X-Csrf-Token: {{csrfToken}}
 
 {
   "recordId": "0123456789ABCDEFGHJKMNPQRS",
@@ -26,7 +23,6 @@ X-Csrf-Token: {{csrfToken}}
 ### DeleteRecord
 DELETE {{baseUrl}}/record
 Content-Type: application/json
-X-Csrf-Token: {{csrfToken}}
 
 {
   "recordId": "0123456789ABCDEFGHJKMNPQRS"

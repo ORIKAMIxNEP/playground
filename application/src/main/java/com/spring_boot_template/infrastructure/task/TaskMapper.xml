@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spring_boot_template.infrastructure.task.TaskMapper">
+
+    <resultMap id="Task" type="com.spring_boot_template.domain.model.task.TaskEntity">
+        <association property="taskId" javaType="com.spring_boot_template.domain.model.task.value.TaskIdValue">
+            <constructor>
+                <arg name="value" column="task_id"/>
+            </constructor>
+        </association>
+        <association property="taskName"
+                     javaType="com.spring_boot_template.domain.model.task.value.TaskNameValue">
+            <constructor>
+                <arg name="value" column="task_name"/>
+            </constructor>
+        </association>
+        <association property="Status"
+                     javaType="com.spring_boot_template.domain.model.task.value.TaskStatusValue">
+            <constructor>
+                <arg name="value" column="taskStatus"/>
+            </constructor>
+        </association>
+        <association property="assignedUserId"
+                     javaType="com.spring_boot_template.domain.model.task.value.AssignedUserIdValue">
+            <constructor>
+                <arg name="value" column="user_id"/>
+            </constructor>
+        </association>
+        <association property="dueDate"
+                     javaType="com.spring_boot_template.domain.model.task.value.TaskStatusValue">
+            <constructor>
+                <arg name="value" column="due_date"/>
+            </constructor>
+        </association>
+        <association property="postponeCount"
+                     javaType="com.spring_boot_template.domain.model.task.value.PostponeCountValue">
+            <constructor>
+                <arg name="value" column="postpone_count"/>
+            </constructor>
+        </association>
+    </resultMap>
+
+    <insert id="insertTask">
+        INSERT INTO tasks(task_id,
+                          task_name,
+                          taskStatus,
+                          user_id,
+                          due_date,
+                          postpone_count)
+        VALUES (#{taskId.value},
+                #{taskName.value},
+                #{taskStatus.value},
+                #{assignedUserId.value},
+                #{dueDate.value},
+                #{postponeCount.value})
+    </insert>
+
+    <select id="selectTaskByTaskId" resultMap="TaskEntity">
+        SELECT task_id,
+               task_name,
+               taskStatus,
+               user_id,
+               due_date,
+               postpone_count
+        FROM tasks
+        WHERE task_id = #{value}
+    </select>
+
+    <select id="selectCountTaskByUserId">
+        SELECT COUNT(task_id)
+        FROM tasks
+        WHERE user_id = #{value}
+    </select>
+
+    <update id="updateTaskName">
+        UPDATE tasks
+        SET task_name = #{taskName.value}
+        WHERE task_id = #{taskId.value}
+    </update>
+
+    <delete id="deleteTask">
+        DELETE
+        FROM tasks
+        WHERE task_id = #{value}
+    </delete>
+</mapper>
