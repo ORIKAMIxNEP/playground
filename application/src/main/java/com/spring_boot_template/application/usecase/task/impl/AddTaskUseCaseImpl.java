@@ -12,11 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AddTaskUseCaseImpl implements AddTaskUseCase {
     private final TaskFactory taskFactory;
-    private final TaskRepository recordRepository;
+    private final TaskRepository taskRepository;
 
     @Override
     @Transactional
     public void execute(final AddTaskRequest addTaskRequest) {
-        recordRepository.addTask(null);
+        taskRepository.addTask(null);
     }
 }
