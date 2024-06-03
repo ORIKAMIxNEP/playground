@@ -12,7 +12,7 @@ class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity)
             throws Exception {
-        httpSecurity.csrf((csrf) -> csrf.ignoringRequestMatchers("/record"));
+        httpSecurity.csrf((csrf) -> csrf.ignoringRequestMatchers("/task"));
 
         return httpSecurity.build();
     }
