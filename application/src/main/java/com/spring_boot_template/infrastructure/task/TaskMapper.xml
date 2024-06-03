@@ -14,14 +14,14 @@
                 <arg name="value" column="task_name"/>
             </constructor>
         </association>
-        <association property="Status"
+        <association property="taskStatus"
                      javaType="com.spring_boot_template.domain.model.task.value.TaskStatusValue">
             <constructor>
                 <arg name="value" column="taskStatus"/>
             </constructor>
         </association>
         <association property="assignedUserId"
-                     javaType="com.spring_boot_template.domain.model.task.value.AssignedUserIdValue">
+                     javaType="com.spring_boot_template.domain.model.user.value.UserIdValue">
             <constructor>
                 <arg name="value" column="user_id"/>
             </constructor>
@@ -49,7 +49,7 @@
                           postpone_count)
         VALUES (#{taskId.value},
                 #{taskName.value},
-                #{taskStatus.value},
+                #{taskStatus.name()},
                 #{assignedUserId.value},
                 #{dueDate.value},
                 #{postponeCount.value})
@@ -72,9 +72,9 @@
         WHERE user_id = #{value}
     </select>
 
-    <update id="updateTaskName">
+    <update id="updateTaskStatus">
         UPDATE tasks
-        SET task_name = #{taskName.value}
+        SET task_name = #{taskStatus.name()}
         WHERE task_id = #{taskId.value}
     </update>
 
