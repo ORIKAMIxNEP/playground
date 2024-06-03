@@ -16,13 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
     private final FindTaskByTaskIdUseCase findTaskByTaskIdUseCase;
-    private final TaskRepository recordRepository;
+    private final TaskRepository taskRepository;
 
     @Override
     @Transactional
     public void execute(final UpdateTaskRequest updateTaskRequest) {
-        final String recordId = updateTaskRequest.recordId();
-        final TaskIdValue taskIdValue = new TaskIdValue(recordId);
+        final String taskId = updateTaskRequest.taskId();
+        final TaskIdValue taskIdValue = new TaskIdValue(taskId);
 
         findTaskByTaskIdUseCase.execute(taskIdValue);
 
@@ -33,6 +33,6 @@ public class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
         final TaskEntity taskEntity =
                 new TaskEntity(taskIdValue, assignedUserIdValue, taskNameValue);
 
-        recordRepository.updateTaskName(taskEntity);
+        taskRepository.updateTaskName(taskEntity);
     }
 }
