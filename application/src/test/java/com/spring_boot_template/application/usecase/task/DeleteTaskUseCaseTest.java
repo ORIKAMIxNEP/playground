@@ -6,7 +6,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 
 import com.spring_boot_template.application.usecase.task.impl.DeleteTaskUseCaseImpl;
-import com.spring_boot_template.domain.exception.LogicValidationException;
+import com.spring_boot_template.domain.exception.ValidationException;
 import com.spring_boot_template.domain.model.task.value.TaskIdValue;
 import com.spring_boot_template.infrastructure.task.TaskRdbRepository;
 import com.spring_boot_template.presentation.controller.task.request.DeleteTaskRequest;
@@ -19,7 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 public final class DeleteTaskUseCaseTest {
     @Mock private FindTaskByTaskIdUseCase findTaskByTaskIdUseCaseMock;
-    @Mock private TaskRdbRepository recordRdbRepositoryMock;
+    @Mock private TaskRdbRepository taskRdbRepositoryMock;
 
     @InjectMocks private DeleteTaskUseCaseImpl deleteTaskUseCaseImpl;
 
@@ -28,10 +28,10 @@ public final class DeleteTaskUseCaseTest {
         doNothing()
                 .when(findTaskByTaskIdUseCaseMock)
                 .execute(new TaskIdValue("0123456789ABCDEFGHJKMNPQRS"));
-        doThrow(LogicValidationException.class)
+        doThrow(ValidationException.class)
                 .when(findTaskByTaskIdUseCaseMock)
                 .execute(new TaskIdValue("00000000000000000000000000"));
-        doNothing().when(recordRdbRepositoryMock).deleteRecord(any());
+        doNothing().when(taskRdbRepositoryMock).deleteTask(any());
 
         assertThatThrownBy(
                         () ->
@@ -42,7 +42,7 @@ public final class DeleteTaskUseCaseTest {
                         () ->
                                 deleteTaskUseCaseImpl.execute(
                                         new DeleteTaskRequest("00000000000000000000000000")))
-                .isInstanceOf(LogicValidationException.class)
-                .hasMessageContaining("Record Not Found");
+                .isInstanceOf(ValidationException.class)
+                .hasMessageContaining("Task Not Found");
     }
 }
