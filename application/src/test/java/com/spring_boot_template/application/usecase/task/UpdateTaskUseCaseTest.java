@@ -6,7 +6,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 
 import com.spring_boot_template.application.usecase.task.impl.UpdateTaskUseCaseImpl;
-import com.spring_boot_template.domain.exception.LogicValidationException;
+import com.spring_boot_template.domain.exception.ValidationException;
 import com.spring_boot_template.domain.model.task.value.TaskIdValue;
 import com.spring_boot_template.infrastructure.task.TaskRdbRepository;
 import com.spring_boot_template.presentation.controller.task.request.UpdateTaskRequest;
@@ -19,7 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 public final class UpdateTaskUseCaseTest {
     @Mock private FindTaskByTaskIdUseCase findTaskByTaskIdUseCaseMock;
-    @Mock private TaskRdbRepository recordRdbRepositoryMock;
+    @Mock private TaskRdbRepository taskRdbRepositoryMock;
 
     @InjectMocks private UpdateTaskUseCaseImpl updateTaskUseCaseImpl;
 
@@ -28,10 +28,10 @@ public final class UpdateTaskUseCaseTest {
         doNothing()
                 .when(findTaskByTaskIdUseCaseMock)
                 .execute(new TaskIdValue("0123456789ABCDEFGHJKMNPQRS"));
-        doThrow(LogicValidationException.class)
+        doThrow(ValidationException.class)
                 .when(findTaskByTaskIdUseCaseMock)
                 .execute(new TaskIdValue("00000000000000000000000000"));
-        doNothing().when(recordRdbRepositoryMock).updateTaskName(any());
+        doNothing().when(taskRdbRepositoryMock).updateTaskStatus(any());
 
         assertThatThrownBy(
                         () ->
@@ -44,7 +44,7 @@ public final class UpdateTaskUseCaseTest {
                                 updateTaskUseCaseImpl.execute(
                                         new UpdateTaskRequest(
                                                 "00000000000000000000000000", (byte) 0, "a")))
-                .isInstanceOf(LogicValidationException.class)
-                .hasMessageContaining("Record Not Found");
+                .isInstanceOf(ValidationException.class)
+                .hasMessageContaining("Task Not Found");
     }
 }
