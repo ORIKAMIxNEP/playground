@@ -1,11 +1,10 @@
 package com.spring_boot_template.application.usecase.task;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.Mockito.doReturn;
 
 import com.spring_boot_template.application.usecase.task.impl.FetchTaskByTaskIdUseCaseImpl;
-import com.spring_boot_template.domain.exception.LogicValidationException;
+import com.spring_boot_template.domain.exception.ValidationException;
 import com.spring_boot_template.domain.model.task.TaskEntity;
 import com.spring_boot_template.domain.model.task.value.AssignedUserIdValue;
 import com.spring_boot_template.domain.model.task.value.TaskIdValue;
@@ -20,7 +19,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 public final class FetchTaskByTaskIdUseCaseTest {
-    @Mock private TaskRdbRepository recordRdbRepositoryMock;
+    @Mock private TaskRdbRepository taskRdbRepositoryMock;
 
     @InjectMocks private FetchTaskByTaskIdUseCaseImpl fetchTaskByTaskIdUseCaseImpl;
 
@@ -31,10 +30,10 @@ public final class FetchTaskByTaskIdUseCaseTest {
                                 new TaskIdValue("0123456789ABCDEFGHJKMNPQRS"),
                                 new AssignedUserIdValue((byte) 0),
                                 new TaskNameValue("a")))
-                .when(recordRdbRepositoryMock)
+                .when(taskRdbRepositoryMock)
                 .fetchTaskByTaskId(new TaskIdValue("0123456789ABCDEFGHJKMNPQRS"));
         doReturn(null)
-                .when(recordRdbRepositoryMock)
+                .when(taskRdbRepositoryMock)
                 .fetchTaskByTaskId(new TaskIdValue("00000000000000000000000000"));
 
         assertThat(fetchTaskByTaskIdUseCaseImpl.execute("0123456789ABCDEFGHJKMNPQRS"))
@@ -43,7 +42,7 @@ public final class FetchTaskByTaskIdUseCaseTest {
                         () -> {
                             fetchTaskByTaskIdUseCaseImpl.execute("00000000000000000000000000");
                         })
-                .isInstanceOf(LogicValidationException.class)
-                .hasMessageContaining("Record Not Found");
+                .isInstanceOf(ValidationException.class)
+                .hasMessageContaining("Task Not Found");
     }
 }
