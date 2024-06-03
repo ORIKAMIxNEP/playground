@@ -5,6 +5,7 @@ import com.spring_boot_template.domain.model.task.factory.TaskFactory;
 import com.spring_boot_template.domain.model.task.value.DueDateValue;
 import com.spring_boot_template.domain.model.task.value.MaxPostponeCountValue;
 import com.spring_boot_template.domain.model.task.value.TaskNameValue;
+import com.spring_boot_template.domain.model.task.value.TaskStatusValue;
 import com.spring_boot_template.domain.model.user.value.MailAddressValue;
 import com.spring_boot_template.domain.model.user.value.PasswordValue;
 import com.spring_boot_template.domain.model.user.value.UserIdValue;
@@ -32,5 +33,11 @@ public class UserEntity {
             final MaxPostponeCountValue maxPostponeCount) {
         return taskFactory.createTask(taskName, userId, dueDate, maxPostponeCount);
     }
-    ;
+
+    public TaskEntity updateTaskStatus(
+            final TaskEntity task, final TaskStatusValue updatedTaskStatus) {
+        task.updateTaskStatus(updatedTaskStatus);
+
+        return task;
+    }
 }
