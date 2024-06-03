@@ -10,4 +10,12 @@ public enum TaskStatusValue {
     DONE(false);
 
     @Getter private final boolean isCountableAsTask;
+
+    public final TaskStatusValue nextTaskStatus() {
+        return switch (this) {
+            case UNDONE -> DOING;
+            case DOING -> DONE;
+            default -> null;
+        };
+    }
 }
