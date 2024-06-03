@@ -16,7 +16,7 @@ public final class GlobalControllerAdvice {
         MethodArgumentNotValidException.class,
         DomainException.class
     })
-    public ResponseEntity<String> handleException(final Exception exception) {
+    public ResponseEntity<String> execute(final Exception exception) {
         return ResponseEntity.badRequest().body(exception.getMessage());
     }
 }

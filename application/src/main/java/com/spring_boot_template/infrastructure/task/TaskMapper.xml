@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring_boot_template.infrastructure.task.TaskMapper">
 
     <resultMap id="Task" type="com.spring_boot_template.domain.model.task.TaskEntity">
@@ -15,11 +17,8 @@
             </constructor>
         </association>
         <association property="taskStatus"
-                     javaType="com.spring_boot_template.domain.model.task.value.TaskStatusValue">
-            <constructor>
-                <arg name="value" column="taskStatus"/>
-            </constructor>
-        </association>
+                     javaType="com.spring_boot_template.domain.model.task.value.TaskStatusValue"
+                     typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
         <association property="assignedUserId"
                      javaType="com.spring_boot_template.domain.model.user.value.UserIdValue">
             <constructor>
@@ -38,6 +37,12 @@
                 <arg name="value" column="postpone_count"/>
             </constructor>
         </association>
+        <association property="maxPostponeCount"
+                     javaType="com.spring_boot_template.domain.model.task.value.MaxPostponeCountValue">
+            <constructor>
+                <arg name="value" column="max_postpone_count"/>
+            </constructor>
+        </association>
     </resultMap>
 
     <insert id="insertTask">
@@ -46,22 +51,25 @@
                           task_status,
                           user_id,
                           due_date,
-                          postpone_count)
+                          postpone_count
+            , max_postpone_count)
         VALUES (#{taskId.value},
                 #{taskName.value},
-                #{taskStatus.name()},
+                #{taskStatus},
                 #{assignedUserId.value},
                 #{dueDate.value},
-                #{postponeCount.value})
+                #{postponeCount.value},
+                #{maxPostponeCount.value})
     </insert>
 
-    <select id="selectTaskByTaskId" resultMap="TaskEntity">
+    <select id="selectTaskByTaskId" resultMap="Task">
         SELECT task_id,
                task_name,
                task_status,
                user_id,
                due_date,
-               postpone_count
+               postpone_count,
+               max_postpone_count
         FROM tasks
         WHERE task_id = #{value}
     </select>

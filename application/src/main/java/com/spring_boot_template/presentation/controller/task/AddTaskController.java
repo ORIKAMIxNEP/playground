@@ -1,8 +1,12 @@
 package com.spring_boot_template.presentation.controller.task;
 
 import com.spring_boot_template.application.usecase.task.AddTaskUseCase;
+import com.spring_boot_template.domain.exception.DomainException;
+import com.spring_boot_template.domain.exception.ValidationException;
 import com.spring_boot_template.presentation.controller.task.request.AddTaskRequest;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -20,9 +24,22 @@ final class AddTaskController {
     @Operation(
             tags = {"task"},
             summary = "タスクを追加する",
-            description = "カラム1、カラム2を受け取る" + " → タスクを追加する",
-            responses = {@ApiResponse(responseCode = "204", description = "No Content")})
-    public ResponseEntity<String> addTask(@RequestBody final AddTaskRequest addTaskRequest) {
+            description = "タスク名、ユーザーID、締め切り期日、最大延期回数を受け取る" + " → タスクを追加する",
+            responses = {
+                @ApiResponse(responseCode = "204", description = "No Content"),
+                @ApiResponse(
+                        responseCode = "400",
+                        description = "Bad Request",
+                        content =
+                                @Content(
+                                        schema =
+                                                @Schema(
+                                                        oneOf = {
+                                                            ValidationException.class,
+                                                            DomainException.class
+                                                        })))
+            })
+    public ResponseEntity<String> execute(@RequestBody final AddTaskRequest addTaskRequest) {
         addTaskUseCase.execute(addTaskRequest);
 
         return ResponseEntity.noContent().build();

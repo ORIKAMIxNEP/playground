@@ -1,6 +1,6 @@
 package com.spring_boot_template.application.usecase.task;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doReturn;
@@ -16,7 +16,9 @@ import com.spring_boot_template.domain.model.task.value.TaskIdValue;
 import com.spring_boot_template.domain.model.task.value.TaskNameValue;
 import com.spring_boot_template.domain.model.task.value.TaskStatusValue;
 import com.spring_boot_template.domain.model.user.value.UserIdValue;
-import com.spring_boot_template.presentation.controller.task.request.DeleteTaskRequest;
+import com.spring_boot_template.presentation.controller.task.request.UpdateTaskStatusRequest;
+import com.spring_boot_template.presentation.controller.task.response.UpdateTaskStatusResponse;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -24,11 +26,11 @@ import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-public final class DeleteTaskUseCaseTest {
+public final class UpdateTaskStatusUseCaseTest {
     @Mock private FindTaskByTaskIdUseCase findTaskByTaskIdUseCaseMock;
     @Mock private TaskRepository taskRepositoryMock;
 
-    @InjectMocks private DeleteTaskUseCase deleteTaskUseCase;
+    @InjectMocks private UpdateTaskStatusUseCase updateTaskUseCase;
 
     @Test
     public void executeTest() {
@@ -45,16 +47,16 @@ public final class DeleteTaskUseCaseTest {
                 .when(findTaskByTaskIdUseCaseMock)
                 .execute(new TaskIdValue("00000000000000000000000000"));
         doNothing().when(taskRepositoryMock).deleteTask(any());
+        doNothing().when(taskRepositoryMock).updateTaskStatus(any());
 
-        assertThatThrownBy(
+        assertThat(
+                        updateTaskUseCase.execute(
+                                new UpdateTaskStatusRequest("1123456789ABCDEFGHJKMNPQRS")))
+                .isEqualTo(new UpdateTaskStatusResponse("UNDONE"));
+        AssertionsForClassTypes.assertThatThrownBy(
                         () ->
-                                deleteTaskUseCase.execute(
-                                        new DeleteTaskRequest("1123456789ABCDEFGHJKMNPQRS")))
-                .doesNotThrowAnyException();
-        assertThatThrownBy(
-                        () ->
-                                deleteTaskUseCase.execute(
-                                        new DeleteTaskRequest("00000000000000000000000000")))
+                                updateTaskUseCase.execute(
+                                        new UpdateTaskStatusRequest("00000000000000000000000000")))
                 .isInstanceOf(ValidationException.class);
     }
 }

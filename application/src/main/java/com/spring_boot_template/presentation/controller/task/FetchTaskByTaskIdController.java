@@ -1,8 +1,9 @@
 package com.spring_boot_template.presentation.controller.task;
 
 import com.spring_boot_template.application.usecase.task.FetchTaskByTaskIdUseCase;
+import com.spring_boot_template.domain.exception.DomainException;
 import com.spring_boot_template.domain.exception.ValidationException;
-import com.spring_boot_template.presentation.controller.task.response.FetchTaskResponse;
+import com.spring_boot_template.presentation.controller.task.response.FetchTaskByTaskIdResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-final class FetchTaskController {
+final class FetchTaskByTaskIdController {
     private final FetchTaskByTaskIdUseCase fetchTaskByTaskIdUseCase;
 
     @GetMapping("/task/{taskId}")
@@ -24,7 +25,8 @@ final class FetchTaskController {
     @Operation(
             tags = {"task"},
             summary = "タスクを取得する",
-            description = "タスクIDを受け取る" + " → タスクを取得する" + " → タスクID、カラム1、カラム2を返す",
+            description =
+                    "タスクIDを受け取る" + " → タスクを取得する" + " → タスク名、タスクステータス、ユーザーID、締め切り期日、延期回数、最大延期回数を返す",
             responses = {
                 @ApiResponse(
                         responseCode = "200",
@@ -33,7 +35,9 @@ final class FetchTaskController {
                                 @Content(
                                         mediaType = "application/json",
                                         schema =
-                                                @Schema(implementation = FetchTaskResponse.class))),
+                                                @Schema(
+                                                        implementation =
+                                                                FetchTaskByTaskIdResponse.class))),
                 @ApiResponse(
                         responseCode = "400",
                         description = "Bad Request",
@@ -41,10 +45,12 @@ final class FetchTaskController {
                                 @Content(
                                         schema =
                                                 @Schema(
-                                                        implementation =
-                                                                ValidationException.class)))
+                                                        oneOf = {
+                                                            ValidationException.class,
+                                                            DomainException.class
+                                                        })))
             })
-    public ResponseEntity<?> fetchTask(@PathVariable final String taskId) {
+    public ResponseEntity<?> execute(@PathVariable final String taskId) {
         return ResponseEntity.ok(fetchTaskByTaskIdUseCase.execute(taskId));
     }
 }

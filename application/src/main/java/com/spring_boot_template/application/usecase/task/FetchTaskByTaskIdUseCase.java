@@ -1,7 +1,7 @@
 package com.spring_boot_template.application.usecase.task;
 
-import com.spring_boot_template.presentation.controller.task.response.FetchTaskResponse;
+import com.spring_boot_template.presentation.controller.task.response.FetchTaskByTaskIdResponse;
 
 public interface FetchTaskByTaskIdUseCase {
-    FetchTaskResponse execute(final String taskId);
+    FetchTaskByTaskIdResponse execute(final String taskId);
 }

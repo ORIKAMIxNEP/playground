@@ -17,10 +17,9 @@ public class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
 
     @Transactional
     public void execute(final DeleteTaskRequest deleteTaskRequest) {
-        final String taskId = deleteTaskRequest.taskId();
-        final TaskIdValue taskIdValue = new TaskIdValue(taskId);
+        final TaskIdValue taskId = new TaskIdValue(deleteTaskRequest.taskId());
 
-        findTaskByTaskIdUseCase.execute(taskIdValue);
-        taskRepository.deleteTask(taskIdValue);
+        findTaskByTaskIdUseCase.execute(taskId);
+        taskRepository.deleteTask(taskId);
     }
 }

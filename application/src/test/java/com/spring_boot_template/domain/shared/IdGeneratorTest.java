@@ -9,8 +9,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 public final class IdGeneratorTest {
     @Test
-    public void generateTest() {
-        final String id = IdGenerator.generate();
+    public void generateIdTest() {
+        final String id = IdGenerator.generateId();
 
         assertThat(id.length()).isEqualTo(26);
     }

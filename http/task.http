@@ -3,21 +3,21 @@ POST {{baseUrl}}/task
 Content-Type: application/json
 
 {
-  "column1": 0,
-  "column2": "a"
+  "taskName": "TaskName",
+  "userId": "0123456789ABCDEFGHJKMNPQRS",
+  "dueDate": "DueDate",
+  "maxPostponeCount": 10
 }
 
-### FetchTask
-GET {{baseUrl}}/task/0123456789ABCDEFGHJKMNPQRS
+### FetchTaskByTaskId
+GET {{baseUrl}}/task/1123456789ABCDEFGHJKMNPQRS
 
-### UpdateTask
-PUT {{baseUrl}}/task
+### UpdateTaskStatus
+PUT {{baseUrl}}/task/status
 Content-Type: application/json
 
 {
-  "taskId": "0123456789ABCDEFGHJKMNPQRS",
-  "column1": 0,
-  "column2": "a"
+  "taskId": "1123456789ABCDEFGHJKMNPQRS"
 }
 
 ### DeleteTask
@@ -25,5 +25,5 @@ DELETE {{baseUrl}}/task
 Content-Type: application/json
 
 {
-  "taskId": "0123456789ABCDEFGHJKMNPQRS"
+  "taskId": "1123456789ABCDEFGHJKMNPQRS"
 }

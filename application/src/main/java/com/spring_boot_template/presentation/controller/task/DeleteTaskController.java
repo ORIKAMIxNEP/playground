@@ -1,6 +1,7 @@
 package com.spring_boot_template.presentation.controller.task;
 
 import com.spring_boot_template.application.usecase.task.DeleteTaskUseCase;
+import com.spring_boot_template.domain.exception.DomainException;
 import com.spring_boot_template.domain.exception.ValidationException;
 import com.spring_boot_template.presentation.controller.task.request.DeleteTaskRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,10 +36,12 @@ final class DeleteTaskController {
                                 @Content(
                                         schema =
                                                 @Schema(
-                                                        implementation =
-                                                                ValidationException.class)))
+                                                        oneOf = {
+                                                            ValidationException.class,
+                                                            DomainException.class
+                                                        })))
             })
-    public ResponseEntity<?> deleteTask(@RequestBody final DeleteTaskRequest deleteTaskRequest) {
+    public ResponseEntity<?> execute(@RequestBody final DeleteTaskRequest deleteTaskRequest) {
         deleteTaskUseCase.execute(deleteTaskRequest);
 
         return ResponseEntity.noContent().build();

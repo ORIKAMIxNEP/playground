@@ -8,6 +8,7 @@ import com.spring_boot_template.domain.model.task.value.TaskIdValue;
 import com.spring_boot_template.domain.model.task.value.TaskNameValue;
 import com.spring_boot_template.domain.model.task.value.TaskStatusValue;
 import com.spring_boot_template.domain.model.user.value.UserIdValue;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,14 +23,12 @@ public class TaskEntity {
     private final UserIdValue assignedUserId;
     private DueDateValue dueDate;
     private PostponeCountValue postponeCount;
-    private MaxPostponeCountValue MaxPostponeCount;
+    private MaxPostponeCountValue maxPostponeCount;
 
-    public final void updateTaskStatus(final TaskStatusValue updatedTaskStatus) {
-        // 更新されたタスクステータスと期待されたタスクステータスが異なる場合
-        if (!updatedTaskStatus.equals(taskStatus.nextTaskStatus())) {
-            throw new DomainException("UpdatedTaskStatus does not match expected task status");
-        }
-
-        taskStatus = updatedTaskStatus;
+    public final void updateTaskStatus() {
+        taskStatus =
+                Optional.ofNullable(taskStatus.nextTaskStatus())
+                        .orElseThrow(
+                                () -> new DomainException("Cannot update TaskStatus any more"));
     }
 }

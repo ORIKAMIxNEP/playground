@@ -32,7 +32,7 @@ public final class TaskFactoryImpl implements TaskFactory {
             throw new ValidationException("Reached task assignment limit");
         }
 
-        final TaskIdValue taskId = new TaskIdValue(IdGenerator.generate());
+        final TaskIdValue taskId = new TaskIdValue(IdGenerator.generateId());
         final TaskStatusValue taskStatus = TaskStatusValue.UNDONE;
         final PostponeCountValue postponeCount = new PostponeCountValue(0);
 

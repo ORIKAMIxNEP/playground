@@ -3,9 +3,9 @@ package com.spring_boot_template.presentation.controller.task.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(
-        description = "削除するタスクのID",
+        description = "更新するタスクのID",
         requiredProperties = {"taskId"})
-public record DeleteTaskRequest(
+public record UpdateTaskStatusRequest(
         @Schema(
                         title = "タスクID",
                         type = "string",

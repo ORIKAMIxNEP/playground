@@ -19,6 +19,6 @@ class FindTaskByTaskIdUseCaseImpl implements FindTaskByTaskIdUseCase {
     @Transactional
     public TaskEntity execute(final TaskIdValue taskId) {
         return Optional.ofNullable(taskRepository.fetchTaskByTaskId(taskId))
-                .orElseThrow(() -> new ValidationException("Error: Task is not found"));
+                .orElseThrow(() -> new ValidationException("Task is not found"));
     }
 }
