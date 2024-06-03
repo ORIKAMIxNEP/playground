@@ -13,14 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
     private final FindTaskByTaskIdUseCase findTaskByTaskIdUseCase;
-    private final TaskRepository recordRepository;
+    private final TaskRepository taskRepository;
 
     @Transactional
     public void execute(final DeleteTaskRequest deleteTaskRequest) {
-        final String recordId = deleteTaskRequest.recordId();
-        final TaskIdValue taskIdValue = new TaskIdValue(recordId);
+        final String taskId = deleteTaskRequest.taskId();
+        final TaskIdValue taskIdValue = new TaskIdValue(taskId);
 
         findTaskByTaskIdUseCase.execute(taskIdValue);
-        recordRepository.deleteRecord(taskIdValue);
+        taskRepository.deleteTask(taskIdValue);
     }
 }
