@@ -13,7 +13,7 @@ interface TaskMapper {
 
     int selectCountTaskByUserId(final UserIdValue userId);
 
-    void updateTaskName(final TaskEntity task);
+    void updateTaskStatus(final TaskEntity task);
 
     void deleteTask(final TaskIdValue taskId);
 }
