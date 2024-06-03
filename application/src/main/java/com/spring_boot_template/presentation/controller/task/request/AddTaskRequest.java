@@ -15,7 +15,7 @@ public record AddTaskRequest(
                         maxLength = 26,
                         example = "0123456789ABCDEFGHJKMNPQRS")
                 String userId,
-        @Schema(title = "締め切り期日", type = "string", maxLength = 10, example = "a") String dueDate,
+        @Schema(title = "締め切り期日") String dueDate,
         @Schema(
                         title = "最大延期回数",
                         type = "integer",
