@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 final class AddTaskController {
     private final AddTaskUseCase addTaskUseCase;
 
-    @PostMapping(value = "/record", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/task", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
-            tags = {"record"},
-            summary = "レコードを追加する",
-            description = "カラム1、カラム2を受け取る" + " → レコードを追加する",
+            tags = {"task"},
+            summary = "タスクを追加する",
+            description = "カラム1、カラム2を受け取る" + " → タスクを追加する",
             responses = {@ApiResponse(responseCode = "204", description = "No Content")})
-    public ResponseEntity<String> addRecord(@RequestBody final AddTaskRequest addTaskRequest) {
+    public ResponseEntity<String> addTask(@RequestBody final AddTaskRequest addTaskRequest) {
         addTaskUseCase.execute(addTaskRequest);
 
         return ResponseEntity.noContent().build();
