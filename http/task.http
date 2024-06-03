@@ -1,5 +1,5 @@
-### AddRecord
-POST {{baseUrl}}/record
+### AddTask
+POST {{baseUrl}}/task
 Content-Type: application/json
 
 {
@@ -7,23 +7,23 @@ Content-Type: application/json
   "column2": "a"
 }
 
-### FetchRecord
-GET {{baseUrl}}/record/0123456789ABCDEFGHJKMNPQRS
+### FetchTask
+GET {{baseUrl}}/task/0123456789ABCDEFGHJKMNPQRS
 
-### UpdateRecord
-PUT {{baseUrl}}/record
+### UpdateTask
+PUT {{baseUrl}}/task
 Content-Type: application/json
 
 {
-  "recordId": "0123456789ABCDEFGHJKMNPQRS",
+  "taskId": "0123456789ABCDEFGHJKMNPQRS",
   "column1": 0,
   "column2": "a"
 }
 
-### DeleteRecord
-DELETE {{baseUrl}}/record
+### DeleteTask
+DELETE {{baseUrl}}/task
 Content-Type: application/json
 
 {
-  "recordId": "0123456789ABCDEFGHJKMNPQRS"
+  "taskId": "0123456789ABCDEFGHJKMNPQRS"
 }
