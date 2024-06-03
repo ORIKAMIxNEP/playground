@@ -1,7 +1,7 @@
 package com.spring_boot_template.presentation.controller.task;
 
 import com.spring_boot_template.application.usecase.task.UpdateTaskUseCase;
-import com.spring_boot_template.domain.exception.LogicValidationException;
+import com.spring_boot_template.domain.exception.ValidationException;
 import com.spring_boot_template.presentation.controller.task.request.UpdateTaskRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 final class UpdateTaskController {
     private final UpdateTaskUseCase updateTaskUseCase;
 
-    @PutMapping(value = "/record", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/task", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @Operation(
-            tags = {"record"},
-            summary = "レコードを更新する",
-            description = "レコードID、カラム1、カラム2を受け取る" + " → レコードを更新する",
+            tags = {"task"},
+            summary = "タスクを更新する",
+            description = "タスクID、カラム1、カラム2を受け取る" + " → タスクを更新する",
             responses = {
                 @ApiResponse(responseCode = "204", description = "No Content"),
                 @ApiResponse(
@@ -36,9 +36,9 @@ final class UpdateTaskController {
                                         schema =
                                                 @Schema(
                                                         implementation =
-                                                                LogicValidationException.class)))
+                                                                ValidationException.class)))
             })
-    public ResponseEntity<?> updateRecord(@RequestBody final UpdateTaskRequest updateTaskRequest) {
+    public ResponseEntity<?> updateTask(@RequestBody final UpdateTaskRequest updateTaskRequest) {
         updateTaskUseCase.execute(updateTaskRequest);
 
         return ResponseEntity.noContent().build();
