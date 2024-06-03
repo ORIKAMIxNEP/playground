@@ -1,7 +1,7 @@
 package com.spring_boot_template.presentation.controller.task;
 
 import com.spring_boot_template.application.usecase.task.FetchTaskByTaskIdUseCase;
-import com.spring_boot_template.domain.exception.LogicValidationException;
+import com.spring_boot_template.domain.exception.ValidationException;
 import com.spring_boot_template.presentation.controller.task.response.FetchTaskResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 final class FetchTaskController {
     private final FetchTaskByTaskIdUseCase fetchTaskByTaskIdUseCase;
 
-    @GetMapping("/record/{recordId}")
+    @GetMapping("/task/{taskId}")
     @ResponseBody
     @Operation(
-            tags = {"record"},
-            summary = "レコードを取得する",
-            description = "レコードIDを受け取る" + " → レコードを取得する" + " → レコードID、カラム1、カラム2を返す",
+            tags = {"task"},
+            summary = "タスクを取得する",
+            description = "タスクIDを受け取る" + " → タスクを取得する" + " → タスクID、カラム1、カラム2を返す",
             responses = {
                 @ApiResponse(
                         responseCode = "200",
@@ -42,9 +42,9 @@ final class FetchTaskController {
                                         schema =
                                                 @Schema(
                                                         implementation =
-                                                                LogicValidationException.class)))
+                                                                ValidationException.class)))
             })
-    public ResponseEntity<?> fetchRecord(@PathVariable final String recordId) {
-        return ResponseEntity.ok(fetchTaskByTaskIdUseCase.execute(recordId));
+    public ResponseEntity<?> fetchTask(@PathVariable final String taskId) {
+        return ResponseEntity.ok(fetchTaskByTaskIdUseCase.execute(taskId));
     }
 }
