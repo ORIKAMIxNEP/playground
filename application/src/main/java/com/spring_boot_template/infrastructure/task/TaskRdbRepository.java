@@ -28,12 +28,12 @@ public class TaskRdbRepository implements TaskRepository {
     }
 
     @Override
-    public void updateTaskName(final TaskEntity task) {
-        taskMapper.updateTaskName(task);
+    public void updateTaskStatus(final TaskEntity task) {
+        taskMapper.updateTaskStatus(task);
     }
 
     @Override
-    public void deleteRecord(final TaskIdValue taskId) {
+    public void deleteTask(final TaskIdValue taskId) {
         taskMapper.deleteTask(taskId);
     }
 }
