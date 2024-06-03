@@ -1,7 +1,7 @@
 package com.spring_boot_template.presentation.controller.task;
 
 import com.spring_boot_template.application.usecase.task.DeleteTaskUseCase;
-import com.spring_boot_template.domain.exception.LogicValidationException;
+import com.spring_boot_template.domain.exception.ValidationException;
 import com.spring_boot_template.presentation.controller.task.request.DeleteTaskRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,12 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 final class DeleteTaskController {
     private final DeleteTaskUseCase deleteTaskUseCase;
 
-    @DeleteMapping(value = "/record", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/task", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     @Operation(
-            tags = {"record"},
-            summary = "レコードを削除する",
-            description = "レコードIDを受け取る" + " → レコードを削除する",
+            tags = {"task"},
+            summary = "タスクを削除する",
+            description = "タスクIDを受け取る" + " → タスクを削除する",
             responses = {
                 @ApiResponse(responseCode = "204", description = "No Content"),
                 @ApiResponse(
@@ -36,9 +36,9 @@ final class DeleteTaskController {
                                         schema =
                                                 @Schema(
                                                         implementation =
-                                                                LogicValidationException.class)))
+                                                                ValidationException.class)))
             })
-    public ResponseEntity<?> deleteRecord(@RequestBody final DeleteTaskRequest deleteTaskRequest) {
+    public ResponseEntity<?> deleteTask(@RequestBody final DeleteTaskRequest deleteTaskRequest) {
         deleteTaskUseCase.execute(deleteTaskRequest);
 
         return ResponseEntity.noContent().build();
