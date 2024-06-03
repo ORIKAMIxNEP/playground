@@ -10,7 +10,7 @@ public interface TaskRepository {
 
     int countTaskByUserId(final UserIdValue userId);
 
-    void updateTaskName(final TaskEntity task);
+    void updateTaskStatus(final TaskEntity task);
 
-    void deleteRecord(final TaskIdValue taskId);
+    void deleteTask(final TaskIdValue taskId);
 }
