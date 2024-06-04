@@ -10,7 +10,7 @@ import com.spring_boot_template.domain.model.user.value.PasswordValue;
 import com.spring_boot_template.domain.model.user.value.UserIdValue;
 import com.spring_boot_template.domain.model.user.value.UserNameValue;
 import com.spring_boot_template.domain.model.user.value.UserStatusValue;
-import java.util.List;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class UserEntity {
     private final UserIdValue userId;
     private final UserNameValue userName;
     private final PasswordValue password;
-    private final List<MailAddressValue> mailAddresses;
+    private final ArrayList<MailAddressValue> mailAddresses;
     private UserStatusValue userStatus;
 
     public TaskEntity createTask(
