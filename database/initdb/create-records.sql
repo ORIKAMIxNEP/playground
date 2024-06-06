@@ -10,5 +10,16 @@ CREATE TABLE tasks
     PRIMARY KEY (task_id)
 );
 
-INSERT INTO tasks (task_id, task_name, task_status, user_id, due_date, postpone_count, max_postpone_count)
-VALUES ('1123456789ABCDEFGHJKMNPQRS', 'TaskName', 'UNDONE', '0123456789ABCDEFGHJKMNPQRS', 'DueDate', 0, 10);
+INSERT INTO tasks (task_id,
+                   task_name,
+                   task_status,
+                   user_id, due_date,
+                   postpone_count,
+                   max_postpone_count)
+VALUES ('1123456789ABCDEFGHJKMNPQRS',
+        'TaskName',
+        'UNDONE',
+        '0123456789ABCDEFGHJKMNPQRS',
+        'DueDate',
+        0,
+        10);

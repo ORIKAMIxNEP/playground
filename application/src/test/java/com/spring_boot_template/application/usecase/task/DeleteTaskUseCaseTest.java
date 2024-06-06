@@ -14,7 +14,7 @@ import com.spring_boot_template.domain.model.task.value.MaxPostponeCountValue;
 import com.spring_boot_template.domain.model.task.value.PostponeCountValue;
 import com.spring_boot_template.domain.model.task.value.TaskIdValue;
 import com.spring_boot_template.domain.model.task.value.TaskNameValue;
-import com.spring_boot_template.domain.model.task.value.TaskStatusValue;
+import com.spring_boot_template.domain.model.task.value.TaskStatusType;
 import com.spring_boot_template.domain.model.user.value.UserIdValue;
 import com.spring_boot_template.presentation.controller.task.request.DeleteTaskRequest;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ public final class DeleteTaskUseCaseTest {
                 new TaskEntity(
                         new TaskIdValue("1123456789ABCDEFGHJKMNPQRS"),
                         new TaskNameValue("TaskName"),
-                        TaskStatusValue.UNDONE,
+                        TaskStatusType.UNDONE,
                         new UserIdValue("0123456789ABCDEFGHJKMNPQRS"),
                         new DueDateValue("DueDate"),
                         new PostponeCountValue(0),

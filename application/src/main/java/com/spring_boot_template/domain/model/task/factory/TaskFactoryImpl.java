@@ -7,7 +7,7 @@ import com.spring_boot_template.domain.model.task.value.MaxPostponeCountValue;
 import com.spring_boot_template.domain.model.task.value.PostponeCountValue;
 import com.spring_boot_template.domain.model.task.value.TaskIdValue;
 import com.spring_boot_template.domain.model.task.value.TaskNameValue;
-import com.spring_boot_template.domain.model.task.value.TaskStatusValue;
+import com.spring_boot_template.domain.model.task.value.TaskStatusType;
 import com.spring_boot_template.domain.model.user.value.UserIdValue;
 import com.spring_boot_template.domain.shared.IdGenerator;
 import jakarta.validation.ValidationException;
@@ -33,7 +33,7 @@ public final class TaskFactoryImpl implements TaskFactory {
         }
 
         final TaskIdValue taskId = new TaskIdValue(IdGenerator.generateId());
-        final TaskStatusValue taskStatus = TaskStatusValue.UNDONE;
+        final TaskStatusType taskStatus = TaskStatusType.UNDONE;
         final PostponeCountValue postponeCount = new PostponeCountValue(0);
 
         return new TaskEntity(

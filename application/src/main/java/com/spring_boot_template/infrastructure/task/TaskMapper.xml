@@ -5,6 +5,8 @@
 <mapper namespace="com.spring_boot_template.infrastructure.task.TaskMapper">
 
     <resultMap id="Task" type="com.spring_boot_template.domain.model.task.TaskEntity">
+        <result property="taskStatus" column="task_status"
+                typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
         <association property="taskId" javaType="com.spring_boot_template.domain.model.task.value.TaskIdValue">
             <constructor>
                 <arg name="value" column="task_id"/>
@@ -16,9 +18,6 @@
                 <arg name="value" column="task_name"/>
             </constructor>
         </association>
-        <association property="taskStatus"
-                     javaType="com.spring_boot_template.domain.model.task.value.TaskStatusValue"
-                     typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
         <association property="assignedUserId"
                      javaType="com.spring_boot_template.domain.model.user.value.UserIdValue">
             <constructor>
@@ -26,7 +25,7 @@
             </constructor>
         </association>
         <association property="dueDate"
-                     javaType="com.spring_boot_template.domain.model.task.value.TaskStatusValue">
+                     javaType="com.spring_boot_template.domain.model.task.value.DueDateValue">
             <constructor>
                 <arg name="value" column="due_date"/>
             </constructor>
@@ -51,8 +50,8 @@
                           task_status,
                           user_id,
                           due_date,
-                          postpone_count
-            , max_postpone_count)
+                          postpone_count,
+                          max_postpone_count)
         VALUES (#{taskId.value},
                 #{taskName.value},
                 #{taskStatus},
@@ -82,7 +81,7 @@
 
     <update id="updateTaskStatus">
         UPDATE tasks
-        SET task_name = #{taskStatus.name()}
+        SET task_name = #{taskStatus}
         WHERE task_id = #{taskId.value}
     </update>
 

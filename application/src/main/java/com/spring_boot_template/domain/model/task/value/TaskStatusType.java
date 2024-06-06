@@ -4,14 +4,14 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public enum TaskStatusValue {
+public enum TaskStatusType {
     UNDONE(true),
     DOING(true),
     DONE(false);
 
     @Getter private final boolean isCountableAsTask;
 
-    public final TaskStatusValue nextTaskStatus() {
+    public final TaskStatusType nextTaskStatus() {
         return switch (this) {
             case UNDONE -> DOING;
             case DOING -> DONE;
