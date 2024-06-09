@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class UserIdValue {
+public final class UserIdValue {
     @Getter
     @NotNull(message = "UserId is null")
     @Pattern(

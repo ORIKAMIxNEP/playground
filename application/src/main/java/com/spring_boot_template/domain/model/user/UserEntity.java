@@ -10,15 +10,16 @@ import com.spring_boot_template.domain.model.user.value.PasswordValue;
 import com.spring_boot_template.domain.model.user.value.UserIdValue;
 import com.spring_boot_template.domain.model.user.value.UserNameValue;
 import com.spring_boot_template.domain.model.user.value.UserStatusValue;
-import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+import java.util.ArrayList;
+
 @NoArgsConstructor(force = true)
+@AllArgsConstructor
 @Getter
-public class UserEntity {
+public final class UserEntity {
     private final UserIdValue userId;
     private final UserNameValue userName;
     private final PasswordValue password;

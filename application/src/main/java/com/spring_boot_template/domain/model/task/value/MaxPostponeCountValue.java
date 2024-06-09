@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class MaxPostponeCountValue {
+public final class MaxPostponeCountValue {
     @Getter
     @Min(0)
     @Max(10)

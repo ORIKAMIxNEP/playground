@@ -1,2 +1,129 @@
 @startuml
+class Account {
+  - id: AccountId
+  - name: AccountName
+  - password: Password
+}
+
+class AccountId {
+  - value: String
+}
+
+class AccountName {
+  - value: String
+}
+
+class Password {
+  - value: String
+}
+
+class CustomerAccount {
+  - balance: Balance
+  - orders: HashSet<Order>
+  + addBalance(balance Balance): void
+  + orderProduct(product: Product, quantity: Quantity): void
+}
+
+class CustomerAccountFactory {
+  + createCustomerAccount(accountName: AccountName, password: Password): CustomerAccount
+}
+
+class Balance {
+  - value: int
+}
+
+class Order {
+  - product: Product
+  - quantity: Quantity
+  - status: Status
+  + equals(o: Object): boolean
+  + hashCode(): int
+}
+
+class Quantity {
+  - value: int
+}
+
+enum Status {
+  PREPARING
+  SHIPPED
+  DELIVERED
+}
+
+class BusinessAccount {
+  - shops: HashSet<Shop>
+  + createShop(shopFactory: ShopFactory, shopName: ShopName): void
+}
+
+class BusinessAccountFactory {
+  + createBusinessAccount(accountName: AccountName, password: Password): BusinessAccount
+}
+
+class Shop {
+  - id: ShopId
+  - name: ShopName
+  - createdAt: LocalDateTime
+  - products: HashSet<Product>
+  + addProduct(product: Product): void
+  + addProductStock(stock: Stock): void
+  + equals(o: Object): boolean
+  + hashCode(): int
+}
+
+class ShopFactory {
+  + createShop(shopName: ShopName): Shop
+}
+
+class ShopId {
+  - value: String
+}
+
+class ShopName {
+  - value: String
+}
+
+class Product {
+  - id: ProductId
+  - name: ProductName
+  - stock：Stock
+}
+
+class ProductId {
+  - value: String
+}
+
+class ProductName {
+  - value: String
+}
+
+class Stock {
+  - value: int
+}
+
+Account *-- AccountId
+Account *-- AccountName
+Account *-- Password
+Account <|-- CustomerAccount
+CustomerAccountFactory ..> CustomerAccount
+CustomerAccountFactory ..> AccountName
+CustomerAccountFactory ..> Password
+CustomerAccount *-- Balance
+CustomerAccount "0..*" o-- "1" Order
+Order "1" --> "1" Product
+Order *-- Quantity
+Order *-- Status
+Account <|-- BusinessAccount
+BusinessAccountFactory ..> BusinessAccount
+BusinessAccountFactory ..> AccountName
+BusinessAccountFactory ..> Password
+BusinessAccount "1" o-- "0..*" Shop
+BusinessAccount ..> ShopFactory
+ShopFactory ..> ShopName
+Shop *-- ShopId
+Shop *-- ShopName
+Shop "1" o-- "0..*" Product
+Shop ..> Stock
+Product *-- ProductId
+Product *-- ProductName
+Product *-- Stock
 @enduml

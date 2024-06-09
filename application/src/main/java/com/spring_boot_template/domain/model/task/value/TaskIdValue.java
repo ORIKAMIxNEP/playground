@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class TaskIdValue {
+public final class TaskIdValue {
     @Getter
     @NotNull(message = "TaskId is null")
     @Pattern(

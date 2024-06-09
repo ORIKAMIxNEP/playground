@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class FetchTaskByTaskIdUseCaseImpl implements FetchTaskByTaskIdUseCase {
+class FetchTaskByTaskIdUseCaseImpl implements FetchTaskByTaskIdUseCase {
     private final FindTaskByTaskIdUseCase findTaskByTaskIdUseCase;
 
     @Override

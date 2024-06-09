@@ -4,6 +4,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class PostponeCountValue {
+public final class PostponeCountValue {
     @Getter private final int value;
 }

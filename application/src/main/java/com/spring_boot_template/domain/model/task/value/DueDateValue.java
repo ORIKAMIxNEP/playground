@@ -4,6 +4,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class DueDateValue {
+public final class DueDateValue {
     @Getter private final String value;
 }

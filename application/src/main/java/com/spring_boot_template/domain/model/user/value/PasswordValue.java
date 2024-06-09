@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class PasswordValue {
+public final class PasswordValue {
     @Getter
     @NotNull(message = "Password is null")
     @Size(

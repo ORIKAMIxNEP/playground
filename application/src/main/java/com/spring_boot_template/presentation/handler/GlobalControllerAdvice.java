@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 @RequiredArgsConstructor
-public final class GlobalControllerAdvice {
+final class GlobalControllerAdvice {
     @ExceptionHandler({
         ValidationException.class,
         MethodArgumentNotValidException.class,

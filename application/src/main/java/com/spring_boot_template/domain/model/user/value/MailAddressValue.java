@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class MailAddressValue {
+public final class MailAddressValue {
     @Getter
     @NotNull(message = "MailAddress is null")
     @Pattern(

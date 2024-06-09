@@ -8,15 +8,16 @@ import com.spring_boot_template.domain.model.task.value.TaskIdValue;
 import com.spring_boot_template.domain.model.task.value.TaskNameValue;
 import com.spring_boot_template.domain.model.task.value.TaskStatusType;
 import com.spring_boot_template.domain.model.user.value.UserIdValue;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+import java.util.Optional;
+
 @NoArgsConstructor(force = true)
+@AllArgsConstructor
 @Getter
-public class TaskEntity {
+public final class TaskEntity {
     private final TaskIdValue taskId;
     private final TaskNameValue taskName;
     private TaskStatusType taskStatus;
@@ -25,7 +26,7 @@ public class TaskEntity {
     private PostponeCountValue postponeCount;
     private MaxPostponeCountValue maxPostponeCount;
 
-    public final void updateTaskStatus() {
+    public void updateTaskStatus() {
         taskStatus =
                 Optional.ofNullable(taskStatus.nextTaskStatus())
                         .orElseThrow(

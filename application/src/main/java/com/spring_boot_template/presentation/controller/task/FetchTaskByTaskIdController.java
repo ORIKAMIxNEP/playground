@@ -50,7 +50,7 @@ final class FetchTaskByTaskIdController {
                                                             DomainException.class
                                                         })))
             })
-    public ResponseEntity<?> execute(@PathVariable final String taskId) {
+    private ResponseEntity<?> execute(@PathVariable final String taskId) {
         return ResponseEntity.ok(fetchTaskByTaskIdUseCase.execute(taskId));
     }
 }
