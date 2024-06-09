@@ -8,11 +8,10 @@ import com.spring_boot_template.domain.model.task.value.TaskIdValue;
 import com.spring_boot_template.domain.model.task.value.TaskNameValue;
 import com.spring_boot_template.domain.model.task.value.TaskStatusType;
 import com.spring_boot_template.domain.model.user.value.UserIdValue;
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.Optional;
 
 @NoArgsConstructor(force = true)
 @AllArgsConstructor

@@ -10,11 +10,10 @@ import com.spring_boot_template.domain.model.user.value.PasswordValue;
 import com.spring_boot_template.domain.model.user.value.UserIdValue;
 import com.spring_boot_template.domain.model.user.value.UserNameValue;
 import com.spring_boot_template.domain.model.user.value.UserStatusValue;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
 
 @NoArgsConstructor(force = true)
 @AllArgsConstructor

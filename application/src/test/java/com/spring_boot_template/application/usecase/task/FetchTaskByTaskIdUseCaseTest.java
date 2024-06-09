@@ -1,5 +1,10 @@
 package com.spring_boot_template.application.usecase.task;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+
 import com.spring_boot_template.domain.exception.ValidationException;
 import com.spring_boot_template.domain.model.task.TaskEntity;
 import com.spring_boot_template.domain.model.task.value.DueDateValue;
@@ -15,11 +20,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.doThrow;
 
 @ExtendWith(SpringExtension.class)
 final class FetchTaskByTaskIdUseCaseTest {
