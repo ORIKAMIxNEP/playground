@@ -3,6 +3,8 @@ class Account {
   - id: AccountId
   - name: AccountName
   - password: Password
+  - projects: HashSet<Project>
+  + createProject(projectFactory: ProjectFactory, projectName: ProjectName): void
 }
 
 class AccountId {
@@ -17,113 +19,123 @@ class Password {
   - value: String
 }
 
-class CustomerAccount {
-  - balance: Balance
-  - orders: HashSet<Order>
-  + addBalance(balance Balance): void
-  + orderProduct(product: Product, quantity: Quantity): void
+class AccountFactory {
+  + createAccount(accountName: AccountName, password: Password): Account
 }
 
-class CustomerAccountFactory {
-  + createCustomerAccount(accountName: AccountName, password: Password): CustomerAccount
+class Project {
+  - id: ProjectId
+  - name: ProjectName
+  - tasks: HashSet<Task>
+  + createTask(taskFactory: TaskFactory, taskName: TaskName): void
+  + createDueDateTask(dueDateTaskFactory: DueDateTaskFactory, taskName: TaskName, dueDate: DueDate, maxPostponeCount: MaxPostponeCount): void
+  + equals(o: Object): boolean
+  + hashCode(): int
 }
 
-class Balance {
-  - value: int
+class ProjectId {
+  - value: String
 }
 
-class Order {
-  - product: Product
-  - quantity: Quantity
+class ProjectName {
+  - value: String
+}
+
+class ProjectFactory {
+  + createProject(projectName: ProjectName): Project
+}
+
+class Task {
+  - id: TaskId
+  - name: TaskName
   - status: Status
   + equals(o: Object): boolean
   + hashCode(): int
 }
 
-class Quantity {
-  - value: int
+class TaskId {
+  - value: String
+}
+
+class TaskName {
+  - value: String
 }
 
 enum Status {
-  PREPARING
-  SHIPPED
-  DELIVERED
+  UNDONE
+  DOING
+  DONE
 }
 
-class BusinessAccount {
-  - shops: HashSet<Shop>
-  + createShop(shopFactory: ShopFactory, shopName: ShopName): void
+class TaskFactory {
+  + createTask(taskName: TaskName): Task
 }
 
-class BusinessAccountFactory {
-  + createBusinessAccount(accountName: AccountName, password: Password): BusinessAccount
+class DueDateTask {
+  - dueDate: DueDate
+  - postponeCount: PostponeCount
+  - maxPostponeCount: MaxPostponeCount
 }
 
-class Shop {
-  - id: ShopId
-  - name: ShopName
-  - createdAt: LocalDateTime
-  - products: HashSet<Product>
-  + addProduct(product: Product): void
-  + addProductStock(stock: Stock): void
-  + equals(o: Object): boolean
-  + hashCode(): int
+class DueDate {
+  - value: LocalDateTime
 }
 
-class ShopFactory {
-  + createShop(shopName: ShopName): Shop
-}
-
-class ShopId {
-  - value: String
-}
-
-class ShopName {
-  - value: String
-}
-
-class Product {
-  - id: ProductId
-  - name: ProductName
-  - stock：Stock
-}
-
-class ProductId {
-  - value: String
-}
-
-class ProductName {
-  - value: String
-}
-
-class Stock {
+class PostponeCount {
   - value: int
+}
+
+class MaxPostponeCount {
+  - value: int
+}
+
+class DueDateTaskFactory {
+  + createDueDateTask(taskName: TaskName, dueDate: DueDate, maxPostponeCount: MaxPostponeCount): DueDateTask
+}
+
+class IdGenerator {
+  {static} - ULID_INSTANCE: ULID
+  {static} + generateId(): String
 }
 
 Account *-- AccountId
 Account *-- AccountName
 Account *-- Password
-Account <|-- CustomerAccount
-CustomerAccountFactory ..> CustomerAccount
-CustomerAccountFactory ..> AccountName
-CustomerAccountFactory ..> Password
-CustomerAccount *-- Balance
-CustomerAccount "0..*" o-- "1" Order
-Order "1" --> "1" Product
-Order *-- Quantity
-Order *-- Status
-Account <|-- BusinessAccount
-BusinessAccountFactory ..> BusinessAccount
-BusinessAccountFactory ..> AccountName
-BusinessAccountFactory ..> Password
-BusinessAccount "1" o-- "0..*" Shop
-BusinessAccount ..> ShopFactory
-ShopFactory ..> ShopName
-Shop *-- ShopId
-Shop *-- ShopName
-Shop "1" o-- "0..*" Product
-Shop ..> Stock
-Product *-- ProductId
-Product *-- ProductName
-Product *-- Stock
+Account "1" o-- "0..*" Project
+Account ..> ProjectFactory
+AccountFactory ..> Account
+AccountFactory ..> AccountId
+AccountFactory ..> IdGenerator
+AccountFactory ..> AccountName
+AccountFactory ..> Password
+AccountFactory ..> Project
+Project *-- ProjectId
+Project *-- ProjectName
+Project "1" *-- "0..*" Task
+Project ..> TaskFactory
+ProjectFactory ..> Project
+ProjectFactory ..> ProjectId
+ProjectFactory ..> IdGenerator
+ProjectFactory ..> ProjectName
+ProjectFactory ..> Task
+Task *-- TaskId
+Task *-- TaskName
+Task *-- Status
+TaskFactory ..> Task
+TaskFactory ..> TaskId
+TaskFactory ..> IdGenerator
+TaskFactory ..> TaskName
+TaskFactory ..> Status
+DueDateTask --|> Task
+DueDateTask *-- DueDate
+DueDateTask *-- PostponeCount
+DueDateTask *-- MaxPostponeCount
+DueDateTaskFactory ..> DueDateTask
+DueDateTaskFactory ..> TaskId
+DueDateTaskFactory ..> IdGenerator
+DueDateTaskFactory ..> TaskName
+DueDateTaskFactory ..> Status
+DueDateTaskFactory ..> DueDate
+DueDateTaskFactory ..> PostponeCount
+DueDateTaskFactory ..> MaxPostponeCount
 @enduml
