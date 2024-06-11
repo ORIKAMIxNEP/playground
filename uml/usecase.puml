@@ -3,8 +3,8 @@ class Account {
   - id: AccountId
   - name: AccountName
   - password: Password
-  - projects: HashSet<Project>
-  + createProject(projectFactory: ProjectFactory, projectName: ProjectName): void
+  + equals(o: Object): boolean
+  + hashCode(): int
 }
 
 class AccountId {
@@ -26,6 +26,7 @@ class AccountFactory {
 class Project {
   - id: ProjectId
   - name: ProjectName
+  - users: HashSet<User>
   - tasks: HashSet<Task>
   + createTask(taskFactory: TaskFactory, taskName: TaskName): void
   + createDueDateTask(dueDateTaskFactory: DueDateTaskFactory, taskName: TaskName, dueDate: DueDate, maxPostponeCount: MaxPostponeCount): void
@@ -101,16 +102,14 @@ class IdGenerator {
 Account *-- AccountId
 Account *-- AccountName
 Account *-- Password
-Account "1" o-- "0..*" Project
-Account ..> ProjectFactory
 AccountFactory ..> Account
 AccountFactory ..> AccountId
 AccountFactory ..> IdGenerator
 AccountFactory ..> AccountName
 AccountFactory ..> Password
-AccountFactory ..> Project
 Project *-- ProjectId
 Project *-- ProjectName
+Project "0.*" --> "1..*" Account
 Project "1" *-- "0..*" Task
 Project ..> TaskFactory
 ProjectFactory ..> Project
