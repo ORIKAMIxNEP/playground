@@ -19,14 +19,24 @@ class Password {
   - value: String
 }
 
+Account *-- AccountId
+Account *-- AccountName
+Account *-- Password
+
 class AccountFactory {
-  + createAccount(accountName: AccountName, password: Password): Account
+  + createAccount(name: AccountName, password: Password): Account
 }
+
+AccountFactory ..> Account
+AccountFactory ..> AccountId
+AccountFactory ..> IdGenerator
+AccountFactory ..> AccountName
+AccountFactory ..> Password
 
 class Project {
   - id: ProjectId
   - name: ProjectName
-  - users: HashSet<User>
+  - participatingAccounts: HashSet<Account>
   - tasks: HashSet<Task>
   + createTask(taskFactory: TaskFactory, taskName: TaskName): void
   + createDueDateTask(dueDateTaskFactory: DueDateTaskFactory, taskName: TaskName, dueDate: DueDate, maxPostponeCount: MaxPostponeCount): void
@@ -42,14 +52,28 @@ class ProjectName {
   - value: String
 }
 
+Project *-- ProjectId
+Project *-- ProjectName
+Project "0.*" --> "1..*" Account
+Project "1" *-- "0..*" Task
+Project ..> TaskFactory
+
 class ProjectFactory {
-  + createProject(projectName: ProjectName): Project
+  + createProject(name: ProjectName): Project
 }
+
+ProjectFactory ..> Project
+ProjectFactory ..> ProjectId
+ProjectFactory ..> IdGenerator
+ProjectFactory ..> ProjectName
+ProjectFactory ..> Account
+ProjectFactory ..> Task
 
 class Task {
   - id: TaskId
   - name: TaskName
   - status: Status
+  - assignedAccounts: HashSet<Account>
   + equals(o: Object): boolean
   + hashCode(): int
 }
@@ -68,9 +92,19 @@ enum Status {
   DONE
 }
 
+Task *-- TaskId
+Task *-- TaskName
+Task *-- Status
+
 class TaskFactory {
-  + createTask(taskName: TaskName): Task
+  + createTask(name: TaskName): Task
 }
+
+TaskFactory ..> Task
+TaskFactory ..> TaskId
+TaskFactory ..> IdGenerator
+TaskFactory ..> TaskName
+TaskFactory ..> Status
 
 class DueDateTask {
   - dueDate: DueDate
@@ -90,45 +124,15 @@ class MaxPostponeCount {
   - value: int
 }
 
-class DueDateTaskFactory {
-  + createDueDateTask(taskName: TaskName, dueDate: DueDate, maxPostponeCount: MaxPostponeCount): DueDateTask
-}
-
-class IdGenerator {
-  {static} - ULID_INSTANCE: ULID
-  {static} + generateId(): String
-}
-
-Account *-- AccountId
-Account *-- AccountName
-Account *-- Password
-AccountFactory ..> Account
-AccountFactory ..> AccountId
-AccountFactory ..> IdGenerator
-AccountFactory ..> AccountName
-AccountFactory ..> Password
-Project *-- ProjectId
-Project *-- ProjectName
-Project "0.*" --> "1..*" Account
-Project "1" *-- "0..*" Task
-Project ..> TaskFactory
-ProjectFactory ..> Project
-ProjectFactory ..> ProjectId
-ProjectFactory ..> IdGenerator
-ProjectFactory ..> ProjectName
-ProjectFactory ..> Task
-Task *-- TaskId
-Task *-- TaskName
-Task *-- Status
-TaskFactory ..> Task
-TaskFactory ..> TaskId
-TaskFactory ..> IdGenerator
-TaskFactory ..> TaskName
-TaskFactory ..> Status
 DueDateTask --|> Task
 DueDateTask *-- DueDate
 DueDateTask *-- PostponeCount
 DueDateTask *-- MaxPostponeCount
+
+class DueDateTaskFactory {
+  + createDueDateTask(name: TaskName, dueDate: DueDate, maxPostponeCount: MaxPostponeCount): DueDateTask
+}
+
 DueDateTaskFactory ..> DueDateTask
 DueDateTaskFactory ..> TaskId
 DueDateTaskFactory ..> IdGenerator
@@ -137,4 +141,9 @@ DueDateTaskFactory ..> Status
 DueDateTaskFactory ..> DueDate
 DueDateTaskFactory ..> PostponeCount
 DueDateTaskFactory ..> MaxPostponeCount
+
+class IdGenerator {
+  {static} - ULID_INSTANCE: ULID
+  {static} + generateId(): String
+}
 @enduml
