@@ -1,15 +1,11 @@
 package com.spring_boot_template.domain.model.task.factory;
 
-import com.spring_boot_template.domain.model.task.TaskEntity;
-import com.spring_boot_template.domain.model.task.value.DueDateValue;
-import com.spring_boot_template.domain.model.task.value.MaxPostponeCountValue;
-import com.spring_boot_template.domain.model.task.value.TaskNameValue;
-import com.spring_boot_template.domain.model.user.value.UserIdValue;
+import com.spring_boot_template.domain.model.task.Task;
+import com.spring_boot_template.domain.model.task.value.DueDate;
+import com.spring_boot_template.domain.model.task.value.MaxPostponeCount;
+import com.spring_boot_template.domain.model.task.value.TaskName;
 
 public interface TaskFactory {
-    TaskEntity createTask(
-            final TaskNameValue taskName,
-            final UserIdValue userId,
-            final DueDateValue dueDate,
-            final MaxPostponeCountValue maxPostponeCount);
+    Task create(
+            final TaskName name, final DueDate dueDate, final MaxPostponeCount maxPostponeCount);
 }

@@ -1,42 +1,30 @@
 package com.spring_boot_template.domain.model.task.factory;
 
-import com.spring_boot_template.domain.model.task.TaskEntity;
-import com.spring_boot_template.domain.model.task.TaskRepository;
-import com.spring_boot_template.domain.model.task.value.DueDateValue;
-import com.spring_boot_template.domain.model.task.value.MaxPostponeCountValue;
-import com.spring_boot_template.domain.model.task.value.PostponeCountValue;
-import com.spring_boot_template.domain.model.task.value.TaskIdValue;
-import com.spring_boot_template.domain.model.task.value.TaskNameValue;
-import com.spring_boot_template.domain.model.task.value.TaskStatusType;
-import com.spring_boot_template.domain.model.user.value.UserIdValue;
+import com.spring_boot_template.domain.model.account.value.AccountId;
+import com.spring_boot_template.domain.model.task.Task;
+import com.spring_boot_template.domain.model.task.value.DueDate;
+import com.spring_boot_template.domain.model.task.value.MaxPostponeCount;
+import com.spring_boot_template.domain.model.task.value.PostponeCount;
+import com.spring_boot_template.domain.model.task.value.Status;
+import com.spring_boot_template.domain.model.task.value.TaskId;
+import com.spring_boot_template.domain.model.task.value.TaskName;
 import com.spring_boot_template.domain.shared.IdGenerator;
-import jakarta.validation.ValidationException;
+import java.util.HashSet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public final class TaskFactoryImpl implements TaskFactory {
-    private final TaskRepository taskRepository;
-
-    private static final int TASK_ASSIGNMENT_LIMIT = 10;
-
     @Override
-    public TaskEntity createTask(
-            final TaskNameValue taskName,
-            final UserIdValue userId,
-            final DueDateValue dueDate,
-            final MaxPostponeCountValue maxPostponeCount) {
-        // 割り当てられているタスクの数が限界である場合
-        if (taskRepository.countTaskByUserId(userId) >= TASK_ASSIGNMENT_LIMIT) {
-            throw new ValidationException("Reached task assignment limit");
-        }
+    public Task create(
+            final TaskName name, final DueDate dueDate, final MaxPostponeCount maxPostponeCount) {
+        final TaskId id = new TaskId(IdGenerator.generate());
+        final Status status = Status.UNDONE;
+        final HashSet<AccountId> assignedAccountIds = new HashSet<>();
+        final PostponeCount postponeCount = new PostponeCount(0);
 
-        final TaskIdValue taskId = new TaskIdValue(IdGenerator.generateId());
-        final TaskStatusType taskStatus = TaskStatusType.UNDONE;
-        final PostponeCountValue postponeCount = new PostponeCountValue(0);
-
-        return new TaskEntity(
-                taskId, taskName, taskStatus, userId, dueDate, postponeCount, maxPostponeCount);
+        return new Task(
+                id, name, status, assignedAccountIds, dueDate, postponeCount, maxPostponeCount);
     }
 }
