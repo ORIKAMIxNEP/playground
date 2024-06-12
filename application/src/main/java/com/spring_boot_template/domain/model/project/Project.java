@@ -28,6 +28,8 @@ public final class Project {
 
     private final int ASSIGNABLE_TASK_COUNT_FOR_ACCOUNT = 10;
 
+    public void reconstruct() {}
+
     public void createTask(
             final TaskFactory taskFactory,
             final TaskName taskName,
@@ -53,6 +55,7 @@ public final class Project {
         final long assignedTaskCountToAccount =
                 tasks.stream()
                         .filter(task -> task.getAssignedAccountIds().contains(assignedAccountId))
+                        .filter(task -> task.getStatus().isCountableAsTask())
                         .count();
 
         // 割り当てられたタスクの数が限界に達している場合
