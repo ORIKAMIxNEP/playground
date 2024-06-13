@@ -44,21 +44,35 @@
         </association>
     </resultMap>
 
+    <insert id="insert">
+        INSERT INTO projects(project_id,
+                             project_name,
+                             participatedAccountIds)
+        VALUES (#{projectId},
+                #{id.value},
+                #{name.value},
+                #{participatedAccountIds})
+    </insert>
+
     <insert id="insertTask">
-        INSERT INTO tasks(task_id,
+        INSERT INTO tasks(project_id,
+                          task_id,
                           task_name,
-                          task_status,
-                          user_id,
+                          status,
+                          assignedAccountIds,
                           due_date,
                           postpone_count,
-                          max_postpone_count)
-        VALUES (#{taskId.value},
-                #{taskName.value},
-                #{taskStatus},
-                #{assignedUserId.value},
+                          max_postpone_count,
+                          index)
+        VALUES (#{projectId},
+                #{id.value},
+                #{name.value},
+                #{status},
+                #{assignedAccountIds},
                 #{dueDate.value},
                 #{postponeCount.value},
-                #{maxPostponeCount.value})
+                #{maxPostponeCount.value},
+                #{index})
     </insert>
 
     <select id="selectTaskByTaskId" resultMap="Task">
@@ -73,19 +87,31 @@
         WHERE task_id = #{value}
     </select>
 
-    <select id="selectCountTaskByUserId">
-        SELECT COUNT(task_id)
-        FROM tasks
-        WHERE user_id = #{value}
-    </select>
-
-    <update id="updateTaskStatus">
-        UPDATE tasks
-        SET task_name = #{taskStatus}
-        WHERE task_id = #{taskId.value}
+    <update id="update">
+        UPDATE projects
+        SET project_name = #{name.value}
+        WHERE project_id = #{id.value}
     </update>
 
-    <delete id="deleteTask">
+    <update id="updateTask">
+        UPDATE tasks
+        SET task_name = #{name.value}
+        WHERE task_id = #{id.value}
+    </update>
+
+    <delete id="delete">
+        DELETE
+        FROM projects
+        WHERE project_id = #{value}
+    </delete>
+
+    <delete id="deleteTaskByProjectId">
+        DELETE
+        FROM tasks
+        WHERE project_id = #{value}
+    </delete>
+
+    <delete id="deleteTaskByTaskId">
         DELETE
         FROM tasks
         WHERE task_id = #{value}

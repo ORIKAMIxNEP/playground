@@ -8,17 +8,17 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class ProjectRdbRepository implements ProjectRepository {
+public class ProjectMyBatisRepository implements ProjectRepository {
     private final ProjectMapper projectMapper;
 
     @Override
     public void save(final Project project) {}
 
     @Override
-    public void delete(final ProjectId projectId) {}
-
-    @Override
     public Project findById(final ProjectId projectId) {
         return null;
     }
+
+    @Override
+    public void delete(final ProjectId projectId) {}
 }

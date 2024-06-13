@@ -4,11 +4,11 @@ import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.project.value.ProjectName;
 import com.spring_boot_template.domain.model.task.Task;
-import com.spring_boot_template.domain.model.task.factory.TaskFactory;
 import com.spring_boot_template.domain.model.task.value.DueDate;
 import com.spring_boot_template.domain.model.task.value.MaxPostponeCount;
 import com.spring_boot_template.domain.model.task.value.TaskId;
 import com.spring_boot_template.domain.model.task.value.TaskName;
+import com.spring_boot_template.domain.shared.IdGenerator;
 import jakarta.validation.ValidationException;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -18,7 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public final class Project {
     private final ProjectId id;
@@ -28,14 +28,27 @@ public final class Project {
 
     private final int ASSIGNABLE_TASK_COUNT_FOR_ACCOUNT = 10;
 
-    public void reconstruct() {}
+    public static Project create(final ProjectName name) {
+        final ProjectId id = new ProjectId(IdGenerator.generate());
+        final HashSet<AccountId> participatedAccountIds = new HashSet<>();
+        final LinkedHashSet<Task> tasks = new LinkedHashSet<>();
+
+        return new Project(id, name, participatedAccountIds, tasks);
+    }
+
+    public static Project reconstruct(
+            final ProjectId id,
+            final ProjectName name,
+            final HashSet<AccountId> participatedAccountIds,
+            final LinkedHashSet<Task> tasks) {
+        return new Project(id, name, participatedAccountIds, tasks);
+    }
 
     public void createTask(
-            final TaskFactory taskFactory,
             final TaskName taskName,
             final DueDate dueDate,
             final MaxPostponeCount maxPostponeCount) {
-        tasks.add(taskFactory.create(taskName, dueDate, maxPostponeCount));
+        tasks.add(Task.create(taskName, dueDate, maxPostponeCount));
     }
 
     public Task findTaskByTaskId(final TaskId taskId) {
