@@ -5,5 +5,6 @@ import java.util.List;
 public record ProjectDto (
   ProjectId id,
   ProjectName name,
-  List<AccountId> participatedAccountIds
+  List<AccountId> participatedAccountIds,
+  List<TaskDto> tasks
 ) {}
