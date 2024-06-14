@@ -24,7 +24,7 @@ public final class Project {
     private final ProjectId id;
     private ProjectName name;
     private final HashSet<AccountId> participatedAccountIds;
-    private final LinkedHashSet<Task> tasks;
+    private final ListOrderedSet<Task> tasks;
 
     private final int ASSIGNABLE_TASK_COUNT_FOR_ACCOUNT = 10;
 
