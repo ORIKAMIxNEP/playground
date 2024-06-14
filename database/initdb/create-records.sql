@@ -4,7 +4,7 @@ CREATE TABLE tasks
     task_name          TEXT        NOT NULL,
     task_status        TEXT        NOT NULL,
     user_id            VARCHAR(26),
-    due_date           TEXT,
+    due_date           TIMESTAMP,
     postpone_count     INTEGER,
     max_postpone_count INTEGER,
     PRIMARY KEY (task_id)
