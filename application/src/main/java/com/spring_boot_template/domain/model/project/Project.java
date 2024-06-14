@@ -31,7 +31,7 @@ public final class Project {
     public static Project create(final ProjectName name) {
         final ProjectId id = new ProjectId(IdGenerator.generate());
         final HashSet<AccountId> participatedAccountIds = new HashSet<>();
-        final LinkedHashSet<Task> tasks = new LinkedHashSet<>();
+        final ListOrderedSet<Task> tasks = new ListOrderedSet<>();
 
         return new Project(id, name, participatedAccountIds, tasks);
     }
@@ -40,7 +40,7 @@ public final class Project {
             final ProjectId id,
             final ProjectName name,
             final HashSet<AccountId> participatedAccountIds,
-            final LinkedHashSet<Task> tasks) {
+            final ListOrderedSet<Task> tasks) {
         return new Project(id, name, participatedAccountIds, tasks);
     }
 
