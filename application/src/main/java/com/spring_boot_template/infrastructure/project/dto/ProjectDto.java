@@ -1,4 +1,4 @@
-package com.spring_boot_template.infrastructure.project.request;
+package com.spring_boot_template.infrastructure.project.dto;
 
 import java.util.List;
 
