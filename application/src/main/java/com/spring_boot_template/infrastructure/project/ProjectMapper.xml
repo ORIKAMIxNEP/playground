@@ -7,6 +7,7 @@
     <resultMap id="Task" type="com.spring_boot_template.domain.model.task.Task">
         <result property="taskStatus" column="task_status"
                 typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="index" column="index"/>
         <association property="taskId" javaType="com.spring_boot_template.domain.model.task.value.TaskId">
             <constructor>
                 <arg name="value" column="task_id"/>
@@ -48,8 +49,7 @@
         INSERT INTO projects(project_id,
                              project_name,
                              participatedAccountIds)
-        VALUES (#{projectId},
-                #{id.value},
+        VALUES (#{id.value},
                 #{name.value},
                 #{participatedAccountIds})
     </insert>
