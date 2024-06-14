@@ -1,0 +1,35 @@
+@startuml
+package "Spring Boot Template" {
+  entity accounts {
+    * account_id: VARCHAR(26)
+    --
+    * account_name: TEXT
+    * password: TEXT
+    project_id: VARCHAR(26)[] <<FK>>
+  }
+
+  entity projects {
+    * project_id: VARCHAR(26)
+    --
+    * project_name: TEXT
+    * account_id: VARCHAR(26)[] <<FK>>
+  }
+
+  entity tasks {
+    project_id: VARCHAR(26) <<FK>>
+    * task_id: VARCHAR(26)
+    --
+    task_name: TEXT
+    status: TEXT
+    account_id: VARCHAR(26)[] <<FK>>
+    due_date: TIMESTAMP
+    postpone_count: INTEGER
+    max_postpone_count: INTEGER
+    index: INTEGER
+  }
+}
+
+accounts }|--o{ projects
+projects ||--o{ tasks
+tasks }o--o{ accounts: "0..10" - "0..*"
+@enduml
