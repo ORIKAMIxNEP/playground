@@ -4,47 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring_boot_template.infrastructure.project.ProjectMapper">
 
-    <resultMap id="Task" type="com.spring_boot_template.domain.model.task.Task">
-        <result property="taskStatus" column="task_status"
-                typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
-        <result property="index" column="index"/>
-        <association property="taskId" javaType="com.spring_boot_template.domain.model.task.value.TaskId">
-            <constructor>
-                <arg name="value" column="task_id"/>
-            </constructor>
-        </association>
-        <association property="taskName"
-                     javaType="com.spring_boot_template.domain.model.task.value.TaskName">
-            <constructor>
-                <arg name="value" column="task_name"/>
-            </constructor>
-        </association>
-        <association property="assignedUserId"
-                     javaType="com.spring_boot_template.domain.model.account.value.AccountId">
-            <constructor>
-                <arg name="value" column="user_id"/>
-            </constructor>
-        </association>
-        <association property="dueDate"
-                     javaType="com.spring_boot_template.domain.model.task.value.DueDate">
-            <constructor>
-                <arg name="value" column="due_date"/>
-            </constructor>
-        </association>
-        <association property="postponeCount"
-                     javaType="com.spring_boot_template.domain.model.task.value.PostponeCount">
-            <constructor>
-                <arg name="value" column="postpone_count"/>
-            </constructor>
-        </association>
-        <association property="maxPostponeCount"
-                     javaType="com.spring_boot_template.domain.model.task.value.MaxPostponeCount">
-            <constructor>
-                <arg name="value" column="max_postpone_count"/>
-            </constructor>
-        </association>
-    </resultMap>
-
     <insert id="insert">
         INSERT INTO projects(project_id,
                              project_name,
@@ -75,7 +34,7 @@
                 #{index})
     </insert>
 
-    <select id="selectTaskByTaskId" resultMap="Task">
+    <select id="selectTaskByTaskId" resultMap="Project">
         SELECT task_id,
                task_name,
                task_status,
@@ -116,4 +75,60 @@
         FROM tasks
         WHERE task_id = #{value}
     </delete>
+
+    <resultMap id="Project" type="com.spring_boot_template.domain.model.project.Project">
+        <association property="projectId" javaType="com.spring_boot_template.domain.model.project.value.ProjectId">
+            <constructor>
+                <arg name="value" column="project_id"/>
+            </constructor>
+        </association>
+        <association property="projectName"
+                     javaType="com.spring_boot_template.domain.model.project.value.ProjectName">
+            <constructor>
+                <arg name="value" column="project_name"/>
+            </constructor>
+        </association>
+        <collection property="participatedAccountIds" ofType="com.spring_boot_template.domain.model.account.AccountId">
+        <result property="value" column="participated_account_ids">
+        <collection property="tasks" ofType="com.spring_boot_template.domain.model.task.Task">
+        <result property="taskStatus" column="task_status"
+                typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="index" column="index"/>
+        <association property="taskId" javaType="com.spring_boot_template.domain.model.task.value.TaskId">
+            <constructor>
+                <arg name="value" column="task_id"/>
+            </constructor>
+        </association>
+        <association property="taskName"
+                     javaType="com.spring_boot_template.domain.model.task.value.TaskName">
+            <constructor>
+                <arg name="value" column="task_name"/>
+            </constructor>
+        </association>
+        <association property="assignedAccountId"
+                     javaType="com.spring_boot_template.domain.model.account.value.AccountId">
+            <constructor>
+                <arg name="value" column="account_id"/>
+            </constructor>
+        </association>
+        <association property="dueDate"
+                     javaType="com.spring_boot_template.domain.model.task.value.DueDate">
+            <constructor>
+                <arg name="value" column="due_date"/>
+            </constructor>
+        </association>
+        <association property="postponeCount"
+                     javaType="com.spring_boot_template.domain.model.task.value.PostponeCount">
+            <constructor>
+                <arg name="value" column="postpone_count"/>
+            </constructor>
+        </association>
+        <association property="maxPostponeCount"
+                     javaType="com.spring_boot_template.domain.model.task.value.MaxPostponeCount">
+            <constructor>
+                <arg name="value" column="max_postpone_count"/>
+            </constructor>
+        </association>
+        </collection>
+    </resultMap>
 </mapper>
