@@ -32,9 +32,9 @@ class Project {
   - id: ProjectId
   - name: ProjectName
   - participatedAccountIds: HashSet<AccountId>
-  - tasks: LinkedHashSet<Task>
+  - tasks: ListOrderedSet<Task>
   {static} + create(name: ProjectName): Project
-  {static} + reconstruct(id: ProjectId, name: ProjectName, participatedAccountIds: HashSet<AccountId>, tasks: LinkedHashSet<Task>): Project
+  {static} + reconstruct(id: ProjectId, name: ProjectName, participatedAccountIds: HashSet<AccountId>, tasks: ListOrderedSet<Task>): Project
   + createTask(taskFactory: TaskFactory, taskName: TaskName, dueDate: DueDate, maxPostponeCount: MaxPostponeCount): void
   + findTaskByTaskId(taskId: TaskId): Task
   + advanceTaskStatus(taskId: TaskId): void
