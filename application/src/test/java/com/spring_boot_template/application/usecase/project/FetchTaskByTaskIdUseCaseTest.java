@@ -7,13 +7,13 @@ import static org.mockito.Mockito.doThrow;
 
 import com.spring_boot_template.domain.exception.ValidationException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
-import com.spring_boot_template.domain.model.task.Task;
-import com.spring_boot_template.domain.model.task.value.DueDate;
-import com.spring_boot_template.domain.model.task.value.MaxPostponeCount;
-import com.spring_boot_template.domain.model.task.value.PostponeCount;
-import com.spring_boot_template.domain.model.task.value.Status;
-import com.spring_boot_template.domain.model.task.value.TaskId;
-import com.spring_boot_template.domain.model.task.value.TaskName;
+import com.spring_boot_template.domain.model.project.task.Task;
+import com.spring_boot_template.domain.model.project.task.due_date.value.Date;
+import com.spring_boot_template.domain.model.project.task.due_date.value.MaxPostponeCount;
+import com.spring_boot_template.domain.model.project.task.due_date.value.PostponeCount;
+import com.spring_boot_template.domain.model.project.task.value.Status;
+import com.spring_boot_template.domain.model.project.task.value.TaskId;
+import com.spring_boot_template.domain.model.project.task.value.TaskName;
 import com.spring_boot_template.presentation.controller.project.response.FetchTaskByTaskIdResponse;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +35,7 @@ final class FetchTaskByTaskIdUseCaseTest {
                                 new TaskName("TaskName"),
                                 Status.UNDONE,
                                 new AccountId("0123456789ABCDEFGHJKMNPQRS"),
-                                new DueDate("DueDate"),
+                                new Date("Date"),
                                 new PostponeCount(0),
                                 new MaxPostponeCount(10)))
                 .when(findTaskByTaskIdUseCaseMock)
@@ -47,12 +47,7 @@ final class FetchTaskByTaskIdUseCaseTest {
         assertThat(fetchTaskByTaskIdUseCase.execute("1123456789ABCDEFGHJKMNPQRS"))
                 .isEqualTo(
                         new FetchTaskByTaskIdResponse(
-                                "TaskName",
-                                "UNDONE",
-                                "0123456789ABCDEFGHJKMNPQRS",
-                                "DueDate",
-                                0,
-                                10));
+                                "TaskName", "UNDONE", "0123456789ABCDEFGHJKMNPQRS", "Date", 0, 10));
         assertThatThrownBy(() -> fetchTaskByTaskIdUseCase.execute("00000000000000000000000000"))
                 .isInstanceOf(ValidationException.class);
     }

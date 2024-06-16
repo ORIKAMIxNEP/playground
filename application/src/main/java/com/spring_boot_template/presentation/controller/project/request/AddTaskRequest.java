@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(
         description = "追加するタスクのデータ",
-        requiredProperties = {"taskName", "userId", "dueDate", "maxPostponeCount"})
+        requiredProperties = {"taskName", "userId", "date", "maxPostponeCount"})
 public record AddTaskRequest(
         @Schema(
                         title = "タスク名",
@@ -20,7 +20,7 @@ public record AddTaskRequest(
                         maxLength = 26,
                         example = "0123456789ABCDEFGHJKMNPQRS")
                 String assignedUserId,
-        @Schema(title = "締め切り期日", example = "DueDate") String dueDate,
+        @Schema(title = "締め切り期日", example = "Date") String dueDate,
         @Schema(
                         title = "最大延期回数",
                         type = "integer",

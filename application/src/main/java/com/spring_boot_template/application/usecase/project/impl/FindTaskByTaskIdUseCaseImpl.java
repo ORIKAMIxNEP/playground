@@ -2,8 +2,8 @@ package com.spring_boot_template.application.usecase.project.impl;
 
 import com.spring_boot_template.application.usecase.project.FindTaskByTaskIdUseCase;
 import com.spring_boot_template.domain.exception.ValidationException;
-import com.spring_boot_template.domain.model.task.Task;
-import com.spring_boot_template.domain.model.task.value.TaskId;
+import com.spring_boot_template.domain.model.project.task.Task;
+import com.spring_boot_template.domain.model.project.task.value.TaskId;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

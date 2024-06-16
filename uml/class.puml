@@ -3,7 +3,6 @@ class Account {
   - id: AccountId
   - name: AccountName
   - password: Password
-  - participatingProjectIds: HashSet<ProjectId>
   + equals(o: Object): boolean
   + hashCode(): int
 }
@@ -25,16 +24,15 @@ class Password {
 Account *-- AccountId
 Account *-- AccountName
 Account *-- Password
-Account "1..*" --> "0..*" ProjectId
 Account ..> IdGenerator
 
 class Project {
   - id: ProjectId
   - name: ProjectName
-  - participatedAccountIds: HashSet<AccountId>
+  - participatingAccountIds: HashSet<AccountId>
   - tasks: ListOrderedSet<Task>
   {static} + create(name: ProjectName): Project
-  {static} + reconstruct(id: ProjectId, name: ProjectName, participatedAccountIds: HashSet<AccountId>, tasks: ListOrderedSet<Task>): Project
+  {static} + reconstruct(id: ProjectId, name: ProjectName, participatingAccountIds: HashSet<AccountId>, tasks: ListOrderedSet<Task>): Project
   + createTask(taskFactory: TaskFactory, taskName: TaskName, dueDate: DueDate, maxPostponeCount: MaxPostponeCount): void
   + findTaskByTaskId(taskId: TaskId): Task
   + advanceTaskStatus(taskId: TaskId): void

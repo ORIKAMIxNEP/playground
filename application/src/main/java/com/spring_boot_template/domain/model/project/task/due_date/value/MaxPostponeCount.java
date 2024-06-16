@@ -1,4 +1,4 @@
-package com.spring_boot_template.domain.model.task.value;
+package com.spring_boot_template.domain.model.project.task.due_date.value;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

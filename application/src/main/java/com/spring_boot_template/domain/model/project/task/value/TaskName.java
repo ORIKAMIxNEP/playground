@@ -1,4 +1,4 @@
-package com.spring_boot_template.domain.model.task.value;
+package com.spring_boot_template.domain.model.project.task.value;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

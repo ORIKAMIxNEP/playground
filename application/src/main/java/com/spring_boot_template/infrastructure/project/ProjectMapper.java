@@ -2,15 +2,15 @@ package com.spring_boot_template.infrastructure.project;
 
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.project.Project;
+import com.spring_boot_template.domain.model.project.task.Task;
+import com.spring_boot_template.domain.model.project.task.value.TaskId;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
-import com.spring_boot_template.domain.model.task.Task;
-import com.spring_boot_template.domain.model.task.value.TaskId;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 interface ProjectMapper {
-    void insert(final Project project, final List<AccountId> participatedAccountIds);
+    void insert(final Project project, final List<AccountId> participatingAccountIds);
 
     void insertTask(
             final ProjectId id,

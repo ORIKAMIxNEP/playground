@@ -4,8 +4,8 @@ import com.spring_boot_template.application.usecase.project.FindTaskByTaskIdUseC
 import com.spring_boot_template.application.usecase.project.UpdateTaskStatusUseCase;
 import com.spring_boot_template.application.usecase.project.converter.UpdateTaskStatusResponseConverter;
 import com.spring_boot_template.domain.model.account.Account;
-import com.spring_boot_template.domain.model.task.Task;
-import com.spring_boot_template.domain.model.task.value.TaskId;
+import com.spring_boot_template.domain.model.project.task.Task;
+import com.spring_boot_template.domain.model.project.task.value.TaskId;
 import com.spring_boot_template.presentation.controller.project.request.UpdateTaskStatusRequest;
 import com.spring_boot_template.presentation.controller.project.response.UpdateTaskStatusResponse;
 import lombok.RequiredArgsConstructor;

@@ -5,7 +5,7 @@ Content-Type: application/json
 {
   "taskName": "TaskName",
   "userId": "0123456789ABCDEFGHJKMNPQRS",
-  "dueDate": "DueDate",
+  "date": "DueDate",
   "maxPostponeCount": 10
 }
 

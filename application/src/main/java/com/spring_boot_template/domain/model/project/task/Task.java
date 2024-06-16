@@ -1,21 +1,20 @@
-package com.spring_boot_template.domain.model.task;
+package com.spring_boot_template.domain.model.project.task;
 
 import com.spring_boot_template.domain.exception.DomainException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
-import com.spring_boot_template.domain.model.task.value.DueDate;
-import com.spring_boot_template.domain.model.task.value.MaxPostponeCount;
-import com.spring_boot_template.domain.model.task.value.PostponeCount;
-import com.spring_boot_template.domain.model.task.value.Status;
-import com.spring_boot_template.domain.model.task.value.TaskId;
-import com.spring_boot_template.domain.model.task.value.TaskName;
+import com.spring_boot_template.domain.model.project.task.due_date.DueDate;
+import com.spring_boot_template.domain.model.project.task.value.Status;
+import com.spring_boot_template.domain.model.project.task.value.TaskId;
+import com.spring_boot_template.domain.model.project.task.value.TaskName;
 import com.spring_boot_template.domain.shared.IdGenerator;
-import java.util.HashSet;
-import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Optional;
 
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -25,20 +24,16 @@ public class Task {
     private final TaskId id;
     private TaskName name;
     private Status status;
-    private HashSet<AccountId> assignedAccountIds;
-    private DueDate dueDate;
-    private PostponeCount postponeCount;
-    private MaxPostponeCount maxPostponeCount;
+    private final HashSet<AccountId> assignedAccountIds;
+    private final DueDate dueDate;
 
-    public static Task create(
-            final TaskName name, final DueDate dueDate, final MaxPostponeCount maxPostponeCount) {
+    public static Task create(final TaskName name) {
         final TaskId id = new TaskId(IdGenerator.generate());
         final Status status = Status.UNDONE;
         final HashSet<AccountId> assignedAccountIds = new HashSet<>();
-        final PostponeCount postponeCount = new PostponeCount(0);
+        final DueDate dueDate = null;
 
-        return new Task(
-                id, name, status, assignedAccountIds, dueDate, postponeCount, maxPostponeCount);
+        return new Task(id, name, status, assignedAccountIds, dueDate);
     }
 
     public static Task reconstruct(
@@ -46,11 +41,8 @@ public class Task {
             final TaskName name,
             final Status status,
             final HashSet<AccountId> assignedAccountIds,
-            final DueDate dueDate,
-            final PostponeCount postponeCount,
-            final MaxPostponeCount maxPostponeCount) {
-        return new Task(
-                id, name, status, assignedAccountIds, dueDate, postponeCount, maxPostponeCount);
+            final DueDate dueDate) {
+        return new Task(id, name, status, assignedAccountIds, dueDate);
     }
 
     public void advanceStatus() {

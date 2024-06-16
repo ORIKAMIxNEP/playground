@@ -8,7 +8,7 @@ public record FetchTaskByTaskIdResponse(
         @Schema(title = "タスクステータス", type = "string", example = "UNDONE") String taskStatus,
         @Schema(title = "ユーザーID", type = "string", example = "0123456789ABCDEFGHJKMNPQRS")
                 String assignedUserId,
-        @Schema(title = "締め切り期日", example = "DueDate") String dueDate,
+        @Schema(title = "締め切り期日", example = "Date") String dueDate,
         @Schema(title = "延期回数", type = "integer", format = "int32", example = "0")
                 int postponeCount,
         @Schema(title = "最大延期回数", type = "integer", format = "int32", example = "10")

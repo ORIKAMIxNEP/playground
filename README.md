@@ -72,6 +72,12 @@ GIT_SSH_COMMAND='ssh -o StrictHostKeyChecking=no' git clone git@github.com:ORIKA
 sudo apt install openjdk-17-jdk -y
 ```
 
+#### Graphvizのインストール
+
+```console
+sudo apt install graphviz -y
+```
+
 #### 環境変数の設定
 
 ```env

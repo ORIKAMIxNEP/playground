@@ -7,10 +7,10 @@
     <insert id="insert">
         INSERT INTO projects(project_id,
                              project_name,
-                             participatedAccountIds)
+                             participatingAccountIds)
         VALUES (#{id.value},
                 #{name.value},
-                #{participatedAccountIds})
+                #{participatingAccountIds})
     </insert>
 
     <insert id="insertTask">
@@ -28,7 +28,7 @@
                 #{name.value},
                 #{status},
                 #{assignedAccountIds},
-                #{dueDate.value},
+                #{date.value},
                 #{postponeCount.value},
                 #{maxPostponeCount.value},
                 #{index})
@@ -88,19 +88,19 @@
                 <arg name="value" column="project_name"/>
             </constructor>
         </association>
-        <collection property="participatedAccountIds" ofType="com.spring_boot_template.domain.model.account.AccountId">
-        <result property="value" column="participated_account_ids">
-        <collection property="tasks" ofType="com.spring_boot_template.domain.model.task.Task">
+        <collection property="participatingAccountIds" ofType="com.spring_boot_template.domain.model.account.AccountId">
+            <result property="value" column="participating_account_ids"/>
+        <collection property="tasks" ofType="com.spring_boot_template.domain.model.project.task.Task">
         <result property="taskStatus" column="task_status"
                 typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
         <result property="index" column="index"/>
-        <association property="taskId" javaType="com.spring_boot_template.domain.model.task.value.TaskId">
+        <association property="taskId" javaType="com.spring_boot_template.domain.model.project.task.value.TaskId">
             <constructor>
                 <arg name="value" column="task_id"/>
             </constructor>
         </association>
         <association property="taskName"
-                     javaType="com.spring_boot_template.domain.model.task.value.TaskName">
+                     javaType="com.spring_boot_template.domain.model.project.task.value.TaskName">
             <constructor>
                 <arg name="value" column="task_name"/>
             </constructor>
@@ -111,20 +111,20 @@
                 <arg name="value" column="account_id"/>
             </constructor>
         </association>
-        <association property="dueDate"
-                     javaType="com.spring_boot_template.domain.model.task.value.DueDate">
+        <association property="date"
+                     javaType="com.spring_boot_template.domain.model.project.task.due_date.value.Date">
             <constructor>
                 <arg name="value" column="due_date"/>
             </constructor>
         </association>
         <association property="postponeCount"
-                     javaType="com.spring_boot_template.domain.model.task.value.PostponeCount">
+                     javaType="com.spring_boot_template.domain.model.project.task.due_date.value.PostponeCount">
             <constructor>
                 <arg name="value" column="postpone_count"/>
             </constructor>
         </association>
         <association property="maxPostponeCount"
-                     javaType="com.spring_boot_template.domain.model.task.value.MaxPostponeCount">
+                     javaType="com.spring_boot_template.domain.model.project.task.due_date.value.MaxPostponeCount">
             <constructor>
                 <arg name="value" column="max_postpone_count"/>
             </constructor>

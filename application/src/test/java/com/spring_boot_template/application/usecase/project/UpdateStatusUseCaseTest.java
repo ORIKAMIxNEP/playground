@@ -8,13 +8,13 @@ import static org.mockito.Mockito.doThrow;
 
 import com.spring_boot_template.domain.exception.ValidationException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
-import com.spring_boot_template.domain.model.task.Task;
-import com.spring_boot_template.domain.model.task.value.DueDate;
-import com.spring_boot_template.domain.model.task.value.MaxPostponeCount;
-import com.spring_boot_template.domain.model.task.value.PostponeCount;
-import com.spring_boot_template.domain.model.task.value.Status;
-import com.spring_boot_template.domain.model.task.value.TaskId;
-import com.spring_boot_template.domain.model.task.value.TaskName;
+import com.spring_boot_template.domain.model.project.task.Task;
+import com.spring_boot_template.domain.model.project.task.due_date.value.Date;
+import com.spring_boot_template.domain.model.project.task.due_date.value.MaxPostponeCount;
+import com.spring_boot_template.domain.model.project.task.due_date.value.PostponeCount;
+import com.spring_boot_template.domain.model.project.task.value.Status;
+import com.spring_boot_template.domain.model.project.task.value.TaskId;
+import com.spring_boot_template.domain.model.project.task.value.TaskName;
 import com.spring_boot_template.presentation.controller.project.request.UpdateTaskStatusRequest;
 import com.spring_boot_template.presentation.controller.project.response.UpdateTaskStatusResponse;
 import org.assertj.core.api.AssertionsForClassTypes;
@@ -39,7 +39,7 @@ final class UpdateStatusUseCaseTest {
                         new TaskName("TaskName"),
                         Status.UNDONE,
                         new AccountId("0123456789ABCDEFGHJKMNPQRS"),
-                        new DueDate("DueDate"),
+                        new Date("Date"),
                         new PostponeCount(0),
                         new MaxPostponeCount(10)));
         doThrow(ValidationException.class)

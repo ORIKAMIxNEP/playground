@@ -1,21 +1,20 @@
 package com.spring_boot_template.domain.model.project;
 
 import com.spring_boot_template.domain.model.account.value.AccountId;
+import com.spring_boot_template.domain.model.project.task.Task;
+import com.spring_boot_template.domain.model.project.task.value.TaskId;
+import com.spring_boot_template.domain.model.project.task.value.TaskName;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.project.value.ProjectName;
-import com.spring_boot_template.domain.model.task.Task;
-import com.spring_boot_template.domain.model.task.value.DueDate;
-import com.spring_boot_template.domain.model.task.value.MaxPostponeCount;
-import com.spring_boot_template.domain.model.task.value.TaskId;
-import com.spring_boot_template.domain.model.task.value.TaskName;
 import com.spring_boot_template.domain.shared.IdGenerator;
 import jakarta.validation.ValidationException;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.commons.collections4.set.ListOrderedSet;
+
+import java.util.HashSet;
 
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -23,32 +22,30 @@ import lombok.NoArgsConstructor;
 public final class Project {
     private final ProjectId id;
     private ProjectName name;
-    private final HashSet<AccountId> participatedAccountIds;
+    private final HashSet<AccountId> participatingAccountIds;
     private final ListOrderedSet<Task> tasks;
 
     private final int ASSIGNABLE_TASK_COUNT_FOR_ACCOUNT = 10;
 
     public static Project create(final ProjectName name) {
         final ProjectId id = new ProjectId(IdGenerator.generate());
-        final HashSet<AccountId> participatedAccountIds = new HashSet<>();
+        final HashSet<AccountId> participatingAccountIds = new HashSet<>();
         final ListOrderedSet<Task> tasks = new ListOrderedSet<>();
 
-        return new Project(id, name, participatedAccountIds, tasks);
+        return new Project(id, name, participatingAccountIds, tasks);
     }
 
     public static Project reconstruct(
             final ProjectId id,
             final ProjectName name,
-            final HashSet<AccountId> participatedAccountIds,
+            final HashSet<AccountId> participatingAccountIds,
             final ListOrderedSet<Task> tasks) {
-        return new Project(id, name, participatedAccountIds, tasks);
+        return new Project(id, name, participatingAccountIds, tasks);
     }
 
     public void createTask(
-            final TaskName taskName,
-            final DueDate dueDate,
-            final MaxPostponeCount maxPostponeCount) {
-        tasks.add(Task.create(taskName, dueDate, maxPostponeCount));
+            final TaskName taskName) {
+        tasks.add(Task.create(taskName));
     }
 
     public Task findTaskByTaskId(final TaskId taskId) {
