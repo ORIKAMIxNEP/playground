@@ -7,14 +7,13 @@ import com.spring_boot_template.domain.model.project.task.value.Status;
 import com.spring_boot_template.domain.model.project.task.value.TaskId;
 import com.spring_boot_template.domain.model.project.task.value.TaskName;
 import com.spring_boot_template.domain.shared.IdGenerator;
+import java.util.HashSet;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.HashSet;
-import java.util.Optional;
 
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

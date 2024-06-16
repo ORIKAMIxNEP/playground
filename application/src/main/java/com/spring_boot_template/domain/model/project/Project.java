@@ -8,13 +8,12 @@ import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.project.value.ProjectName;
 import com.spring_boot_template.domain.shared.IdGenerator;
 import jakarta.validation.ValidationException;
+import java.util.HashSet;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.set.ListOrderedSet;
-
-import java.util.HashSet;
 
 @NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -43,8 +42,7 @@ public final class Project {
         return new Project(id, name, participatingAccountIds, tasks);
     }
 
-    public void createTask(
-            final TaskName taskName) {
+    public void createTask(final TaskName taskName) {
         tasks.add(Task.create(taskName));
     }
 
