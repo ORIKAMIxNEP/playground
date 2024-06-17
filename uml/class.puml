@@ -33,7 +33,7 @@ class Project {
   - tasks: ListOrderedSet<Task>
   {static} + create(name: ProjectName): Project
   {static} + reconstruct(id: ProjectId, name: ProjectName, participatingAccountIds: HashSet<AccountId>, tasks: ListOrderedSet<Task>): Project
-  + createTask(taskFactory: TaskFactory, taskName: TaskName, dueDate: DueDate, maxPostponeCount: MaxPostponeCount): void
+  + createTask(taskFactory: TaskFactory, taskName: TaskName, dueDateDetail: DueDateDetail, maxPostponeCount: MaxPostponeCount): void
   + findTaskByTaskId(taskId: TaskId): Task
   + advanceTaskStatus(taskId: TaskId): void
   + assignAccountToTask(taskId: TaskId, assignedAccountId: AccountId): void
@@ -63,11 +63,9 @@ class Task {
   - name: TaskName
   - status: Status
   - assignedAccountIds: HashSet<AccountId>
-  - dueDate: DueDate
-  - postponeCount: PostponeCount
-  - maxPostponeCount: MaxPostponeCount
-  {static} + create(name: TaskName, dueDate: DueDate, maxPostponeCount: MaxPostponeCount): Task
-  {static} + reconstruct(id: TaskId, name: TaskName, status: Status, assignedAccountIds: HashSet<AccountId>, dueDate: DueDate, postponeCount: PostponeCount, maxPostponeCount: MaxPostponeCount): Task
+  - dueDateDetail: DueDateDetail
+  {static} + create(name: TaskName): Task
+  {static} + reconstruct(id: TaskId, name: TaskName, status: Status, assignedAccountIds: HashSet<AccountId>, dueDateDetail: DueDateDetail): Task
   + advanceStatus(): void
   + assignAccount(assignedAccountId: AccountId): void
   + equals(o: Object): boolean
@@ -88,6 +86,19 @@ enum Status {
   DONE
 }
 
+Task *-- TaskId
+Task *-- TaskName
+Task *-- Status
+Task "0..10" --> "0..*" AccountId
+Task *-- DueDateDetail
+Task ..> IdGenerator
+
+class DueDateDetail {
+  - dueDate: DueDate
+  - postponeCount: PostponeCount
+  - maxPostponeCount: MaxPostponeCount
+}
+
 class DueDate {
   - value: LocalDateTime
 }
@@ -100,14 +111,9 @@ class MaxPostponeCount {
   - value: int
 }
 
-Task *-- TaskId
-Task *-- TaskName
-Task *-- Status
-Task "0..10" --> "0..*" AccountId
-Task *-- DueDate
-Task *-- PostponeCount
-Task *-- MaxPostponeCount
-Task ..> IdGenerator
+DueDateDetail *-- DueDate
+DueDateDetail *-- PostponeCount
+DueDateDetail *-- MaxPostponeCount
 
 class IdGenerator {
   {static} - ULID_INSTANCE: ULID
