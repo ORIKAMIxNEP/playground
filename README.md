@@ -18,7 +18,7 @@
 sh compose.sh
 ```
 
-#### サービスの停止（docker/database/initdbの更新）
+#### サービスの停止（データベースのリセット）
 
 ```console
 sh compose.sh -d
