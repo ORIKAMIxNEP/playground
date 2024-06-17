@@ -2,7 +2,7 @@ package com.spring_boot_template.domain.model.project.task;
 
 import com.spring_boot_template.domain.exception.DomainException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
-import com.spring_boot_template.domain.model.project.task.due_date.DueDate;
+import com.spring_boot_template.domain.model.project.task.due_date_detail.DueDateDetail;
 import com.spring_boot_template.domain.model.project.task.value.Status;
 import com.spring_boot_template.domain.model.project.task.value.TaskId;
 import com.spring_boot_template.domain.model.project.task.value.TaskName;
@@ -24,15 +24,15 @@ public class Task {
     private TaskName name;
     private Status status;
     private final HashSet<AccountId> assignedAccountIds;
-    private final DueDate dueDate;
+    private final DueDateDetail dueDateDetail;
 
     public static Task create(final TaskName name) {
         final TaskId id = new TaskId(IdGenerator.generate());
         final Status status = Status.UNDONE;
         final HashSet<AccountId> assignedAccountIds = new HashSet<>();
-        final DueDate dueDate = null;
+        final DueDateDetail dueDateDetail = null;
 
-        return new Task(id, name, status, assignedAccountIds, dueDate);
+        return new Task(id, name, status, assignedAccountIds, dueDateDetail);
     }
 
     public static Task reconstruct(
@@ -40,8 +40,8 @@ public class Task {
             final TaskName name,
             final Status status,
             final HashSet<AccountId> assignedAccountIds,
-            final DueDate dueDate) {
-        return new Task(id, name, status, assignedAccountIds, dueDate);
+            final DueDateDetail dueDateDetail) {
+        return new Task(id, name, status, assignedAccountIds, dueDateDetail);
     }
 
     public void advanceStatus() {
