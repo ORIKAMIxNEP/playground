@@ -28,22 +28,52 @@
                 #{name.value},
                 #{status},
                 #{assignedAccountIds},
-                #{date.value},
+                #{dueDate.value},
                 #{postponeCount.value},
                 #{maxPostponeCount.value},
                 #{index})
     </insert>
 
-    <select id="selectTaskByTaskId" resultMap="Project">
+    <select id="selectById"
+            resultMap="Project">
+        SELECT project_name
+        FROM projects
+        WHERE project_id = #{value}
+    </select>
+
+    <select id="selectParticipatingAccountIdsByProjectId"
+            resultType="com.spring_boot_template.domain.model.account.AccountId">
+        SELECT account_id
+        FROM project_participation
+        WHERE project_id = #{value}
+    </select>
+
+    <select id="selectTasksByProjectId" resultMap="Task">
         SELECT task_id,
                task_name,
-               task_status,
-               user_id,
+               status,
+               index
+        FROM tasks
+        WHERE project_id = #{value}
+    </select>
+
+    <select id="selectAssignedAccountIdsByProjectId"
+            resultType="com.spring_boot_template.domain.model.account.value.AccountId">
+        SELECT account_id
+        FROM tasks
+                 NATURAL JOIN task_assignment
+        WHERE project_id = #{value}
+    </select>
+
+    <select id="selectDueDateDetailsByProjectId"
+            resultMap="DueDateDetail">
+        SELECT task_id,
                due_date,
                postpone_count,
                max_postpone_count
         FROM tasks
-        WHERE task_id = #{value}
+                 NATURAL JOIN task_due_date_detail
+        WHERE project_id = #{value}
     </select>
 
     <update id="update">
@@ -76,7 +106,7 @@
         WHERE task_id = #{value}
     </delete>
 
-    <resultMap id="Project" type="com.spring_boot_template.domain.model.project.Project">
+    <resultMap id="Project" type="com.spring_boot_template.infrastructure.project.dto.ProjectDto">
         <association property="projectId" javaType="com.spring_boot_template.domain.model.project.value.ProjectId">
             <constructor>
                 <arg name="value" column="project_id"/>
@@ -88,10 +118,16 @@
                 <arg name="value" column="project_name"/>
             </constructor>
         </association>
-        <collection property="participatingAccountIds" ofType="com.spring_boot_template.domain.model.account.AccountId">
-            <result property="value" column="participating_account_ids"/>
-        <collection property="tasks" ofType="com.spring_boot_template.domain.model.project.task.Task">
-        <result property="taskStatus" column="task_status"
+        <collection property="participatingAccountIds" ofType="com.spring_boot_template.domain.model.account.AccountId"
+                    select="selectParticipatingAccountIdsByProjectId">
+            <constructor>
+                <arg name="value" column="account_id"/>
+            </constructor>
+        </collection>
+    </resultMap>
+
+    <resultMap id="Task" type="com.spring_boot_template.infrastructure.project.dto.TaskDto">
+        <result property="status" column="status"
                 typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
         <result property="index" column="index"/>
         <association property="taskId" javaType="com.spring_boot_template.domain.model.project.task.value.TaskId">
@@ -105,30 +141,34 @@
                 <arg name="value" column="task_name"/>
             </constructor>
         </association>
-        <association property="assignedAccountId"
-                     javaType="com.spring_boot_template.domain.model.account.value.AccountId">
+        <collection property="assignedAccountIds"
+                    ofType="com.spring_boot_template.domain.model.account.value.AccountId"
+                    select="selectAssignedAccountIdsByProjectId">
             <constructor>
                 <arg name="value" column="account_id"/>
             </constructor>
-        </association>
-        <association property="date"
-                     javaType="com.spring_boot_template.domain.model.project.task.due_date.value.Date">
+        </collection>
+    </resultMap>
+
+    <resultMap id="DueDateDetail"
+               type="com.spring_boot_template.infrastructure.project.dto.DueDateDetailDto">
+        <association property="dueDate"
+                     javaType="com.spring_boot_template.domain.model.project.task.due_date_detail.value.DueDateDetail">
             <constructor>
                 <arg name="value" column="due_date"/>
             </constructor>
         </association>
         <association property="postponeCount"
-                     javaType="com.spring_boot_template.domain.model.project.task.due_date.value.PostponeCount">
+                     javaType="com.spring_boot_template.domain.model.project.task.due_date_detail.value.PostponeCount">
             <constructor>
                 <arg name="value" column="postpone_count"/>
             </constructor>
         </association>
         <association property="maxPostponeCount"
-                     javaType="com.spring_boot_template.domain.model.project.task.due_date.value.MaxPostponeCount">
+                     javaType="com.spring_boot_template.domain.model.project.task.due_date_detail.value.MaxPostponeCount">
             <constructor>
                 <arg name="value" column="max_postpone_count"/>
             </constructor>
         </association>
-        </collection>
     </resultMap>
 </mapper>
