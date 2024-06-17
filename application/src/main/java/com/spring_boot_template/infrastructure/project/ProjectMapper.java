@@ -5,6 +5,9 @@ import com.spring_boot_template.domain.model.project.Project;
 import com.spring_boot_template.domain.model.project.task.Task;
 import com.spring_boot_template.domain.model.project.task.value.TaskId;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
+import com.spring_boot_template.infrastructure.project.dto.DueDateDetailDto;
+import com.spring_boot_template.infrastructure.project.dto.ProjectDto;
+import com.spring_boot_template.infrastructure.project.dto.TaskDto;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -18,7 +21,11 @@ interface ProjectMapper {
             final List<AccountId> assignedAccountIds,
             final int index);
 
-    Project selectById(final ProjectId id);
+    ProjectDto selectById(final ProjectId id);
+
+    List<TaskDto> selectTasksByProjectId(final ProjectId projectId);
+
+    List<DueDateDetailDto> selectDueDateDetailsByProjectId(final ProjectId projectId);
 
     void update(final Project project);
 
