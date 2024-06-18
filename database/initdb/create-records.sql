@@ -43,7 +43,7 @@ CREATE TABLE tasks
     task_name  TEXT    NOT NULL,
     status     TEXT    NOT NULL,
     index      INTEGER NOT NULL,
-    PRIMARY KEY (task_id, project_id)
+    PRIMARY KEY (task_id)
 );
 CREATE INDEX index_task_name ON tasks (task_name);
 INSERT INTO tasks(task_id,
