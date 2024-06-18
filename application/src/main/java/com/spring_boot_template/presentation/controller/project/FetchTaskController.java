@@ -1,9 +1,9 @@
 package com.spring_boot_template.presentation.controller.project;
 
-import com.spring_boot_template.application.usecase.project.FetchTaskByTaskIdUseCase;
+import com.spring_boot_template.application.usecase.project.FetchTaskUseCase;
 import com.spring_boot_template.domain.exception.DomainException;
 import com.spring_boot_template.domain.exception.ValidationException;
-import com.spring_boot_template.presentation.controller.project.response.FetchTaskByTaskIdResponse;
+import com.spring_boot_template.presentation.controller.project.response.FetchTaskResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -17,16 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-final class FetchTaskByTaskIdController {
-    private final FetchTaskByTaskIdUseCase fetchTaskByTaskIdUseCase;
+final class FetchTaskController {
+    private final FetchTaskUseCase fetchTaskUseCase;
 
     @GetMapping("/task/{taskId}")
     @ResponseBody
     @Operation(
             tags = {"task"},
             summary = "タスクを取得する",
-            description =
-                    "タスクIDを受け取る" + " → タスクを取得する" + " → タスク名、タスクステータス、ユーザーID、締め切り期日、延期回数、最大延期回数を返す",
+            description = "タスクIDを受け取る" + " → タスクを取得する" + " → タスク名、ステータス、担当アカウントID、詳細締め切り期日を返す",
             responses = {
                 @ApiResponse(
                         responseCode = "200",
@@ -35,9 +34,7 @@ final class FetchTaskByTaskIdController {
                                 @Content(
                                         mediaType = "application/json",
                                         schema =
-                                                @Schema(
-                                                        implementation =
-                                                                FetchTaskByTaskIdResponse.class))),
+                                                @Schema(implementation = FetchTaskResponse.class))),
                 @ApiResponse(
                         responseCode = "400",
                         description = "Bad Request",
@@ -51,6 +48,6 @@ final class FetchTaskByTaskIdController {
                                                         })))
             })
     private ResponseEntity<?> execute(@PathVariable final String taskId) {
-        return ResponseEntity.ok(fetchTaskByTaskIdUseCase.execute(taskId));
+        return ResponseEntity.ok(fetchTaskUseCase.execute(taskId));
     }
 }
