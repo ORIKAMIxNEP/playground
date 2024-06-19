@@ -25,52 +25,53 @@ public class ProjectMyBatisPostgreSqlRepository implements ProjectRepository {
     private final ProjectMapper projectMapper;
 
     @Override
-    public void save(final Project project) {}
+    public void saveProject(final Project project) {}
 
     @Override
-    public Project findById(final ProjectId id) {
-        final ProjectDto projectDto = projectMapper.selectById(id);
-        final ProjectName projectName = projectDto.name();
-        final HashSet<AccountId> participatingAccountIds = projectDto.participatingAccountIds();
-        final List<TaskDto> taskDtos = projectMapper.selectTasksByProjectId(id);
+    public Project findProjectByProjectId(final ProjectId projectId) {
+        final ProjectDto projectDto = projectMapper.selectProjectByProjectId(projectId);
+        final ProjectName projectName = projectDto.getProjectName();
+        final HashSet<AccountId> participatingAccountIds =
+                new HashSet<>(projectMapper.selectParticipatingAccountIdsByProjectId(projectId));
+        final List<TaskDto> taskDtos = projectMapper.selectTasksByProjectId(projectId);
         final List<DueDateDetailDto> dueDateDetailDtos =
-                projectMapper.selectDueDateDetailsByProjectId(id);
+                projectMapper.selectDueDateDetailsByProjectId(projectId);
 
         final ListOrderedSet<Task> tasks = new ListOrderedSet<>();
         taskDtos.stream()
                 .map(
                         taskDto -> {
-                            TaskId taskId = taskDto.id();
-                            TaskName taskName = taskDto.name();
-                            Status status = taskDto.status();
-                            HashSet<AccountId> assignedAccountIds = taskDto.assignedAccountIds();
-
+                            TaskId taskId = taskDto.getTaskId();
+                            TaskName taskName = taskDto.getTaskName();
+                            Status status = taskDto.getStatus();
+                            HashSet<AccountId> assignedAccountIds =
+                                    new HashSet<>(taskDto.getAssignedAccountIds());
                             DueDateDetail dueDateDetail =
                                     dueDateDetailDtos.stream()
                                             .filter(
                                                     dueDateDetailDto ->
                                                             dueDateDetailDto
-                                                                    .taskId()
+                                                                    .getTaskId()
                                                                     .equals(taskId))
                                             .findFirst()
                                             .map(
                                                     dueDateDetailDto ->
-                                                            DueDateDetail.reconstruct(
-                                                                    dueDateDetailDto.dueDate(),
+                                                            DueDateDetail.reconstructDueDateDetail(
+                                                                    dueDateDetailDto.getDueDate(),
                                                                     dueDateDetailDto
-                                                                            .postponeCount(),
+                                                                            .getPostponeCount(),
                                                                     dueDateDetailDto
-                                                                            .maxPostponeCount()))
+                                                                            .getMaxPostponeCount()))
                                             .orElse(null);
 
-                            return Task.reconstruct(
+                            return Task.reconstructTask(
                                     taskId, taskName, status, assignedAccountIds, dueDateDetail);
                         })
                 .forEach(tasks::add);
 
-        return Project.reconstruct(id, projectName, participatingAccountIds, tasks);
+        return Project.reconstructProject(projectId, projectName, participatingAccountIds, tasks);
     }
 
     @Override
-    public void delete(final ProjectId id) {}
+    public void deleteProject(final ProjectId projectId) {}
 }
