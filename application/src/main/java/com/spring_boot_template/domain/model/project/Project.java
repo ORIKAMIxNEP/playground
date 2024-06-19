@@ -12,43 +12,41 @@ import java.util.HashSet;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.set.ListOrderedSet;
 
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public final class Project {
-    private final ProjectId id;
-    private ProjectName name;
+    private final ProjectId projectId;
+    private ProjectName projectName;
     private final HashSet<AccountId> participatingAccountIds;
     private final ListOrderedSet<Task> tasks;
 
     private final int ASSIGNABLE_TASK_COUNT_FOR_ACCOUNT = 10;
 
-    public static Project create(final ProjectName name) {
-        final ProjectId id = new ProjectId(IdGenerator.generate());
+    public static Project createProject(final ProjectName projectName) {
+        final ProjectId projectId = new ProjectId(IdGenerator.generateId());
         final HashSet<AccountId> participatingAccountIds = new HashSet<>();
         final ListOrderedSet<Task> tasks = new ListOrderedSet<>();
 
-        return new Project(id, name, participatingAccountIds, tasks);
+        return new Project(projectId, projectName, participatingAccountIds, tasks);
     }
 
-    public static Project reconstruct(
-            final ProjectId id,
-            final ProjectName name,
+    public static Project reconstructProject(
+            final ProjectId projectId,
+            final ProjectName projectName,
             final HashSet<AccountId> participatingAccountIds,
             final ListOrderedSet<Task> tasks) {
-        return new Project(id, name, participatingAccountIds, tasks);
+        return new Project(projectId, projectName, participatingAccountIds, tasks);
     }
 
     public void createTask(final TaskName taskName) {
-        tasks.add(Task.create(taskName));
+        tasks.add(Task.createTask(taskName));
     }
 
     public Task findTaskByTaskId(final TaskId taskId) {
         return tasks.stream()
-                .filter(task -> task.getId().equals(taskId))
+                .filter(task -> task.getTaskId().equals(taskId))
                 .findFirst()
                 .orElseThrow(() -> new ValidationException("Task is not found"));
     }
@@ -77,6 +75,6 @@ public final class Project {
     }
 
     public void deleteTask(final TaskId taskId) {
-        tasks.removeIf(task -> task.getId().equals(taskId));
+        tasks.removeIf(task -> task.getTaskId().equals(taskId));
     }
 }
