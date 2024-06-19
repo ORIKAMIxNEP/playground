@@ -4,91 +4,75 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring_boot_template.infrastructure.project.ProjectMapper">
 
-    <insert id="insert">
+    <insert id="insertProject">
         INSERT INTO projects(project_id,
-                             project_name,
-                             participatingAccountIds)
-        VALUES (#{id.value},
-                #{name.value},
-                #{participatingAccountIds})
+                             project_name)
+        VALUES (#{projectId.value},
+                #{projectName.value})
     </insert>
 
     <insert id="insertTask">
-        INSERT INTO tasks(project_id,
+        INSERT INTO tasks(in_project_id,
                           task_id,
                           task_name,
                           status,
-                          assignedAccountIds,
-                          due_date,
-                          postpone_count,
-                          max_postpone_count,
                           index)
-        VALUES (#{projectId},
-                #{id.value},
-                #{name.value},
+        VALUES (#{projectId.value},
+                #{taskId.value},
+                #{taskName.value},
                 #{status},
-                #{assignedAccountIds},
-                #{dueDate.value},
-                #{postponeCount.value},
-                #{maxPostponeCount.value},
                 #{index})
     </insert>
 
-    <select id="selectById"
-            resultMap="Project">
+    <select id="selectProjectByProjectId" resultMap="Project">
         SELECT project_name
         FROM projects
-        WHERE project_id = #{value}
+        WHERE projects.project_id = #{value}
     </select>
 
     <select id="selectParticipatingAccountIdsByProjectId"
-            resultType="com.spring_boot_template.domain.model.account.AccountId">
-        SELECT account_id
+            resultType="com.spring_boot_template.domain.model.account.value.AccountId">
+        SELECT participating_account_id
         FROM project_participation
         WHERE project_id = #{value}
     </select>
 
     <select id="selectTasksByProjectId" resultMap="Task">
-        SELECT task_id,
+        SELECT tasks.task_id,
                task_name,
                status,
+               assigned_account_id,
                index
         FROM tasks
-        WHERE project_id = #{value}
+                 LEFT OUTER JOIN task_assignment
+                                 on tasks.task_id = task_assignment.task_id
+        WHERE in_project_id = #{value}
     </select>
 
-    <select id="selectAssignedAccountIdsByProjectId"
-            resultType="com.spring_boot_template.domain.model.account.value.AccountId">
-        SELECT account_id
-        FROM tasks
-                 NATURAL JOIN task_assignment
-        WHERE project_id = #{value}
-    </select>
-
-    <select id="selectDueDateDetailsByProjectId"
-            resultMap="DueDateDetail">
-        SELECT task_id,
+    <select id="selectDueDateDetailsByProjectId" resultMap="DueDateDetail">
+        SELECT in_task_id,
                due_date,
                postpone_count,
                max_postpone_count
         FROM tasks
-                 NATURAL JOIN task_due_date_detail
-        WHERE project_id = #{value}
+                 INNER JOIN task_due_date_detail
+                            on tasks.task_id = task_due_date_detail.in_task_id
+        WHERE in_project_id = #{value}
     </select>
 
-    <update id="update">
+    <update id="updateProject">
         UPDATE projects
-        SET project_name = #{name.value}
-        WHERE project_id = #{id.value}
+        SET project_name = #{projectName.value}
+        WHERE project_id = #{projectId.value}
     </update>
 
     <update id="updateTask">
         UPDATE tasks
-        SET task_name = #{name.value}
-        WHERE task_id = #{id.value}
+        SET task_name = #{taskName.value}
+        WHERE task_id = #{taskId.value}
     </update>
 
-    <delete id="delete">
+    <delete id="deleteProject">
         DELETE
         FROM projects
         WHERE project_id = #{value}
@@ -97,7 +81,7 @@
     <delete id="deleteTaskByProjectId">
         DELETE
         FROM tasks
-        WHERE project_id = #{value}
+        WHERE in_project_id = #{value}
     </delete>
 
     <delete id="deleteTaskByTaskId">
@@ -107,53 +91,42 @@
     </delete>
 
     <resultMap id="Project" type="com.spring_boot_template.infrastructure.project.dto.ProjectDto">
-        <association property="projectId" javaType="com.spring_boot_template.domain.model.project.value.ProjectId">
-            <constructor>
-                <arg name="value" column="project_id"/>
-            </constructor>
-        </association>
-        <association property="projectName"
-                     javaType="com.spring_boot_template.domain.model.project.value.ProjectName">
+        <association property="projectName" javaType="com.spring_boot_template.domain.model.project.value.ProjectName">
             <constructor>
                 <arg name="value" column="project_name"/>
             </constructor>
         </association>
-        <collection property="participatingAccountIds" ofType="com.spring_boot_template.domain.model.account.AccountId"
-                    select="selectParticipatingAccountIdsByProjectId">
-            <constructor>
-                <arg name="value" column="account_id"/>
-            </constructor>
-        </collection>
     </resultMap>
 
     <resultMap id="Task" type="com.spring_boot_template.infrastructure.project.dto.TaskDto">
-        <result property="status" column="status"
-                typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <result property="status" column="status" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
         <result property="index" column="index"/>
         <association property="taskId" javaType="com.spring_boot_template.domain.model.project.task.value.TaskId">
             <constructor>
                 <arg name="value" column="task_id"/>
             </constructor>
         </association>
-        <association property="taskName"
-                     javaType="com.spring_boot_template.domain.model.project.task.value.TaskName">
+        <association property="taskName" javaType="com.spring_boot_template.domain.model.project.task.value.TaskName">
             <constructor>
                 <arg name="value" column="task_name"/>
             </constructor>
         </association>
         <collection property="assignedAccountIds"
-                    ofType="com.spring_boot_template.domain.model.account.value.AccountId"
-                    select="selectAssignedAccountIdsByProjectId">
+                    ofType="com.spring_boot_template.domain.model.account.value.AccountId">
             <constructor>
-                <arg name="value" column="account_id"/>
+                <arg name="value" column="assigned_account_id"/>
             </constructor>
         </collection>
     </resultMap>
 
-    <resultMap id="DueDateDetail"
-               type="com.spring_boot_template.infrastructure.project.dto.DueDateDetailDto">
+    <resultMap id="DueDateDetail" type="com.spring_boot_template.infrastructure.project.dto.DueDateDetailDto">
+        <association property="taskId" javaType="com.spring_boot_template.domain.model.project.task.value.TaskId">
+            <constructor>
+                <arg name="value" column="in_task_id"/>
+            </constructor>
+        </association>
         <association property="dueDate"
-                     javaType="com.spring_boot_template.domain.model.project.task.due_date_detail.value.DueDateDetail">
+                     javaType="com.spring_boot_template.domain.model.project.task.due_date_detail.value.DueDate">
             <constructor>
                 <arg name="value" column="due_date"/>
             </constructor>
