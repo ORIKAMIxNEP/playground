@@ -1,10 +1,10 @@
 @startuml
 class Account {
-  - id: AccountId
-  - name: AccountName
+  - accountId: AccountId
+  - accountName: AccountName
   - password: Password
-  + equals(o: Object): boolean
-  + hashCode(): int
+    {static} + createAccount(accountName: AccountName, password: Password): Account
+    {static} + reconstruct(accountId: AccountId, accountName: AccountName, password: Password): Account
 }
 
 class AccountId {
@@ -27,25 +27,21 @@ Account *-- Password
 Account ..> IdGenerator
 
 class Project {
-  - id: ProjectId
-  - name: ProjectName
+  - projectId: ProjectId
+  - projectName: ProjectName
   - participatingAccountIds: HashSet<AccountId>
   - tasks: ListOrderedSet<Task>
-  {static} + create(name: ProjectName): Project
-  {static} + reconstruct(id: ProjectId, name: ProjectName, participatingAccountIds: HashSet<AccountId>, tasks: ListOrderedSet<Task>): Project
-  + createTask(taskFactory: TaskFactory, taskName: TaskName, dueDateDetail: DueDateDetail, maxPostponeCount: MaxPostponeCount): void
+  {static} + createProject(projectName: ProjectName): Project
+  {static} + reconstructProject(projectId: ProjectId, projectName: ProjectName, participatingAccountIds: HashSet<AccountId>, tasks: ListOrderedSet<Task>): Project
+  + createTask(taskName: TaskName): void
   + findTaskByTaskId(taskId: TaskId): Task
   + advanceTaskStatus(taskId: TaskId): void
   + assignAccountToTask(taskId: TaskId, assignedAccountId: AccountId): void
   + deleteTask(taskId: TaskId): void
-  + equals(o: Object): boolean
-  + hashCode(): int
 }
 
 class ProjectId {
   - value: String
-  + equals(o: Object): boolean
-  + hashCode(): int
 }
 
 class ProjectName {
@@ -59,13 +55,13 @@ Project "1" *-- "0..*" Task
 Project ..> IdGenerator
 
 class Task {
-  - id: TaskId
-  - name: TaskName
+  - taskId: TaskId
+  - taskName: TaskName
   - status: Status
   - assignedAccountIds: HashSet<AccountId>
   - dueDateDetail: DueDateDetail
-  {static} + create(name: TaskName): Task
-  {static} + reconstruct(id: TaskId, name: TaskName, status: Status, assignedAccountIds: HashSet<AccountId>, dueDateDetail: DueDateDetail): Task
+  {static} + createTask(taskName: TaskName): Task
+  {static} + reconstructTask(taskId: TaskId, taskName: TaskName, status: Status, assignedAccountIds: HashSet<AccountId>, dueDateDetail: DueDateDetail): Task
   + advanceStatus(): void
   + assignAccount(assignedAccountId: AccountId): void
   + equals(o: Object): boolean
@@ -97,6 +93,8 @@ class DueDateDetail {
   - dueDate: DueDate
   - postponeCount: PostponeCount
   - maxPostponeCount: MaxPostponeCount
+    {static} + createDueDateDetail(dueDate: DueDate, postponeCount: PostponeCount, maxPostponeCount: MaxPostponeCount): DueDateDetail
+    {static} + reconstructDueDateDetail(dueDate: DueDate, postponeCount: PostponeCount, maxPostponeCount: MaxPostponeCount): DueDateDetail
 }
 
 class DueDate {
