@@ -13,35 +13,33 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "taskId")
 public class Task {
-    private final TaskId id;
-    private TaskName name;
+    private final TaskId taskId;
+    private TaskName taskName;
     private Status status;
     private final HashSet<AccountId> assignedAccountIds;
     private final DueDateDetail dueDateDetail;
 
-    public static Task create(final TaskName name) {
-        final TaskId id = new TaskId(IdGenerator.generate());
+    public static Task createTask(final TaskName taskName) {
+        final TaskId taskId = new TaskId(IdGenerator.generateId());
         final Status status = Status.UNDONE;
         final HashSet<AccountId> assignedAccountIds = new HashSet<>();
         final DueDateDetail dueDateDetail = null;
 
-        return new Task(id, name, status, assignedAccountIds, dueDateDetail);
+        return new Task(taskId, taskName, status, assignedAccountIds, dueDateDetail);
     }
 
-    public static Task reconstruct(
-            final TaskId id,
-            final TaskName name,
+    public static Task reconstructTask(
+            final TaskId taskId,
+            final TaskName taskName,
             final Status status,
             final HashSet<AccountId> assignedAccountIds,
             final DueDateDetail dueDateDetail) {
-        return new Task(id, name, status, assignedAccountIds, dueDateDetail);
+        return new Task(taskId, taskName, status, assignedAccountIds, dueDateDetail);
     }
 
     public void advanceStatus() {
