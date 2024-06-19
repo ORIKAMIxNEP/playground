@@ -24,7 +24,8 @@ class FetchTaskUseCaseImpl implements FetchTaskUseCase {
         final TaskId taskIdValue = new TaskId(taskId);
         //        final Task task = findTaskByTaskIdUseCase.execute(taskIdValue);
         final Project project =
-                projectRepository.findById(new ProjectId("1123456789ABCDEFGHJKMNPQRS"));
+                projectRepository.findProjectByProjectId(
+                        new ProjectId("1123456789ABCDEFGHJKMNPQRS"));
 
         return FetchTaskResponseConverter.execute(project.getTasks().get(0));
     }
