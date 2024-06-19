@@ -3,9 +3,9 @@ package com.spring_boot_template.domain.model.project;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
 
 public interface ProjectRepository {
-    void save(final Project project);
+    void saveProject(final Project project);
 
-    void delete(final ProjectId id);
+    void deleteProject(final ProjectId projectId);
 
-    Project findById(final ProjectId id);
+    Project findProjectByProjectId(final ProjectId projectId);
 }
