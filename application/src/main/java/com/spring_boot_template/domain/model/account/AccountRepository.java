@@ -3,9 +3,9 @@ package com.spring_boot_template.domain.model.account;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 
 public interface AccountRepository {
-    void save(final Account account);
+    void saveAccount(final Account account);
 
-    void delete(final AccountId id);
+    void deleteAccount(final AccountId accountId);
 
-    Account findById(final AccountId id);
+    Account findAccountByAccountId(final AccountId accountId);
 }
