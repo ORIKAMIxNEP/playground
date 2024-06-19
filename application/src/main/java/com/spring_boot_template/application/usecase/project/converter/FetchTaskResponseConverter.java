@@ -8,7 +8,7 @@ import com.spring_boot_template.presentation.controller.project.response.FetchTa
 
 public final class FetchTaskResponseConverter {
     public static FetchTaskResponse execute(final Task task) {
-        final String taskName = task.getName().getValue();
+        final String taskName = task.getTaskName().getValue();
         final String status = task.getStatus().toString();
         final String[] assignedAccountIds =
                 task.getAssignedAccountIds().stream()
