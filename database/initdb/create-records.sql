@@ -27,27 +27,27 @@ VALUES ('1123456789ABCDEFGHJKMNPQRS',
 
 CREATE TABLE project_participation
 (
-    project_id VARCHAR(26) REFERENCES projects (project_id) ON DELETE CASCADE,
-    account_id VARCHAR(26) REFERENCES accounts (account_id),
-    PRIMARY KEY (project_id, account_id)
+    project_id               VARCHAR(26) REFERENCES projects (project_id) ON DELETE CASCADE,
+    participating_account_id VARCHAR(26) REFERENCES accounts (account_id),
+    PRIMARY KEY (project_id, participating_account_id)
 );
 INSERT INTO project_participation(project_id,
-                                  account_id)
+                                  participating_account_id)
 VALUES ('1123456789ABCDEFGHJKMNPQRS',
         '0123456789ABCDEFGHJKMNPQRS');
 
 CREATE TABLE tasks
 (
-    task_id    VARCHAR(26),
-    project_id VARCHAR(26) REFERENCES projects (project_id) ON DELETE CASCADE,
-    task_name  TEXT    NOT NULL,
-    status     TEXT    NOT NULL,
-    index      INTEGER NOT NULL,
+    task_id       VARCHAR(26),
+    in_project_id VARCHAR(26) REFERENCES projects (project_id) ON DELETE CASCADE,
+    task_name     TEXT    NOT NULL,
+    status        TEXT    NOT NULL,
+    index         INTEGER NOT NULL,
     PRIMARY KEY (task_id)
 );
 CREATE INDEX index_task_name ON tasks (task_name);
 INSERT INTO tasks(task_id,
-                  project_id,
+                  in_project_id,
                   task_name,
                   status,
                   index)
@@ -59,24 +59,24 @@ VALUES ('2123456789ABCDEFGHJKMNPQRS',
 
 CREATE TABLE task_assignment
 (
-    task_id    VARCHAR(26) REFERENCES tasks (task_id) ON DELETE CASCADE,
-    account_id VARCHAR(26) REFERENCES accounts (account_id),
-    PRIMARY KEY (task_id, account_id)
+    task_id             VARCHAR(26) REFERENCES tasks (task_id) ON DELETE CASCADE,
+    assigned_account_id VARCHAR(26) REFERENCES accounts (account_id),
+    PRIMARY KEY (task_id, assigned_account_id)
 );
 INSERT INTO task_assignment(task_id,
-                            account_id)
+                            assigned_account_id)
 VALUES ('2123456789ABCDEFGHJKMNPQRS',
         '0123456789ABCDEFGHJKMNPQRS');
 
 CREATE TABLE task_due_date_detail
 (
-    task_id            VARCHAR(26) REFERENCES tasks (task_id) ON DELETE CASCADE,
+    in_task_id         VARCHAR(26) REFERENCES tasks (task_id) ON DELETE CASCADE,
     due_date           TIMESTAMP NOT NULL,
     postpone_count     INTEGER   NOT NULL,
     max_postpone_count INTEGER   NOT NULL,
-    PRIMARY KEY (task_id)
+    PRIMARY KEY (in_task_id)
 );
-INSERT INTO task_due_date_detail(task_id,
+INSERT INTO task_due_date_detail(in_task_id,
                                  due_date,
                                  postpone_count,
                                  max_postpone_count)
