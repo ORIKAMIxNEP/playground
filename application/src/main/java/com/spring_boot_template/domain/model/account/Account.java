@@ -7,24 +7,22 @@ import com.spring_boot_template.domain.shared.IdGenerator;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(force = true, access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public final class Account {
-    private final AccountId id;
-    private AccountName name;
+    private final AccountId accountId;
+    private AccountName accountName;
     private Password password;
 
-    public static Account create(final AccountName name, final Password password) {
-        final AccountId id = new AccountId(IdGenerator.generate());
+    public static Account createAccount(final AccountName accountName, final Password password) {
+        final AccountId accountId = new AccountId(IdGenerator.generateId());
 
-        return new Account(id, name, password);
+        return new Account(accountId, accountName, password);
     }
 
-    public static Account reconstruct(
-            final AccountId id, final AccountName name, final Password password) {
-        return new Account(id, name, password);
+    public static Account reconstructAccount(
+            final AccountId accountId, final AccountName accountName, final Password password) {
+        return new Account(accountId, accountName, password);
     }
 }
