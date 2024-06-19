@@ -4,10 +4,9 @@ import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.project.task.value.Status;
 import com.spring_boot_template.domain.model.project.task.value.TaskId;
 import com.spring_boot_template.domain.model.project.task.value.TaskName;
+import java.util.ArrayList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
 
 @NoArgsConstructor(force = true)
 @Getter
