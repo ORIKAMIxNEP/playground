@@ -11,12 +11,11 @@ package "Spring Boot Template" {
     * project_id: VARCHAR(26)
     --
     * project_name: TEXT
-    * account_id: VARCHAR(26)[]
   }
 
   entity project_participation {
     * project_id: VARCHAR(26)
-    * account_id: VARCHAR(26)
+    * participating_account_id: VARCHAR(26)
     --
   }
 
@@ -25,7 +24,7 @@ package "Spring Boot Template" {
 
   entity tasks {
     * task_id: VARCHAR(26)
-    * project_id: VARCHAR(26)
+    * in_project_id: VARCHAR(26)
     --
     * task_name: TEXT
     * status: TEXT
@@ -36,7 +35,7 @@ package "Spring Boot Template" {
 
   entity task_assignment {
     * task_id: VARCHAR(26)
-    * account_id: VARCHAR(26)
+    * assigned_account_id: VARCHAR(26)
     --
   }
 
@@ -44,6 +43,7 @@ package "Spring Boot Template" {
   tasks ||--o{ task_assignment
 
   entity task_due_date {
+    in_task_id: VARCHAR(26)
     due_date: TIMESTAMP
     postpone_count: INTEGER
     max_postpone_count: INTEGER
