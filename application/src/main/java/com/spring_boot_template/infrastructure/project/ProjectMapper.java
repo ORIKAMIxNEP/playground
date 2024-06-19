@@ -8,30 +8,33 @@ import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.infrastructure.project.dto.DueDateDetailDto;
 import com.spring_boot_template.infrastructure.project.dto.ProjectDto;
 import com.spring_boot_template.infrastructure.project.dto.TaskDto;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 interface ProjectMapper {
-    void insert(final Project project, final List<AccountId> participatingAccountIds);
+    void insertProject(final Project project, final List<AccountId> participatingAccountIds);
 
     void insertTask(
-            final ProjectId id,
+            final ProjectId projectId,
             final Task task,
             final List<AccountId> assignedAccountIds,
             final int index);
 
-    ProjectDto selectById(final ProjectId id);
+    ProjectDto selectProjectByProjectId(final ProjectId projectId);
+
+    ArrayList<AccountId> selectParticipatingAccountIdsByProjectId(final ProjectId projectId);
 
     List<TaskDto> selectTasksByProjectId(final ProjectId projectId);
 
     List<DueDateDetailDto> selectDueDateDetailsByProjectId(final ProjectId projectId);
 
-    void update(final Project project);
+    void updateProject(final Project project);
 
     void updateTask(final Task task);
 
-    void delete(final ProjectId id);
+    void deleteProject(final ProjectId projectId);
 
     void deleteTaskByProjectId(final ProjectId projectId);
 
