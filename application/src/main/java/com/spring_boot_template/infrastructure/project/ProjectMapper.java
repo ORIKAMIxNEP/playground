@@ -24,11 +24,9 @@ interface ProjectMapper {
 
     ProjectDto selectProjectByProjectId(final ProjectId projectId);
 
-    ArrayList<AccountId> selectParticipatingAccountIdsByProjectId(final ProjectId projectId);
+    ArrayList<TaskDto> selectTasksByProjectId(final ProjectId projectId);
 
-    List<TaskDto> selectTasksByProjectId(final ProjectId projectId);
-
-    List<DueDateDetailDto> selectDueDateDetailsByProjectId(final ProjectId projectId);
+    ArrayList<DueDateDetailDto> selectDueDateDetailsByProjectId(final ProjectId projectId);
 
     void updateProject(final Project project);
 
@@ -36,7 +34,5 @@ interface ProjectMapper {
 
     void deleteProject(final ProjectId projectId);
 
-    void deleteTaskByProjectId(final ProjectId projectId);
-
-    void deleteTaskByTaskId(final TaskId taskId);
+    void deleteTask(final TaskId taskId);
 }

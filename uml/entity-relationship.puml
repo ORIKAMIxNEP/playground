@@ -13,14 +13,14 @@ package "Spring Boot Template" {
     * project_name: TEXT
   }
 
-  entity project_participation {
+  entity project_participants {
     * project_id: VARCHAR(26)
     * participating_account_id: VARCHAR(26)
     --
   }
 
-  accounts ||--o{ project_participation
-  projects ||--|{ project_participation
+  accounts ||--o{ project_participants
+  projects ||--|{ project_participants
 
   entity tasks {
     * task_id: VARCHAR(26)
@@ -33,22 +33,22 @@ package "Spring Boot Template" {
 
   projects ||--o{ tasks
 
-  entity task_assignment {
+  entity task_assignees {
     * task_id: VARCHAR(26)
     * assigned_account_id: VARCHAR(26)
     --
   }
 
-  accounts ||--o{ task_assignment: "1" - "0..10"
-  tasks ||--o{ task_assignment
+  accounts ||--o{ task_assignees: "1" - "0..10"
+  tasks ||--o{ task_assignees
 
-  entity task_due_date {
+  entity due_date_detail {
     in_task_id: VARCHAR(26)
     due_date: TIMESTAMP
     postpone_count: INTEGER
     max_postpone_count: INTEGER
   }
 
-  tasks ||--|| task_due_date
+  tasks ||--|| due_date_detail
 }
 @enduml

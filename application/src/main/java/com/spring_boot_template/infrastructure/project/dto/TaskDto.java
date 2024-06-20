@@ -15,5 +15,4 @@ public class TaskDto {
     private final TaskName taskName;
     private final Status status;
     private final ArrayList<AccountId> assignedAccountIds;
-    private final int index;
 }
