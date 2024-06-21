@@ -4,15 +4,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring_boot_template.infrastructure.project.ProjectMapper">
 
-    <insert id="insertProject">
+    <insert id="upsertProject">
         INSERT INTO projects(project_id,
                              project_name)
         VALUES (#{projectId.value},
                 #{projectName.value})
+        ON CONFLICT (project_id)
+            DO UPDATE SET project_name = EXCLUDED.project_name
+    </insert>
+
+    <insert id="insertProjectParticipatingAccount">
+        INSERT INTO project_participating_accounts(project_id,
+                                                   participating_account_id)
+        VALUES (#{projectId.value},
+                #{participatingAccountId.value})
     </insert>
 
     <insert id="insertTask">
-        INSERT INTO tasks(in_project_id,
+        INSERT INTO tasks(project_id,
                           task_id,
                           task_name,
                           status,
@@ -24,13 +33,32 @@
                 #{index})
     </insert>
 
+    <insert id="insertTaskAssignedAccount">
+        INSERT INTO task_assigned_accounts(task_id,
+                                           assigned_account_id)
+        VALUES (#{taskId.value},
+                #{assignedAccountId.value})
+    </insert>
+
+    <insert id="insertDueDateDetail">
+        INSERT INTO due_date_details(task_id,
+                                     due_date,
+                                     postpone_count,
+                                     max_postpone_count)
+        VALUES (#{taskId.value},
+                #{dueDate.value},
+                #{postponeCount.value},
+                #{maxPostponeCount.value})
+    </insert>
+
     <select id="selectProjectByProjectId" resultMap="Project">
         SELECT project_name,
                participating_account_id
         FROM projects
-                 INNER JOIN project_participants
-                            on projects.project_id = project_participants.project_id
+                 INNER JOIN project_participating_accounts
+                            on projects.project_id = project_participating_accounts.project_id
         WHERE projects.project_id = #{value}
+            FOR UPDATE
     </select>
 
     <select id="selectTasksByProjectId" resultMap="Task">
@@ -39,10 +67,11 @@
                status,
                assigned_account_id
         FROM tasks
-                 LEFT OUTER JOIN task_assignees
-                                 on tasks.task_id = task_assignees.task_id
-        WHERE in_project_id = #{value}
+                 LEFT OUTER JOIN task_assigned_accounts
+                                 on tasks.task_id = task_assigned_accounts.task_id
+        WHERE project_id = #{value}
         ORDER BY index
+            FOR UPDATE
     </select>
 
     <select id="selectDueDateDetailsByProjectId" resultMap="DueDateDetail">
@@ -51,22 +80,11 @@
                postpone_count,
                max_postpone_count
         FROM tasks
-                 INNER JOIN due_date_detail
-                            on tasks.task_id = due_date_detail.in_task_id
-        WHERE in_project_id = #{value}
+                 INNER JOIN due_date_details
+                            on tasks.task_id = due_date_details.task_id
+        WHERE project_id = #{value}
+            FOR UPDATE
     </select>
-
-    <update id="updateProject">
-        UPDATE projects
-        SET project_name = #{projectName.value}
-        WHERE project_id = #{projectId.value}
-    </update>
-
-    <update id="updateTask">
-        UPDATE tasks
-        SET task_name = #{taskName.value}
-        WHERE task_id = #{taskId.value}
-    </update>
 
     <delete id="deleteProject">
         DELETE
@@ -74,10 +92,16 @@
         WHERE project_id = #{value}
     </delete>
 
-    <delete id="deleteTask">
+    <delete id="deleteProjectParticipatingAccounts">
+        DELETE
+        FROM project_participating_accounts
+        WHERE project_id = #{value}
+    </delete>
+
+    <delete id="deleteTasks">
         DELETE
         FROM tasks
-        WHERE task_id = #{value}
+        WHERE project_id = #{value}
     </delete>
 
     <resultMap id="Project" type="com.spring_boot_template.infrastructure.project.dto.ProjectDto">
