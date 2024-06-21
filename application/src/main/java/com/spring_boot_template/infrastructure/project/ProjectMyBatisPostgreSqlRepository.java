@@ -26,7 +26,36 @@ public class ProjectMyBatisPostgreSqlRepository implements ProjectRepository {
     private final ProjectMapper projectMapper;
 
     @Override
-    public void saveProject(final Project project) {}
+    public void saveProject(final Project project) {
+        projectMapper.upsertProject(project);
+
+        final ProjectId projectId = project.getProjectId();
+
+        projectMapper.deleteProjectParticipatingAccount(projectId);
+        project.getParticipatingAccountIds()
+                .forEach(
+                        participatingAccountId ->
+                                projectMapper.insertProjectParticipatingAccount(
+                                        projectId, participatingAccountId));
+
+        projectMapper.deleteTask(projectId);
+
+        final ListOrderedSet<Task> tasks = project.getTasks();
+
+        tasks.forEach(
+                task -> {
+                    projectMapper.insertTask(projectId, task, tasks.indexOf(task));
+
+                    final TaskId taskId = task.getTaskId();
+
+                    task.getAssignedAccountIds()
+                            .forEach(
+                                    assignedAccountId ->
+                                            projectMapper.insertTaskAssignedAccount(
+                                                    taskId, assignedAccountId));
+                    projectMapper.insertDueDateDetail(taskId, task.getDueDateDetail());
+                });
+    }
 
     @Override
     public Project findProjectByProjectId(final ProjectId projectId) {
@@ -78,5 +107,7 @@ public class ProjectMyBatisPostgreSqlRepository implements ProjectRepository {
     }
 
     @Override
-    public void deleteProject(final ProjectId projectId) {}
+    public void deleteProject(final ProjectId projectId) {
+        projectMapper.deleteProject(projectId);
+    }
 }
