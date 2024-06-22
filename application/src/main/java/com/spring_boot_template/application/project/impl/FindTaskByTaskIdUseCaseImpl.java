@@ -1,6 +1,6 @@
-package com.spring_boot_template.application.usecase.project.impl;
+package com.spring_boot_template.application.project.impl;
 
-import com.spring_boot_template.application.usecase.project.FindTaskByTaskIdUseCase;
+import com.spring_boot_template.application.project.FindTaskByTaskIdUseCase;
 import com.spring_boot_template.domain.model.project.task.Task;
 import com.spring_boot_template.domain.model.project.task.value.TaskId;
 import lombok.RequiredArgsConstructor;

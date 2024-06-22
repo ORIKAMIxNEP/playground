@@ -1,4 +1,4 @@
-package com.spring_boot_template.application.usecase.project.converter;
+package com.spring_boot_template.application.project.converter;
 
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.project.task.Task;

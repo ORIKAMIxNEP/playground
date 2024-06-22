@@ -1,6 +1,6 @@
 package com.spring_boot_template.domain.model.project.service.impl;
 
-import com.spring_boot_template.application.query.ProjectQueryService;
+import com.spring_boot_template.application.project.query.ProjectQueryService;
 import com.spring_boot_template.domain.exception.ValidationException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.project.service.ExistsProjectDomainService;
@@ -15,7 +15,7 @@ class ExistsProjectDomainServiceImpl implements ExistsProjectDomainService {
 
     @Override
     public void execute(final AccountId accountId, final ProjectId projectId) {
-        projectQueryService.fetchProjectIdsByAccountId(accountId).stream()
+        projectQueryService.findProjectIdsByAccountId(accountId).stream()
                 .filter(projectId::equals)
                 .findFirst()
                 .orElseThrow(() -> new ValidationException("Project is not found"));

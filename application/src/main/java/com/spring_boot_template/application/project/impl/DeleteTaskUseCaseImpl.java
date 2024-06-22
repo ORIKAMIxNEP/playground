@@ -1,7 +1,7 @@
-package com.spring_boot_template.application.usecase.project.impl;
+package com.spring_boot_template.application.project.impl;
 
-import com.spring_boot_template.application.usecase.project.DeleteTaskUseCase;
-import com.spring_boot_template.application.usecase.project.FindTaskByTaskIdUseCase;
+import com.spring_boot_template.application.project.DeleteTaskUseCase;
+import com.spring_boot_template.application.project.FindTaskByTaskIdUseCase;
 import com.spring_boot_template.presentation.controller.project.request.DeleteTaskRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

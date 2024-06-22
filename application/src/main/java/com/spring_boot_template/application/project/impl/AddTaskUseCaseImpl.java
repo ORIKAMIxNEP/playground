@@ -1,6 +1,6 @@
-package com.spring_boot_template.application.usecase.project.impl;
+package com.spring_boot_template.application.project.impl;
 
-import com.spring_boot_template.application.usecase.project.AddTaskUseCase;
+import com.spring_boot_template.application.project.AddTaskUseCase;
 import com.spring_boot_template.presentation.controller.project.request.AddTaskRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
-package com.spring_boot_template.application.usecase.project.impl;
+package com.spring_boot_template.application.project.impl;
 
-import com.spring_boot_template.application.usecase.project.UpdateTaskStatusUseCase;
+import com.spring_boot_template.application.project.UpdateTaskStatusUseCase;
 import com.spring_boot_template.presentation.controller.project.request.UpdateTaskStatusRequest;
 import com.spring_boot_template.presentation.controller.project.response.UpdateTaskStatusResponse;
 import lombok.RequiredArgsConstructor;

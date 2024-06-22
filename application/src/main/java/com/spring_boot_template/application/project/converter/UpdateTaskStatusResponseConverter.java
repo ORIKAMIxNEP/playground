@@ -1,4 +1,4 @@
-package com.spring_boot_template.application.usecase.project.converter;
+package com.spring_boot_template.application.project.converter;
 
 import com.spring_boot_template.domain.model.project.task.Task;
 import com.spring_boot_template.presentation.controller.project.response.UpdateTaskStatusResponse;

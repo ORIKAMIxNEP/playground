@@ -1,6 +1,6 @@
 package com.spring_boot_template.presentation.controller.project;
 
-import com.spring_boot_template.application.usecase.project.FetchTaskUseCase;
+import com.spring_boot_template.application.project.FetchTaskUseCase;
 import com.spring_boot_template.domain.exception.DomainException;
 import com.spring_boot_template.domain.exception.ValidationException;
 import com.spring_boot_template.presentation.controller.project.response.FetchTaskResponse;

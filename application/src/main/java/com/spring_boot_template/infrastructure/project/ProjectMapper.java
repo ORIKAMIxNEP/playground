@@ -1,5 +1,6 @@
 package com.spring_boot_template.infrastructure.project;
 
+import com.spring_boot_template.application.project.query.dto.ProjectQueryDto;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.project.Project;
 import com.spring_boot_template.domain.model.project.task.Task;
@@ -24,6 +25,10 @@ interface ProjectMapper {
     void insertTaskAssignedAccount(final TaskId taskId, final AccountId assignedAccountId);
 
     void insertDueDateDetail(final TaskId taskId, final DueDateDetail dueDateDetail);
+
+    ArrayList<ProjectQueryDto> selectProjectsByAccountId(final AccountId participatingAccountId);
+
+    ArrayList<ProjectId> selectProjectIdsByAccountId(final AccountId participatingAccountId);
 
     ProjectDto selectProjectByProjectId(final ProjectId projectId);
 

@@ -1,4 +1,4 @@
-package com.spring_boot_template.application.usecase.project;
+package com.spring_boot_template.application.project;
 
 import com.spring_boot_template.presentation.controller.project.request.UpdateTaskStatusRequest;
 import com.spring_boot_template.presentation.controller.project.response.UpdateTaskStatusResponse;
