@@ -7,12 +7,13 @@ import com.spring_boot_template.domain.model.project.task.value.Status;
 import com.spring_boot_template.domain.model.project.task.value.TaskId;
 import com.spring_boot_template.domain.model.project.task.value.TaskName;
 import com.spring_boot_template.domain.shared.IdGenerator;
-import java.util.HashSet;
-import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+
+import java.util.HashSet;
+import java.util.Optional;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -24,8 +25,8 @@ public class Task {
     private final HashSet<AccountId> assignedAccountIds;
     private final DueDateDetail dueDateDetail;
 
-    public static Task createTask(final TaskName taskName) {
-        final TaskId taskId = new TaskId(IdGenerator.generateId());
+    public static Task createTask(final IdGenerator idGenerator, final TaskName taskName) {
+        final TaskId taskId = new TaskId(idGenerator.generateId());
         final Status status = Status.UNDONE;
         final HashSet<AccountId> assignedAccountIds = new HashSet<>();
         final DueDateDetail dueDateDetail = null;

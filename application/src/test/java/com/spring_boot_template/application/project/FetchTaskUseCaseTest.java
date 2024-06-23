@@ -21,7 +21,7 @@
 // import org.mockito.Mock;
 // import org.springframework.test.context.junit.jupiter.SpringExtension;
 //
-// @ExtendWith(SpringExtension.class)
+// @SpringBootTest
 // final class FetchTaskUseCaseTest {
 //    @Mock private FindTaskByTaskIdUseCase findTaskByTaskIdUseCaseMock;
 //

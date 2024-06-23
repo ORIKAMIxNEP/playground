@@ -4,10 +4,13 @@ import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.project.task.Task;
 import com.spring_boot_template.presentation.controller.project.response.DueDateDetailResponse;
 import com.spring_boot_template.presentation.controller.project.response.FetchTaskResponse;
+import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
+@Service
 public final class FetchTaskResponseConverter {
-    public static FetchTaskResponse execute(final Task task) {
+    public FetchTaskResponse execute(final Task task) {
         final String taskName = task.getTaskName().getValue();
         final String status = task.getStatus().toString();
         final String[] assignedAccountIds =

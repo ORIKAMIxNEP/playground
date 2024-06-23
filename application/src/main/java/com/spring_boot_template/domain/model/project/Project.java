@@ -8,11 +8,12 @@ import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.project.value.ProjectName;
 import com.spring_boot_template.domain.shared.IdGenerator;
 import jakarta.validation.ValidationException;
-import java.util.HashSet;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.commons.collections4.set.ListOrderedSet;
+
+import java.util.HashSet;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -24,8 +25,8 @@ public final class Project {
 
     private final int ASSIGNABLE_TASK_COUNT_FOR_ACCOUNT = 10;
 
-    public static Project createProject(final ProjectName projectName) {
-        final ProjectId projectId = new ProjectId(IdGenerator.generateId());
+    public static Project createProject(final IdGenerator idGenerator, final ProjectName projectName) {
+        final ProjectId projectId = new ProjectId(idGenerator.generateId());
         final HashSet<AccountId> participatingAccountIds = new HashSet<>();
         final ListOrderedSet<Task> tasks = new ListOrderedSet<>();
 

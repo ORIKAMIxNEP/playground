@@ -15,8 +15,8 @@ public final class Account {
     private AccountName accountName;
     private Password password;
 
-    public static Account createAccount(final AccountName accountName, final Password password) {
-        final AccountId accountId = new AccountId(IdGenerator.generateId());
+    public static Account createAccount(final IdGenerator idGenerator ,final AccountName accountName, final Password password) {
+        final AccountId accountId = new AccountId(idGenerator.generateId());
 
         return new Account(accountId, accountName, password);
     }

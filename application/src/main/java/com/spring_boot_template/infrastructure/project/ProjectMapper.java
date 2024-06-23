@@ -10,8 +10,10 @@ import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.infrastructure.project.dto.DueDateDetailDto;
 import com.spring_boot_template.infrastructure.project.dto.ProjectDto;
 import com.spring_boot_template.infrastructure.project.dto.TaskDto;
-import java.util.ArrayList;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.ArrayList;
+import java.util.Optional;
 
 @Mapper
 interface ProjectMapper {
@@ -26,15 +28,17 @@ interface ProjectMapper {
 
     void insertDueDateDetail(final TaskId taskId, final DueDateDetail dueDateDetail);
 
-    ArrayList<ProjectQueryDto> selectProjectsByAccountId(final AccountId participatingAccountId);
+    Optional<ArrayList<ProjectQueryDto>> selectProjectsByAccountId(final AccountId participatingAccountId);
 
-    ArrayList<ProjectId> selectProjectIdsByAccountId(final AccountId participatingAccountId);
+    Optional<ArrayList<ProjectId>> selectProjectIdsByAccountId(final AccountId participatingAccountId);
 
-    ProjectDto selectProjectByProjectId(final ProjectId projectId);
+    Optional<ProjectDto> selectProjectByProjectId(final ProjectId projectId);
 
-    ArrayList<TaskDto> selectTasksByProjectId(final ProjectId projectId);
+    Optional<ArrayList<TaskDto>> selectTasksByProjectId(final ProjectId projectId);
 
-    ArrayList<DueDateDetailDto> selectDueDateDetailsByProjectId(final ProjectId projectId);
+    Optional<TaskDto> selectTaskByTaskId(final TaskId taskId);
+
+    Optional<ArrayList<DueDateDetailDto>> selectDueDateDetailsByProjectId(final ProjectId projectId);
 
     void deleteProject(final ProjectId projectId);
 

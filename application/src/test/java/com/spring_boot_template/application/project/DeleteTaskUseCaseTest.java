@@ -22,7 +22,7 @@
 // import org.mockito.Mock;
 // import org.springframework.test.context.junit.jupiter.SpringExtension;
 //
-// @ExtendWith(SpringExtension.class)
+// @SpringBootTest
 // final class DeleteTaskUseCaseTest {
 //    @Mock private FindTaskByTaskIdUseCase findTaskByTaskIdUseCaseMock;
 //    @Mock private TaskRepository taskRepositoryMock;

@@ -1,11 +1,13 @@
 package com.spring_boot_template.domain.shared;
 
 import de.huxhorn.sulky.ulid.ULID;
+import org.springframework.stereotype.Component;
 
+@Component
 public final class IdGenerator {
-    private static final ULID ULID_INSTANCE = new ULID();
+    private final ULID ulid = new ULID();
 
-    public static String generateId() {
-        return ULID_INSTANCE.nextValue().toString();
+    public String generateId() {
+        return ulid.nextValue().toString();
     }
 }

@@ -1,5 +1,6 @@
 package com.spring_boot_template.infrastructure.project;
 
+import com.spring_boot_template.domain.exception.ValidationException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.project.Project;
 import com.spring_boot_template.domain.model.project.ProjectRepository;
@@ -14,15 +15,17 @@ import com.spring_boot_template.domain.model.project.value.ProjectName;
 import com.spring_boot_template.infrastructure.project.dto.DueDateDetailDto;
 import com.spring_boot_template.infrastructure.project.dto.ProjectDto;
 import com.spring_boot_template.infrastructure.project.dto.TaskDto;
-import java.util.ArrayList;
-import java.util.HashSet;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.set.ListOrderedSet;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
-public class ProjectMyBatisPostgreSqlRepository implements ProjectRepository {
+class ProjectMyBatisPostgreSqlRepository implements ProjectRepository {
     private final ProjectMapper projectMapper;
 
     @Override
@@ -59,16 +62,16 @@ public class ProjectMyBatisPostgreSqlRepository implements ProjectRepository {
 
     @Override
     public Project findProjectByProjectId(final ProjectId projectId) {
-        final ProjectDto projectDto = projectMapper.selectProjectByProjectId(projectId);
+        final ProjectDto projectDto = projectMapper.selectProjectByProjectId(projectId).orElseThrow(() -> new ValidationException("Project is not found"));
         final ProjectName projectName = projectDto.getProjectName();
         final HashSet<AccountId> participatingAccountIds =
                 new HashSet<>(projectDto.getParticipatingAccountIds());
-        final ArrayList<TaskDto> taskDtos = projectMapper.selectTasksByProjectId(projectId);
-        final ArrayList<DueDateDetailDto> dueDateDetailDtos =
+        final Optional<ArrayList<TaskDto>> optionalTaskDtos = projectMapper.selectTasksByProjectId(projectId);
+        final Optional<ArrayList<DueDateDetailDto>> optionalDueDateDetailDtos =
                 projectMapper.selectDueDateDetailsByProjectId(projectId);
         final ListOrderedSet<Task> tasks = new ListOrderedSet<>();
 
-        taskDtos.stream()
+        optionalTaskDtos.ifPresent(taskDtos->taskDtos.stream()
                 .map(
                         taskDto -> {
                             final TaskId taskId = taskDto.getTaskId();
@@ -77,7 +80,7 @@ public class ProjectMyBatisPostgreSqlRepository implements ProjectRepository {
                             final HashSet<AccountId> assignedAccountIds =
                                     new HashSet<>(taskDto.getAssignedAccountIds());
                             final DueDateDetail dueDateDetail =
-                                    dueDateDetailDtos.stream()
+                                    optionalDueDateDetailDtos.flatMap(dueDateDetailDtos->dueDateDetailDtos.stream()
                                             .filter(
                                                     dueDateDetailDto ->
                                                             dueDateDetailDto
@@ -95,13 +98,13 @@ public class ProjectMyBatisPostgreSqlRepository implements ProjectRepository {
                                                                     dueDateDetailDto
                                                                             .getPostponeCount(),
                                                                     dueDateDetailDto
-                                                                            .getMaxPostponeCount()))
+                                                                            .getMaxPostponeCount())))
                                             .orElse(null);
 
                             return Task.reconstructTask(
                                     taskId, taskName, status, assignedAccountIds, dueDateDetail);
                         })
-                .forEach(tasks::add);
+                .forEach(tasks::add));
 
         return Project.reconstructProject(projectId, projectName, participatingAccountIds, tasks);
     }

@@ -51,6 +51,25 @@
                 #{maxPostponeCount.value})
     </insert>
 
+    <select id="selectProjectIdsByAccountId" resultMap="Project">
+        SELECT project_id
+        FROM projects
+                 INNER JOIN project_participating_accounts
+                            on projects.project_id = project_participating_accounts.project_id
+        WHERE participating_account_id = #{value}
+            FOR UPDATE
+    </select>
+
+    <select id="selectProjectsByAccountId" resultMap="Project">
+        SELECT project_id,
+               project_name
+        FROM projects
+                 INNER JOIN project_participants
+                            on projects.project_id = project_participants.project_id
+        WHERE participating_account_id = #{value}
+            FOR UPDATE
+    </select>
+
     <select id="selectProjectByProjectId" resultMap="Project">
         SELECT project_name,
                participating_account_id
@@ -105,6 +124,9 @@
     </delete>
 
     <resultMap id="Project" type="com.spring_boot_template.infrastructure.project.dto.ProjectDto">
+        <association property="projectId" javaType="com.spring_boot_template.domain.model.project.value.ProjectId">
+            <result property="value" column="project_id"/>
+        </association>
         <association property="projectName" javaType="com.spring_boot_template.domain.model.project.value.ProjectName">
             <result property="value" column="project_name"/>
         </association>
