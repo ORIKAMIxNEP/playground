@@ -1,33 +1,35 @@
 package com.spring_boot_template.application.project.converter;
 
+import com.spring_boot_template.application.project.query.dto.TaskQueryDto;
 import com.spring_boot_template.domain.model.account.value.AccountId;
-import com.spring_boot_template.domain.model.project.task.Task;
 import com.spring_boot_template.presentation.controller.project.response.DueDateDetailResponse;
 import com.spring_boot_template.presentation.controller.project.response.FetchTaskResponse;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public final class FetchTaskResponseConverter {
-    public FetchTaskResponse execute(final Task task) {
-        final String taskName = task.getTaskName().getValue();
-        final String status = task.getStatus().toString();
+    public FetchTaskResponse execute(final TaskQueryDto taskQueryDto) {
+        final String taskName = taskQueryDto.getTaskName().getValue();
+        final String status = taskQueryDto.getStatus().toString();
         final String[] assignedAccountIds =
-                task.getAssignedAccountIds().stream()
+                taskQueryDto.getAssignedAccountIds().stream()
                         .map(AccountId::getValue)
                         .toArray(String[]::new);
 
         final DueDateDetailResponse dueDateDetailResponse =
-                Optional.ofNullable(task.getDueDateDetail())
+                taskQueryDto
+                        .getDueDateDetailQueryDto()
                         .map(
-                                dueDateDetail -> {
+                                dueDateDetailQueryDto -> {
                                     final String dueDate =
-                                            dueDateDetail.getDueDate().getValue().toString();
+                                            dueDateDetailQueryDto
+                                                    .getDueDateQueryDto()
+                                                    .getValue()
+                                                    .toString();
                                     final int postponeCount =
-                                            dueDateDetail.getPostponeCount().getValue();
+                                            dueDateDetailQueryDto.getPostponeCount().getValue();
                                     final int maxPostponeCount =
-                                            dueDateDetail.getMaxPostponeCount().getValue();
+                                            dueDateDetailQueryDto.getMaxPostponeCount().getValue();
 
                                     return new DueDateDetailResponse(
                                             dueDate, postponeCount, maxPostponeCount);

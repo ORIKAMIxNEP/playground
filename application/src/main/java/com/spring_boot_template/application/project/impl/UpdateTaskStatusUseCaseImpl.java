@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class UpdateTaskStatusUseCaseImpl implements UpdateTaskStatusUseCase {
+class UpdateTaskStatusUseCaseImpl implements UpdateTaskStatusUseCase {
     @Override
     @Transactional
     public UpdateTaskStatusResponse execute(final UpdateTaskStatusRequest updateTaskStatusRequest) {

@@ -1,0 +1,2 @@
+### FetchProjects
+GET {{baseUrl}}/projects

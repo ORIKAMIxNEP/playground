@@ -1,5 +1,6 @@
 package com.spring_boot_template.domain.model.project;
 
+import com.spring_boot_template.domain.exception.DomainException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.project.task.Task;
 import com.spring_boot_template.domain.model.project.task.value.TaskId;
@@ -8,12 +9,11 @@ import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.project.value.ProjectName;
 import com.spring_boot_template.domain.shared.IdGenerator;
 import jakarta.validation.ValidationException;
+import java.util.HashSet;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.commons.collections4.set.ListOrderedSet;
-
-import java.util.HashSet;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -25,7 +25,8 @@ public final class Project {
 
     private final int ASSIGNABLE_TASK_COUNT_FOR_ACCOUNT = 10;
 
-    public static Project createProject(final IdGenerator idGenerator, final ProjectName projectName) {
+    public static Project createProject(
+            final IdGenerator idGenerator, final ProjectName projectName) {
         final ProjectId projectId = new ProjectId(idGenerator.generateId());
         final HashSet<AccountId> participatingAccountIds = new HashSet<>();
         final ListOrderedSet<Task> tasks = new ListOrderedSet<>();
@@ -41,8 +42,8 @@ public final class Project {
         return new Project(projectId, projectName, participatingAccountIds, tasks);
     }
 
-    public void createTask(final TaskName taskName) {
-        tasks.add(Task.createTask(taskName));
+    public void createTask(final IdGenerator idGenerator, final TaskName taskName) {
+        tasks.add(Task.createTask(idGenerator, taskName));
     }
 
     public Task findTaskByTaskId(final TaskId taskId) {
@@ -67,7 +68,7 @@ public final class Project {
 
         // 割り当てられたタスクの数が限界に達している場合
         if (assignedTaskCountToAccount >= ASSIGNABLE_TASK_COUNT_FOR_ACCOUNT) {
-            throw new ValidationException("Reached assigned Task count limit");
+            throw new DomainException("Reached assigned Task count limit");
         }
 
         final Task task = findTaskByTaskId(taskId);

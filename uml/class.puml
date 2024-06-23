@@ -3,7 +3,7 @@ class Account {
   - accountId: AccountId
   - accountName: AccountName
   - password: Password
-    {static} + createAccount(accountName: AccountName, password: Password): Account
+    {static} + createAccount(idGenerator: IdGenerator, accountName: AccountName, password: Password): Account
     {static} + reconstruct(accountId: AccountId, accountName: AccountName, password: Password): Account
 }
 
@@ -31,9 +31,9 @@ class Project {
   - projectName: ProjectName
   - participatingAccountIds: HashSet<AccountId>
   - tasks: ListOrderedSet<Task>
-  {static} + createProject(projectName: ProjectName): Project
+  {static} + createProject(idGenerator: IdGenerator, projectName: ProjectName): Project
   {static} + reconstructProject(projectId: ProjectId, projectName: ProjectName, participatingAccountIds: HashSet<AccountId>, tasks: ListOrderedSet<Task>): Project
-  + createTask(taskName: TaskName): void
+  + createTask(idGenerator: IdGenerator, taskName: TaskName): void
   + findTaskByTaskId(taskId: TaskId): Task
   + advanceTaskStatus(taskId: TaskId): void
   + assignAccountToTask(taskId: TaskId, assignedAccountId: AccountId): void
@@ -60,7 +60,7 @@ class Task {
   - status: Status
   - assignedAccountIds: HashSet<AccountId>
   - dueDateDetail: DueDateDetail
-  {static} + createTask(taskName: TaskName): Task
+  {static} + createTask(idGenerator: IdGenerator, taskName: TaskName): Task
   {static} + reconstructTask(taskId: TaskId, taskName: TaskName, status: Status, assignedAccountIds: HashSet<AccountId>, dueDateDetail: DueDateDetail): Task
   + advanceStatus(): void
   + assignAccount(assignedAccountId: AccountId): void
@@ -114,7 +114,7 @@ DueDateDetail *-- PostponeCount
 DueDateDetail *-- MaxPostponeCount
 
 class IdGenerator {
-  {static} - ULID_INSTANCE: ULID
-  {static} + generate(): String
+  - ulid: ULID
+  + generateId(): String
 }
 @enduml

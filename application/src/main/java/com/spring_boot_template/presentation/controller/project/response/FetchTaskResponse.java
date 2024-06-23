@@ -8,4 +8,4 @@ public record FetchTaskResponse(
         @Schema(title = "ステータス", type = "string", example = "UNDONE") String status,
         @Schema(title = "担当アカウントID", type = "array", example = "[0123456789ABCDEFGHJKMNPQRS]")
                 String[] assignedAccountId,
-        DueDateDetailResponse dueDateDetail) {}
+        @Schema(title = "詳細締め切り期日", type = "object") DueDateDetailResponse dueDateDetail) {}

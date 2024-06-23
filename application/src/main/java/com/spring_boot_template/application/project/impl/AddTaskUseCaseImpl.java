@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class AddTaskUseCaseImpl implements AddTaskUseCase {
+class AddTaskUseCaseImpl implements AddTaskUseCase {
     @Override
     @Transactional
     public void execute(final AddTaskRequest addTaskRequest) {

@@ -1,29 +1,21 @@
 ### AddTask
-POST {{baseUrl}}/task
+POST {{baseUrl}}/project/task
 Content-Type: application/json
 
 {
-  "taskName": "TaskName",
-  "userId": "0123456789ABCDEFGHJKMNPQRS",
-  "dueDate": "DueDate",
-  "maxPostponeCount": 10
+  "taskName": "TaskName"
 }
 
-### FetchTaskByTaskId
-GET {{baseUrl}}/task/1123456789ABCDEFGHJKMNPQRS
+### FetchTask
+GET {{baseUrl}}/project/task/2123456789ABCDEFGHJKMNPQRS
 
-### UpdateTaskStatus
-PUT {{baseUrl}}/task/status
+### UpdateTask
+PUT {{baseUrl}}/project/task/2123456789ABCDEFGHJKMNPQRS
 Content-Type: application/json
 
 {
-  "taskId": "1123456789ABCDEFGHJKMNPQRS"
+  "taskName": "UpdatedTaskName"
 }
 
 ### DeleteTask
-DELETE {{baseUrl}}/task
-Content-Type: application/json
-
-{
-  "taskId": "1123456789ABCDEFGHJKMNPQRS"
-}
+DELETE {{baseUrl}}/project/task/2123456789ABCDEFGHJKMNPQRS

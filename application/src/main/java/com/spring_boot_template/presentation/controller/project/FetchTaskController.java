@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 final class FetchTaskController {
     private final FetchTaskUseCase fetchTaskUseCase;
 
-    @GetMapping("/task/{taskIdRequest}")
+    @GetMapping("/project/task/{taskIdRequest}")
     @ResponseBody
     @Operation(
             tags = {"task"},

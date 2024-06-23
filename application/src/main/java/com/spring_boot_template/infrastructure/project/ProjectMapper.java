@@ -1,6 +1,8 @@
 package com.spring_boot_template.infrastructure.project;
 
+import com.spring_boot_template.application.project.query.dto.DueDateDetailQueryDto;
 import com.spring_boot_template.application.project.query.dto.ProjectQueryDto;
+import com.spring_boot_template.application.project.query.dto.TaskQueryDto;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.project.Project;
 import com.spring_boot_template.domain.model.project.task.Task;
@@ -10,10 +12,8 @@ import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.infrastructure.project.dto.DueDateDetailDto;
 import com.spring_boot_template.infrastructure.project.dto.ProjectDto;
 import com.spring_boot_template.infrastructure.project.dto.TaskDto;
-import org.apache.ibatis.annotations.Mapper;
-
 import java.util.ArrayList;
-import java.util.Optional;
+import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 interface ProjectMapper {
@@ -28,17 +28,17 @@ interface ProjectMapper {
 
     void insertDueDateDetail(final TaskId taskId, final DueDateDetail dueDateDetail);
 
-    Optional<ArrayList<ProjectQueryDto>> selectProjectsByAccountId(final AccountId participatingAccountId);
+    ArrayList<ProjectQueryDto> selectProjectsByAccountId(final AccountId participatingAccountId);
 
-    Optional<ArrayList<ProjectId>> selectProjectIdsByAccountId(final AccountId participatingAccountId);
+    ProjectDto selectProjectByProjectId(final ProjectId projectId);
 
-    Optional<ProjectDto> selectProjectByProjectId(final ProjectId projectId);
+    ArrayList<TaskDto> selectTasksByProjectId(final ProjectId projectId);
 
-    Optional<ArrayList<TaskDto>> selectTasksByProjectId(final ProjectId projectId);
+    TaskQueryDto selectTaskByTaskId(final TaskId taskId);
 
-    Optional<TaskDto> selectTaskByTaskId(final TaskId taskId);
+    ArrayList<DueDateDetailDto> selectDueDateDetailsByProjectId(final ProjectId projectId);
 
-    Optional<ArrayList<DueDateDetailDto>> selectDueDateDetailsByProjectId(final ProjectId projectId);
+    DueDateDetailQueryDto selectDueDateDetailByTaskId(final TaskId taskId);
 
     void deleteProject(final ProjectId projectId);
 
