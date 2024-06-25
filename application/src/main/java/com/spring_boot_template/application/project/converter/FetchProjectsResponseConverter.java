@@ -1,6 +1,6 @@
 package com.spring_boot_template.application.project.converter;
 
-import com.spring_boot_template.application.project.query.dto.ProjectQueryDto;
+import com.spring_boot_template.application.project.query.ProjectQueryDto;
 import com.spring_boot_template.presentation.controller.project.response.FetchProjectsResponse;
 import com.spring_boot_template.presentation.controller.project.response.ProjectResponse;
 import java.util.ArrayList;

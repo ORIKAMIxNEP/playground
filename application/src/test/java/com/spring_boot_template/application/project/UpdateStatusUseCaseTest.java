@@ -15,9 +15,10 @@
 // import com.spring_boot_template.domain.model.project.task.value.Status;
 // import com.spring_boot_template.domain.model.project.task.value.TaskId;
 // import com.spring_boot_template.domain.model.project.task.value.TaskName;
-// import com.spring_boot_template.presentation.controller.project.request.UpdateTaskStatusRequest;
 // import
-// com.spring_boot_template.presentation.controller.project.response.UpdateTaskStatusResponse;
+// com.spring_boot_template.presentation.controller.project.task.request.UpdateTaskStatusRequest;
+// import
+// com.spring_boot_template.presentation.controller.project.task.response.AdvanceStatusResponse;
 // import org.assertj.core.api.AssertionsForClassTypes;
 // import org.junit.jupiter.api.Test;
 // import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +31,7 @@
 //    @Mock private FindTaskByTaskIdUseCase findTaskByTaskIdUseCaseMock;
 //    @Mock private TaskRepository taskRepositoryMock;
 //
-//    @InjectMocks private UpdateTaskStatusUseCase updateTaskUseCase;
+//    @InjectMocks private AdvanceStatusUseCase updateTaskUseCase;
 //
 //    @Test
 //    public void executeTest() {
@@ -52,7 +53,7 @@
 //        assertThat(
 //                        updateTaskUseCase.execute(
 //                                new UpdateTaskStatusRequest("1123456789ABCDEFGHJKMNPQRS")))
-//                .isEqualTo(new UpdateTaskStatusResponse("UNDONE"));
+//                .isEqualTo(new AdvanceStatusResponse("UNDONE"));
 //        AssertionsForClassTypes.assertThatThrownBy(
 //                        () ->
 //                                updateTaskUseCase.execute(

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring_boot_template.infrastructure.project.query.ProjectQueryMapper">
+
+    <select id="selectProjectsByAccountId" resultMap="ProjectQueryDto">
+        SELECT projects.project_id,
+               project_name
+        FROM projects
+                 INNER JOIN project_participating_accounts
+                            on projects.project_id = project_participating_accounts.project_id
+        WHERE participating_account_id = #{value}
+            FOR UPDATE
+    </select>
+
+    <resultMap id="ProjectQueryDto" type="com.spring_boot_template.application.project.query.ProjectQueryDto">
+        <association property="projectId" javaType="com.spring_boot_template.domain.model.project.value.ProjectId">
+            <result property="value" column="project_id"/>
+        </association>
+        <association property="projectName" javaType="com.spring_boot_template.domain.model.project.value.ProjectName">
+            <result property="value" column="project_name"/>
+        </association>
+    </resultMap>
+</mapper>

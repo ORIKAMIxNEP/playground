@@ -3,6 +3,7 @@ package com.spring_boot_template.domain.model.project;
 import com.spring_boot_template.domain.exception.DomainException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.project.task.Task;
+import com.spring_boot_template.domain.model.project.task.value.Status;
 import com.spring_boot_template.domain.model.project.task.value.TaskId;
 import com.spring_boot_template.domain.model.project.task.value.TaskName;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
@@ -53,10 +54,12 @@ public final class Project {
                 .orElseThrow(() -> new ValidationException("Task is not found"));
     }
 
-    public void advanceTaskStatus(final TaskId taskId) {
+    public Status advanceTaskStatus(final TaskId taskId) {
         final Task task = findTaskByTaskId(taskId);
 
         task.advanceStatus();
+
+        return task.getStatus();
     }
 
     public void assignAccountToTask(final TaskId taskId, final AccountId assignedAccountId) {

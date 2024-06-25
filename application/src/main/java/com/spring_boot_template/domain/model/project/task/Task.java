@@ -48,7 +48,7 @@ public class Task {
 
     public void advanceStatus() {
         status =
-                Optional.ofNullable(status.nextStatus())
+                status.nextStatus()
                         .orElseThrow(() -> new DomainException("Cannot advance Status any more"));
     }
 

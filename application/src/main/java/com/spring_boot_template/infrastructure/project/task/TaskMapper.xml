@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring_boot_template.infrastructure.project.task.TaskMapper">
+
+    <insert id="insertTask">
+        INSERT INTO tasks(project_id,
+                          task_id,
+                          task_name,
+                          status,
+                          index)
+        VALUES (#{projectId.value},
+                #{taskId.value},
+                #{taskName.value},
+                #{status},
+                #{index})
+    </insert>
+
+    <insert id="insertAssignedAccount">
+        INSERT INTO task_assigned_accounts(task_id,
+                                           assigned_account_id)
+        VALUES (#{taskId.value},
+                #{assignedAccountId.value})
+    </insert>
+
+    <select id="selectTasksByProjectId" resultMap="TaskDto">
+        SELECT tasks.task_id,
+               task_name,
+               status,
+               assigned_account_id
+        FROM tasks
+                 LEFT OUTER JOIN task_assigned_accounts
+                                 on tasks.task_id = task_assigned_accounts.task_id
+        WHERE project_id = #{value}
+        ORDER BY index
+    </select>
+
+    <delete id="deleteTasks">
+        DELETE
+        FROM tasks
+        WHERE project_id = #{value}
+    </delete>
+
+    <resultMap id="TaskDto" type="com.spring_boot_template.infrastructure.project.task.dto.TaskDto">
+        <result property="status" column="status" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <association property="taskId" javaType="com.spring_boot_template.domain.model.project.task.value.TaskId">
+            <result property="value" column="task_id"/>
+        </association>
+        <association property="taskName" javaType="com.spring_boot_template.domain.model.project.task.value.TaskName">
+            <result property="value" column="task_name"/>
+        </association>
+        <collection property="assignedAccountIds"
+                    ofType="com.spring_boot_template.domain.model.account.value.AccountId">
+            <result property="value" column="assigned_account_id"/>
+        </collection>
+    </resultMap>
+</mapper>

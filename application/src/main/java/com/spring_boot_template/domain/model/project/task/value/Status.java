@@ -1,5 +1,6 @@
 package com.spring_boot_template.domain.model.project.task.value;
 
+import java.util.Optional;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -11,11 +12,12 @@ public enum Status {
 
     @Getter private final boolean isCountableAsTask;
 
-    public final Status nextStatus() {
-        return switch (this) {
-            case UNDONE -> DOING;
-            case DOING -> DONE;
-            default -> null;
-        };
+    public final Optional<Status> nextStatus() {
+        return Optional.ofNullable(
+                switch (this) {
+                    case UNDONE -> DOING;
+                    case DOING -> DONE;
+                    default -> null;
+                });
     }
 }

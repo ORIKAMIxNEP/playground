@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 @RequiredArgsConstructor
 final class GlobalControllerAdvice {
-    @ExceptionHandler({
-        ValidationException.class,
-        MethodArgumentNotValidException.class,
-        DomainException.class
-    })
+    @ExceptionHandler(
+            value = {
+                ValidationException.class,
+                MethodArgumentNotValidException.class,
+                DomainException.class
+            })
     private ResponseEntity<String> execute(final Exception exception) {
         return ResponseEntity.badRequest().body(exception.getMessage());
     }

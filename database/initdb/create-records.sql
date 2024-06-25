@@ -19,7 +19,7 @@ CREATE TABLE projects
     project_name TEXT NOT NULL,
     PRIMARY KEY (project_id)
 );
-CREATE INDEX index_project_name ON projects (project_name);
+CREATE INDEX project_name_index ON projects (project_name);
 INSERT INTO projects(project_id,
                      project_name)
 VALUES ('1123456789ABCDEFGHJKMNPQRS',
@@ -45,7 +45,7 @@ CREATE TABLE tasks
     index      INTEGER NOT NULL,
     PRIMARY KEY (task_id)
 );
-CREATE INDEX index_task_name ON tasks (task_name);
+CREATE INDEX task_name_index ON tasks (task_name);
 INSERT INTO tasks(task_id,
                   project_id,
                   task_name,

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring_boot_template.infrastructure.project.task.query.TaskQueryMapper">
+
+    <select id="selectTaskByProjectIdAndTaskId" resultMap="TaskQueryDto">
+        SELECT task_name,
+               status,
+               assigned_account_id
+        FROM tasks
+                 LEFT OUTER JOIN task_assigned_accounts
+                                 on tasks.task_id = task_assigned_accounts.task_id
+        WHERE project_id = #{projectId.value}
+          AND tasks.task_id = #{taskId.value}
+        LIMIT 1
+    </select>
+
+    <resultMap id="TaskQueryDto" type="com.spring_boot_template.application.project.task.query.dto.TaskQueryDto">
+        <result property="status" column="status" typeHandler="org.apache.ibatis.type.EnumTypeHandler"/>
+        <association property="taskName" javaType="com.spring_boot_template.domain.model.project.task.value.TaskName">
+            <result property="value" column="task_name"/>
+        </association>
+        <collection property="assignedAccountIds"
+                    ofType="com.spring_boot_template.domain.model.account.value.AccountId">
+            <result property="value" column="assigned_account_id"/>
+        </collection>
+    </resultMap>
+</mapper>

@@ -14,9 +14,11 @@ import com.spring_boot_template.domain.model.project.task.value.TaskId;
 import com.spring_boot_template.domain.model.project.task.value.TaskName;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.project.value.ProjectName;
-import com.spring_boot_template.infrastructure.project.dto.DueDateDetailDto;
 import com.spring_boot_template.infrastructure.project.dto.ProjectDto;
-import com.spring_boot_template.infrastructure.project.dto.TaskDto;
+import com.spring_boot_template.infrastructure.project.task.TaskMapper;
+import com.spring_boot_template.infrastructure.project.task.dto.TaskDto;
+import com.spring_boot_template.infrastructure.project.task.due_date_detail.DueDateDetailMapper;
+import com.spring_boot_template.infrastructure.project.task.due_date_detail.dto.DueDateDetailDto;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Optional;
@@ -28,6 +30,8 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 class ProjectMyBatisPostgreSqlRepository implements ProjectRepository {
     private final ProjectMapper projectMapper;
+    private final TaskMapper taskMapper;
+    private final DueDateDetailMapper dueDateDetailMapper;
 
     @Override
     public void saveProject(final Project project) {
@@ -35,47 +39,48 @@ class ProjectMyBatisPostgreSqlRepository implements ProjectRepository {
 
         final ProjectId projectId = project.getProjectId();
 
-        projectMapper.deleteProjectParticipatingAccount(projectId);
+        projectMapper.deleteParticipatingAccounts(projectId);
         project.getParticipatingAccountIds()
                 .forEach(
                         participatingAccountId ->
-                                projectMapper.insertProjectParticipatingAccount(
+                                projectMapper.insertParticipatingAccount(
                                         projectId, participatingAccountId));
-        projectMapper.deleteTask(projectId);
 
+        taskMapper.deleteTasks(projectId);
         final ListOrderedSet<Task> tasks = project.getTasks();
-
         tasks.forEach(
                 task -> {
-                    projectMapper.insertTask(projectId, task, tasks.indexOf(task));
+                    taskMapper.insertTask(projectId, task, tasks.indexOf(task));
 
                     final TaskId taskId = task.getTaskId();
 
                     task.getAssignedAccountIds()
                             .forEach(
                                     assignedAccountId ->
-                                            projectMapper.insertTaskAssignedAccount(
+                                            taskMapper.insertAssignedAccount(
                                                     taskId, assignedAccountId));
                     task.getDueDateDetail()
                             .ifPresent(
                                     dueDateDetail ->
-                                            projectMapper.insertDueDateDetail(
+                                            dueDateDetailMapper.insertDueDateDetail(
                                                     taskId, dueDateDetail));
                 });
     }
 
     @Override
     public Project findProjectByProjectId(final ProjectId projectId) {
+        final Optional<ProjectDto> optionalProjectDto =
+                Optional.ofNullable(projectMapper.selectProjectByProjectId(projectId));
         final ProjectDto projectDto =
-                Optional.ofNullable(projectMapper.selectProjectByProjectId(projectId))
-                        .orElseThrow(() -> new ValidationException("Project is not found"));
+                optionalProjectDto.orElseThrow(
+                        () -> new ValidationException("Project is not found"));
         final ProjectName projectName = projectDto.getProjectName();
         final HashSet<AccountId> participatingAccountIds =
                 new HashSet<>(projectDto.getParticipatingAccountIds());
         final Optional<ArrayList<TaskDto>> optionalTaskDtos =
-                Optional.ofNullable(projectMapper.selectTasksByProjectId(projectId));
+                Optional.ofNullable(taskMapper.selectTasksByProjectId(projectId));
         final Optional<ArrayList<DueDateDetailDto>> optionalDueDateDetailDtos =
-                Optional.ofNullable(projectMapper.selectDueDateDetailsByProjectId(projectId));
+                Optional.ofNullable(dueDateDetailMapper.selectDueDateDetailsByProjectId(projectId));
         final ListOrderedSet<Task> tasks = new ListOrderedSet<>();
 
         optionalTaskDtos.ifPresent(

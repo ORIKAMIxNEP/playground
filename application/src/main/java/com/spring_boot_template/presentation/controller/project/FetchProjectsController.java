@@ -3,7 +3,7 @@ package com.spring_boot_template.presentation.controller.project;
 import com.spring_boot_template.application.project.FetchProjectsUseCase;
 import com.spring_boot_template.domain.exception.DomainException;
 import com.spring_boot_template.domain.exception.ValidationException;
-import com.spring_boot_template.presentation.controller.project.response.FetchTaskResponse;
+import com.spring_boot_template.presentation.controller.project.task.response.FetchTaskResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 final class FetchProjectsController {
     private final FetchProjectsUseCase fetchProjectsUseCase;
 
-    @GetMapping("/projects")
+    @GetMapping(value = "/projects")
     @ResponseBody
     @Operation(
             tags = {"project"},

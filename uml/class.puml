@@ -35,7 +35,7 @@ class Project {
   {static} + reconstructProject(projectId: ProjectId, projectName: ProjectName, participatingAccountIds: HashSet<AccountId>, tasks: ListOrderedSet<Task>): Project
   + createTask(idGenerator: IdGenerator, taskName: TaskName): void
   + findTaskByTaskId(taskId: TaskId): Task
-  + advanceTaskStatus(taskId: TaskId): void
+  + advanceTaskStatus(taskId: TaskId): Status
   + assignAccountToTask(taskId: TaskId, assignedAccountId: AccountId): void
   + deleteTask(taskId: TaskId): void
 }

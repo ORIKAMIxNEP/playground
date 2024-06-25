@@ -2,8 +2,8 @@ package com.spring_boot_template.application.project.impl;
 
 import com.spring_boot_template.application.project.FetchProjectsUseCase;
 import com.spring_boot_template.application.project.converter.FetchProjectsResponseConverter;
+import com.spring_boot_template.application.project.query.ProjectQueryDto;
 import com.spring_boot_template.application.project.query.ProjectQueryService;
-import com.spring_boot_template.application.project.query.dto.ProjectQueryDto;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.presentation.controller.project.response.FetchProjectsResponse;
 import java.util.ArrayList;
