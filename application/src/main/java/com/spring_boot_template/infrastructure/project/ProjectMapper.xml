@@ -23,20 +23,20 @@
     <select id="selectProjectByProjectId" resultMap="ProjectDto">
         SELECT project_name
         FROM projects
-        WHERE project_id = #{value}
+        WHERE project_id = #{projectId.value}
         LIMIT 1 FOR UPDATE
     </select>
 
     <delete id="deleteProject">
         DELETE
         FROM projects
-        WHERE project_id = #{value}
+        WHERE project_id = #{projectId.value}
     </delete>
 
     <delete id="deleteParticipatingAccounts">
         DELETE
         FROM project_participating_accounts
-        WHERE project_id = #{value}
+        WHERE project_id = #{projectId.value}
     </delete>
 
     <resultMap id="ProjectDto" type="com.spring_boot_template.infrastructure.project.dto.ProjectDto">
