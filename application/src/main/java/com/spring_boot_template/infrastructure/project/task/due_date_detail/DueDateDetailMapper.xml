@@ -23,7 +23,7 @@
         FROM tasks
                  INNER JOIN due_date_details
                             on tasks.task_id = due_date_details.task_id
-        WHERE project_id = #{value}
+        WHERE project_id = #{projectId.value}
             FOR UPDATE
     </select>
 
