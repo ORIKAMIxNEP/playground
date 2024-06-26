@@ -32,14 +32,14 @@
         FROM tasks
                  LEFT OUTER JOIN task_assigned_accounts
                                  on tasks.task_id = task_assigned_accounts.task_id
-        WHERE project_id = #{value}
+        WHERE project_id = #{projectId.value}
         ORDER BY index
     </select>
 
     <delete id="deleteTasks">
         DELETE
         FROM tasks
-        WHERE project_id = #{value}
+        WHERE project_id = #{projectId.value}
     </delete>
 
     <resultMap id="TaskDto" type="com.spring_boot_template.infrastructure.project.task.dto.TaskDto">
