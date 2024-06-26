@@ -2,7 +2,8 @@ services:
   application:
     container_name: application
     build:
-      dockerfile: ../application/Dockerfile
+      dockerfile: application/Dockerfile
+    env_file: .env
     tty: true
     depends_on:
       - database
@@ -12,10 +13,10 @@ services:
   database:
     container_name: database
     image: postgres:16.2
-    env_file: ../.env
+    env_file: .env
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: "spring_boot_template"
     volumes:
-      - ../database/initdb:/docker-entrypoint-initdb.d
+      - ./database/initdb:/docker-entrypoint-initdb.d
