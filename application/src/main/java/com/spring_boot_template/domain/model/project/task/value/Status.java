@@ -5,12 +5,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 public enum Status {
     UNDONE(true),
     DOING(true),
     DONE(false);
 
-    @Getter private final boolean isCountableAsTask;
+    private final boolean isCountableAsTask;
 
     public final Optional<Status> nextStatus() {
         return Optional.ofNullable(
