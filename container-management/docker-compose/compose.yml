@@ -2,7 +2,7 @@ services:
   app:
     container_name: application
     build:
-      context: ../..
+      context: ..
       dockerfile: application/Dockerfile
     env_file: .env
     ports:
@@ -21,6 +21,9 @@ services:
       POSTGRES_DB: "spring_boot_template"
     volumes:
       - ../database/initdb:/docker-entrypoint-initdb.d
+    networks:
+      fixed_network:
+        ipv4_address: 172.18.0.2
 
   web:
     container_name: web-server
@@ -31,3 +34,11 @@ services:
       - 80:80
     depends_on:
       - app
+
+networks:
+  fixed_network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/24
