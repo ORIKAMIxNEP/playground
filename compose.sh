@@ -11,7 +11,7 @@ else
         case $option in
             d)
                 docker compose down -v
-                docker network prune -f
+                docker network prune
                 ;;
             e)
                 if [ -n "$OPTARG" ]; then
