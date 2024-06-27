@@ -2,7 +2,7 @@ services:
   app:
     container_name: application
     build:
-      context: ..
+      context: ../..
       dockerfile: application/Dockerfile
     env_file: .env
     ports:
