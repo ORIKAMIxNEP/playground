@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd container-management/docker-compose
+cd container
 
 if [ $# -eq 0 ]; then
     docker compose build --no-cache app db
