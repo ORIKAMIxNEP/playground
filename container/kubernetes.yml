@@ -1,0 +1,183 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: my-app
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: my-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: application
+          image: your-docker-registry/application:latest
+          envFrom:
+            - configMapRef:
+                name: app-config
+          ports:
+            - containerPort: 8080
+          tty: true
+          dependsOn:
+            - db
+      volumes:
+        - name: database-init
+          persistentVolumeClaim:
+            claimName: database-init
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+  namespace: my-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+        - name: database
+          image: postgres:16.2
+          envFrom:
+            - configMapRef:
+                name: db-config
+          volumeMounts:
+            - name: database-init
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: database-init
+          persistentVolumeClaim:
+            claimName: database-init
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: my-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: web-server
+          image: nginx:1.27.0
+          volumeMounts:
+            - name: web-server-config
+              mountPath: /etc/nginx/conf.d
+          ports:
+            - containerPort: 80
+          dependsOn:
+            - app
+      volumes:
+        - name: web-server-config
+          configMap:
+            name: web-server-config
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+  namespace: my-app
+spec:
+  selector:
+    app: app
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+  namespace: my-app
+spec:
+  selector:
+    app: web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: my-app
+data:
+  POSTGRES_USER: "your_postgres_user"
+  POSTGRES_PASSWORD: "your_postgres_password"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-config
+  namespace: my-app
+data:
+  POSTGRES_USER: "your_postgres_user"
+  POSTGRES_PASSWORD: "your_postgres_password"
+  POSTGRES_DB: "spring_boot_template"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-server-config
+  namespace: my-app
+data:
+  default.conf: |
+    server {
+      listen 80;
+      location / {
+        proxy_pass http://app-service:8080;
+      }
+    }
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: database-init
+  namespace: my-app
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
