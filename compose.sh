@@ -1,8 +1,10 @@
 #!/bin/bash
 
+cd container-management/docker-compose
+
 if [ $# -eq 0 ]; then
-    docker compose build --no-cache #app db
-    docker compose up -d #app db
+    docker compose build --no-cache app db
+    docker compose up -d app db
     echo "Database IPAddress: $(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' database)"
 else
     while getopts "de:l:" option; do
