@@ -7,4 +7,4 @@ spring:
     username: ${POSTGRES_USER}
     password: ${POSTGRES_PASSWORD}
 server:
-  port: 8080
+  port: 80
