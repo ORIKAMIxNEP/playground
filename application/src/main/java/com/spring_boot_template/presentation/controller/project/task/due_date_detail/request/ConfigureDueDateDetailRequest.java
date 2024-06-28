@@ -3,10 +3,15 @@ package com.spring_boot_template.presentation.controller.project.task.due_date_d
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(
-        description = "設定する詳細締め切り期日",
+        title = "設定する詳細締め切り期日",
         requiredProperties = {"dueDate, maxPostponeCount"})
 public record ConfigureDueDateDetailRequest(
-        @Schema(title = "締め切り期日", example = "Date") String dueDate,
+        @Schema(
+                        title = "締め切り期日",
+                        type = "string",
+                        format = "date-time",
+                        example = "2000-01-01T00:00:00Z")
+                String dueDate,
         @Schema(
                         title = "最大延期回数",
                         type = "integer",
