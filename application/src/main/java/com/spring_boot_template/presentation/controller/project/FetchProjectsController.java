@@ -3,7 +3,7 @@ package com.spring_boot_template.presentation.controller.project;
 import com.spring_boot_template.application.project.FetchProjectsUseCase;
 import com.spring_boot_template.domain.exception.DomainException;
 import com.spring_boot_template.domain.exception.ValidationException;
-import com.spring_boot_template.presentation.controller.project.task.response.FetchTaskResponse;
+import com.spring_boot_template.presentation.controller.project.response.FetchProjectsResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,7 +32,9 @@ final class FetchProjectsController {
                                 @Content(
                                         mediaType = "application/json",
                                         schema =
-                                                @Schema(implementation = FetchTaskResponse.class))),
+                                                @Schema(
+                                                        implementation =
+                                                                FetchProjectsResponse.class))),
                 @ApiResponse(
                         responseCode = "400",
                         description = "Bad Request",
