@@ -3,7 +3,7 @@ package com.spring_boot_template.presentation.controller.project.task.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(
-        description = "追加するタスク",
+        title = "追加するタスク",
         requiredProperties = {"taskName"})
 public record AddTaskRequest(
         @Schema(
