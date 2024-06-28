@@ -81,6 +81,6 @@ INSERT INTO due_date_details(task_id,
                              postpone_count,
                              max_postpone_count)
 VALUES ('2123456789ABCDEFGHJKMNPQRS',
-        '2000-01-01 00:00:00',
+        '2000-01-01T00:00:00Z',
         0,
         10)
