@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 public final class TaskName {
-    @Getter
     @NotNull(message = "TaskName is null")
     @Size(
             min = 1,

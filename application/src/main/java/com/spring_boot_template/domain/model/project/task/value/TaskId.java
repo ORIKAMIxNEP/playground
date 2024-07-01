@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 public final class TaskId {
-    @Getter
     @NotNull(message = "TaskId is null")
     @Pattern(
             regexp = "^[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$",

@@ -12,11 +12,7 @@ public final class FetchDueDateDetailResponseConverter {
         return optionalDueDateDetailQueryDto
                 .map(
                         dueDateDetailQueryDto -> {
-                            final String dueDate =
-                                    dueDateDetailQueryDto
-                                            .getDueDateQueryDto()
-                                            .getValue()
-                                            .toString();
+                            final String dueDate = dueDateDetailQueryDto.getDueDate().toString();
                             final int postponeCount =
                                     dueDateDetailQueryDto.getPostponeCount().getValue();
                             final int maxPostponeCount =

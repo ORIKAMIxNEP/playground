@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 public final class AccountName {
-    @Getter
     @NotNull(message = "AccountName is null")
     @Size(
             min = 1,

@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring_boot_template.infrastructure.project.task.TaskMapper">
 
-    <insert id="insertTask">
+    <insert id="insertTask" parameterType="map">
         INSERT INTO tasks(project_id,
                           task_id,
                           task_name,
@@ -17,14 +17,14 @@
                 #{index})
     </insert>
 
-    <insert id="insertAssignedAccount">
+    <insert id="insertAssignedAccount" parameterType="map">
         INSERT INTO task_assigned_accounts(task_id,
                                            assigned_account_id)
         VALUES (#{taskId.value},
                 #{assignedAccountId.value})
     </insert>
 
-    <select id="selectTasksByProjectId" resultMap="TaskDto">
+    <select id="selectTasksByProjectId" parameterType="map" resultMap="TaskDto">
         SELECT tasks.task_id,
                task_name,
                status,
@@ -36,7 +36,7 @@
         ORDER BY index
     </select>
 
-    <delete id="deleteTasks">
+    <delete id="deleteTasks" parameterType="map">
         DELETE
         FROM tasks
         WHERE project_id = #{projectId.value}

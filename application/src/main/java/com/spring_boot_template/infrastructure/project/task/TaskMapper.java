@@ -7,14 +7,18 @@ import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.infrastructure.project.task.dto.TaskDto;
 import java.util.ArrayList;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface TaskMapper {
-    void insertTask(final ProjectId projectId, final Task task, final int index);
+    void insertTask(
+            @Param("projectId") final ProjectId projectId, final Task task, final int index);
 
-    void insertAssignedAccount(final TaskId taskId, final AccountId assignedAccountId);
+    void insertAssignedAccount(
+            @Param("taskId") final TaskId taskId,
+            @Param("assignedAccountId") final AccountId assignedAccountId);
 
-    ArrayList<TaskDto> selectTasksByProjectId(final ProjectId projectId);
+    ArrayList<TaskDto> selectTasksByProjectId(@Param("projectId") final ProjectId projectId);
 
-    void deleteTasks(final ProjectId projectId);
+    void deleteTasks(@Param("projectId") final ProjectId projectId);
 }

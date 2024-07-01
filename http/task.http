@@ -1,5 +1,5 @@
 ### AddTask
-POST {{baseUrl}}/project/task
+POST {{baseUrl}}/project/1123456789ABCDEFGHJKMNPQRS/task
 Content-Type: application/json
 
 {
@@ -7,10 +7,10 @@ Content-Type: application/json
 }
 
 ### FetchTask
-GET {{baseUrl}}/project/task/2123456789ABCDEFGHJKMNPQRS
+GET {{baseUrl}}/project/1123456789ABCDEFGHJKMNPQRS/task/2123456789ABCDEFGHJKMNPQRS
 
 ### UpdateTask
-PUT {{baseUrl}}/project/task/2123456789ABCDEFGHJKMNPQRS
+PUT {{baseUrl}}/project/1123456789ABCDEFGHJKMNPQRS/task/2123456789ABCDEFGHJKMNPQRS
 Content-Type: application/json
 
 {
@@ -18,4 +18,4 @@ Content-Type: application/json
 }
 
 ### DeleteTask
-DELETE {{baseUrl}}/project/task/2123456789ABCDEFGHJKMNPQRS
+DELETE {{baseUrl}}/project/1123456789ABCDEFGHJKMNPQRS/task/2123456789ABCDEFGHJKMNPQRS

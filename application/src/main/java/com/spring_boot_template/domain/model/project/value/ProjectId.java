@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 public final class ProjectId {
-    @Getter
     @NotNull(message = "ProjectId is null")
     @Pattern(
             regexp = "^[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$",

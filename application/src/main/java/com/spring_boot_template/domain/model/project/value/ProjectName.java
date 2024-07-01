@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 public final class ProjectName {
-    @Getter
     @NotNull(message = "ProjectName is null")
     @Size(
             min = 1,

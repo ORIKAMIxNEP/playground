@@ -117,8 +117,7 @@ class ProjectMyBatisPostgreSqlRepository implements ProjectRepository {
                                                                                                         dueDate =
                                                                                                                 new DueDate(
                                                                                                                         dueDateDetailDto
-                                                                                                                                .getDueDateDto()
-                                                                                                                                .getValue()
+                                                                                                                                .getDueDate()
                                                                                                                                 .toLocalDateTime());
                                                                                                 final
                                                                                                 PostponeCount

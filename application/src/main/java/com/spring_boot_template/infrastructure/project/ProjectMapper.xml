@@ -13,27 +13,27 @@
             DO UPDATE SET project_name = EXCLUDED.project_name
     </insert>
 
-    <insert id="insertParticipatingAccount">
+    <insert id="insertParticipatingAccount" parameterType="map">
         INSERT INTO project_participating_accounts(project_id,
                                                    participating_account_id)
         VALUES (#{projectId.value},
                 #{participatingAccountId.value})
     </insert>
 
-    <select id="selectProjectByProjectId" resultMap="ProjectDto">
+    <select id="selectProjectByProjectId" parameterType="map" resultMap="ProjectDto">
         SELECT project_name
         FROM projects
         WHERE project_id = #{projectId.value}
         LIMIT 1 FOR UPDATE
     </select>
 
-    <delete id="deleteProject">
+    <delete id="deleteProject" parameterType="map">
         DELETE
         FROM projects
         WHERE project_id = #{projectId.value}
     </delete>
 
-    <delete id="deleteParticipatingAccounts">
+    <delete id="deleteParticipatingAccounts" parameterType="map">
         DELETE
         FROM project_participating_accounts
         WHERE project_id = #{projectId.value}

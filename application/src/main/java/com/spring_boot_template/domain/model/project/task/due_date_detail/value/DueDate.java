@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 public final class DueDate {
-    @Getter private final LocalDateTime value;
+    private final LocalDateTime value;
 }

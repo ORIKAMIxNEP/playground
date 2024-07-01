@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd container
+cd container || exit
 
 if [ $# -eq 0 ]; then
     docker compose build --no-cache

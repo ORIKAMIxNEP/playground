@@ -5,6 +5,8 @@ services:
       context: ..
       dockerfile: application/Dockerfile
     env_file: .env
+    networks:
+      - fixed_network
     ports:
       - 80:80
     tty: true
@@ -17,6 +19,8 @@ services:
       context: ..
       dockerfile: application/Dockerfile
     env_file: .env
+    networks:
+      - fixed_network
     ports:
       - 8080:80
     tty: true
@@ -39,8 +43,7 @@ services:
 
 networks:
   fixed_network:
-    driver: bridge
     ipam:
       driver: default
       config:
-        - subnet: 172.18.0.0/24
+        - subnet: 172.18.0.0/16

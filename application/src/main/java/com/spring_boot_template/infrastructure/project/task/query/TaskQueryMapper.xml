@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring_boot_template.infrastructure.project.task.query.TaskQueryMapper">
 
-    <select id="selectTaskByProjectIdAndTaskId" resultMap="TaskQueryDto">
+    <select id="selectTaskByProjectIdAndTaskId" parameterType="map" resultMap="TaskQueryDto">
         SELECT task_name,
                status,
                assigned_account_id

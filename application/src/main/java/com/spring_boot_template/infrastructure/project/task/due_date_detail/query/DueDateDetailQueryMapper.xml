@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring_boot_template.infrastructure.project.task.due_date_detail.query.DueDateDetailQueryMapper">
 
-    <select id="selectDueDateDetailByTaskId" resultMap="DueDateDetailQueryDto">
+    <select id="selectDueDateDetailByTaskId" parameterType="map" resultMap="DueDateDetailQueryDto">
         SELECT due_date,
                postpone_count,
                max_postpone_count
@@ -15,10 +15,7 @@
 
     <resultMap id="DueDateDetailQueryDto"
                type="com.spring_boot_template.application.project.task.due_date_detail.query.dto.DueDateDetailQueryDto">
-        <association property="dueDateQueryDto"
-                     javaType="com.spring_boot_template.application.project.task.due_date_detail.query.dto.DueDateQueryDto">
-            <result property="value" column="due_date"/>
-        </association>
+        <result property="dueDate" column="due_date" jdbcType="TIMESTAMP"/>
         <association property="postponeCount"
                      javaType="com.spring_boot_template.domain.model.project.task.due_date_detail.value.PostponeCount">
             <result property="value" column="postpone_count"/>

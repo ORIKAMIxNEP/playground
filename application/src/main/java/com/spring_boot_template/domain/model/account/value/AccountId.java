@@ -7,9 +7,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 @EqualsAndHashCode
 public final class AccountId {
-    @Getter
     @NotNull(message = "AccountId is null")
     @Pattern(
             regexp = "^[0123456789ABCDEFGHJKMNPQRSTVWXYZ]{26}$",
