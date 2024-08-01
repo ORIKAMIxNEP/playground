@@ -23,7 +23,9 @@
     <select id="selectProjectByProjectId" parameterType="map" resultMap="ProjectDto">
         SELECT project_name
         FROM projects
-        WHERE project_id = #{projectId.value}
+                 INNER JOIN project_participating_accounts
+                            ON projects.project_id = project_participating_accounts.project_id
+        WHERE projects.project_id = #{projectId.value}
         LIMIT 1 FOR UPDATE
     </select>
 
