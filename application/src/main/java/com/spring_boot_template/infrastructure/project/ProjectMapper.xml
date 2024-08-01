@@ -9,8 +9,8 @@
                              project_name)
         VALUES (#{projectId.value},
                 #{projectName.value})
-        ON CONFLICT (project_id)
-            DO UPDATE SET project_name = EXCLUDED.project_name
+        ON CON FLICT (project_id)
+        DO UPDATE SET project_name = EXCLUDED.project_name
     </insert>
 
     <insert id="insertParticipatingAccount" parameterType="map">
