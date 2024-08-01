@@ -24,7 +24,7 @@ final class AdvanceStatusController {
     @ResponseBody
     @Operation(
             tags = {"task"},
-            summary = "タスクステータスを進める",
+            summary = "ステータスを進める",
             responses = {
                 @ApiResponse(
                         responseCode = "200",
