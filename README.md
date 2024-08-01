@@ -5,7 +5,7 @@
 ## 仕様
 
 - #### API仕様
-    - [Swagger UI](http://localhost:8080/swagger-ui/index.html)
+    - [Swagger UI](http://localhost/swagger-ui/index.html)
 - #### Checkstyle定義
     - [Google's Java Style](https://github.com/checkstyle/checkstyle/blob/master/src/main/resources/google_checks.xml)
 
