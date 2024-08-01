@@ -1,5 +1,5 @@
 services:
-  mst-app:
+  mstr-app:
     container_name: master-application
     build:
       context: ..
