@@ -31,7 +31,7 @@
                assigned_account_id
         FROM tasks
                  LEFT OUTER JOIN task_assigned_accounts
-            ONtasks.task_id = task_assigned_accounts.task_id
+                                 ON tasks.task_id = task_assigned_accounts.task_id
         WHERE project_id = #{projectId.value}
         ORDER BY index
     </select>
