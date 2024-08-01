@@ -17,5 +17,9 @@ Content-Type: application/json
   "taskName": "UpdatedTaskName"
 }
 
+### AdvanceStatus
+PUT {{baseUrl}}/project/1123456789ABCDEFGHJKMNPQRS/task/2123456789ABCDEFGHJKMNPQRS/status
+Content-Type: application/json
+
 ### DeleteTask
 DELETE {{baseUrl}}/project/1123456789ABCDEFGHJKMNPQRS/task/2123456789ABCDEFGHJKMNPQRS
