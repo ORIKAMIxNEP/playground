@@ -3,8 +3,8 @@
 cd container || exit
 
 if [ $# -eq 0 ]; then
-    docker compose build --no-cache mst-app
-    docker compose up -d mst-app db
+    docker compose build --no-cache mstr-app
+    docker compose up -d mstr-app db
     echo "Database IPAddress: $(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' database)"
 else
     while getopts "de:l:" option; do
