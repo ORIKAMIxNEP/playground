@@ -9,9 +9,10 @@
                project_name
         FROM projects
                  INNER JOIN project_participating_accounts
-                            on projects.project_id = project_participating_accounts.project_id
+                            ON projects.project_id = project_participating_accounts.project_id
         WHERE participating_account_id = #{participatingAccountId.value}
-            FOR UPDATE
+            FOR
+                UPDATE
     </select>
 
     <resultMap id="ProjectQueryDto" type="com.spring_boot_template.application.project.query.ProjectQueryDto">
