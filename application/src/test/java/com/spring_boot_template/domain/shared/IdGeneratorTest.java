@@ -12,9 +12,11 @@ final class IdGeneratorTest {
     private final IdGenerator idGenerator;
 
     @Test
-    public void generateIdTest() {
+    public void testGenerateId() {
         final String id = idGenerator.generateId();
+        final int actualIdLength = id.length();
+        final int expectedIdLength = 26;
 
-        assertThat(id.length()).isEqualTo(26);
+        assertThat(actualIdLength).isEqualTo(expectedIdLength);
     }
 }
