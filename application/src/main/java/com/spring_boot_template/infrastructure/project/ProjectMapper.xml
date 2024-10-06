@@ -9,8 +9,8 @@
                              project_name)
         VALUES (#{projectId.value},
                 #{projectName.value})
-        ON CON FLICT (project_id)
-        DO UPDATE SET project_name = EXCLUDED.project_name
+        ON CONFLICT (project_id)
+            DO UPDATE SET project_name = EXCLUDED.project_name
     </insert>
 
     <insert id="insertParticipatingAccount" parameterType="map">
@@ -21,7 +21,8 @@
     </insert>
 
     <select id="selectProjectByProjectId" parameterType="map" resultMap="ProjectDto">
-        SELECT project_name
+        SELECT project_name,
+               participating_account_id
         FROM projects
                  INNER JOIN project_participating_accounts
                             ON projects.project_id = project_participating_accounts.project_id
@@ -41,7 +42,7 @@
         WHERE project_id = #{projectId.value}
     </delete>
 
-    <resultMap id="ProjectDto" type="com.spring_boot_template.infrastructure.project.dto.ProjectDto">
+    <resultMap id="ProjectDto" type="com.spring_boot_template.infrastructure.project.ProjectDto">
         <association property="projectName" javaType="com.spring_boot_template.domain.model.project.value.ProjectName">
             <result property="value" column="project_name"/>
         </association>

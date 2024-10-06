@@ -1,8 +1,9 @@
 package com.spring_boot_template.application.project.query;
 
 import com.spring_boot_template.domain.model.account.value.AccountId;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface ProjectQueryService {
-    ArrayList<ProjectQueryDto> findProjectsByAccountId(final AccountId participatingAccountId);
+    List<ProjectQueryDto> findProjectsByParticipatingAccountId(
+            final AccountId participatingAccountId);
 }

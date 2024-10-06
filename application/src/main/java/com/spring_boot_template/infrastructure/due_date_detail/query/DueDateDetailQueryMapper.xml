@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring_boot_template.infrastructure.due_date_detail.query.DueDateDetailQueryMapper">
+
+    <select id="selectDueDateDetailByTaskId" parameterType="map" resultMap="DueDateDetailQueryDto">
+        SELECT due_date,
+               postpone_count,
+               max_postpone_count
+        FROM due_date_details
+        WHERE task_id = #{taskId.value}
+        LIMIT 1 FOR UPDATE
+    </select>
+
+    <resultMap id="DueDateDetailQueryDto"
+               type="com.spring_boot_template.application.due_date_detail.query.DueDateDetailQueryDto">
+        <result property="dueDate" column="due_date" jdbcType="TIMESTAMP"/>
+        <result property="postponeCount" column="postpone_count"/>
+        <result property="maxPostponeCount" column="max_postpone_count"/>
+    </resultMap>
+</mapper>

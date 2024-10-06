@@ -1,16 +1,16 @@
 package com.spring_boot_template.domain.model.project;
 
-import com.spring_boot_template.domain.exception.DomainException;
+import com.spring_boot_template.domain.exception.DomainKnowledgeException;
+import com.spring_boot_template.domain.exception.ResourceNotFoundException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
-import com.spring_boot_template.domain.model.project.task.Task;
-import com.spring_boot_template.domain.model.project.task.value.Status;
-import com.spring_boot_template.domain.model.project.task.value.TaskId;
-import com.spring_boot_template.domain.model.project.task.value.TaskName;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.project.value.ProjectName;
+import com.spring_boot_template.domain.model.task.Task;
+import com.spring_boot_template.domain.model.task.value.TaskId;
+import com.spring_boot_template.domain.model.task.value.TaskName;
 import com.spring_boot_template.domain.shared.IdGenerator;
-import jakarta.validation.ValidationException;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,16 +20,16 @@ import org.apache.commons.collections4.set.ListOrderedSet;
 @Getter
 public final class Project {
     private final ProjectId projectId;
-    private ProjectName projectName;
-    private final HashSet<AccountId> participatingAccountIds;
+    private final ProjectName projectName;
+    private final Set<AccountId> participatingAccountIds;
     private final ListOrderedSet<Task> tasks;
 
-    private final int ASSIGNABLE_TASK_COUNT_FOR_ACCOUNT = 10;
+    private static final int ASSIGNABLE_TASK_COUNT_FOR_ACCOUNT = 10;
 
     public static Project createProject(
             final IdGenerator idGenerator, final ProjectName projectName) {
         final ProjectId projectId = new ProjectId(idGenerator.generateId());
-        final HashSet<AccountId> participatingAccountIds = new HashSet<>();
+        final Set<AccountId> participatingAccountIds = Collections.emptySet();
         final ListOrderedSet<Task> tasks = new ListOrderedSet<>();
 
         return new Project(projectId, projectName, participatingAccountIds, tasks);
@@ -38,7 +38,7 @@ public final class Project {
     public static Project reconstructProject(
             final ProjectId projectId,
             final ProjectName projectName,
-            final HashSet<AccountId> participatingAccountIds,
+            final Set<AccountId> participatingAccountIds,
             final ListOrderedSet<Task> tasks) {
         return new Project(projectId, projectName, participatingAccountIds, tasks);
     }
@@ -51,15 +51,13 @@ public final class Project {
         return tasks.stream()
                 .filter(task -> task.getTaskId().equals(taskId))
                 .findFirst()
-                .orElseThrow(() -> new ValidationException("Task is not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Task is not found"));
     }
 
-    public Status advanceTaskStatus(final TaskId taskId) {
+    public void advanceTaskStatus(final TaskId taskId) {
         final Task task = findTaskByTaskId(taskId);
 
         task.advanceStatus();
-
-        return task.getStatus();
     }
 
     public void assignAccountToTask(final TaskId taskId, final AccountId assignedAccountId) {
@@ -71,7 +69,7 @@ public final class Project {
 
         // 割り当てられたタスクの数が限界に達している場合
         if (assignedTaskCountToAccount >= ASSIGNABLE_TASK_COUNT_FOR_ACCOUNT) {
-            throw new DomainException("Reached assigned Task count limit");
+            throw new DomainKnowledgeException("Reached assigned Task count limit");
         }
 
         final Task task = findTaskByTaskId(taskId);

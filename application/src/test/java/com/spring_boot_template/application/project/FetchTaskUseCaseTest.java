@@ -5,7 +5,7 @@
 // import static org.mockito.Mockito.doReturn;
 // import static org.mockito.Mockito.doThrow;
 //
-// import com.spring_boot_template.domain.exception.ValidationException;
+// import com.spring_boot_template.domain.exception.ResourceConflictException;
 // import com.spring_boot_template.domain.model.account.value.AccountId;
 // import com.spring_boot_template.domain.model.project.task.Task;
 // import com.spring_boot_template.domain.model.project.task.due_date.value.Date;
@@ -14,7 +14,7 @@
 // import com.spring_boot_template.domain.model.project.task.value.Status;
 // import com.spring_boot_template.domain.model.project.task.value.TaskId;
 // import com.spring_boot_template.domain.model.project.task.value.TaskName;
-// import com.spring_boot_template.presentation.controller.project.task.response.FetchTaskResponse;
+// import com.spring_boot_template.presentation.controller.project.task.response.TaskResponse;
 // import org.junit.jupiter.api.Test;
 // import org.junit.jupiter.api.extension.ExtendWith;
 // import org.mockito.InjectMocks;
@@ -40,16 +40,16 @@
 //                                new MaxPostponeCount(10)))
 //                .when(findTaskByTaskIdUseCaseMock)
 //                .execute(new TaskId("1123456789ABCDEFGHJKMNPQRS"));
-//        doThrow(ValidationException.class)
+//        doThrow(ResourceConflictException.class)
 //                .when(findTaskByTaskIdUseCaseMock)
 //                .execute(new TaskId("00000000000000000000000000"));
 //
 //        assertThat(fetchTaskUseCase.execute("1123456789ABCDEFGHJKMNPQRS"))
 //                .isEqualTo(
-//                        new FetchTaskResponse(
+//                        new TaskResponse(
 //                                "TaskName", "UNDONE", "0123456789ABCDEFGHJKMNPQRS", "Date", 0,
 // 10));
 //        assertThatThrownBy(() -> fetchTaskUseCase.execute("00000000000000000000000000"))
-//                .isInstanceOf(ValidationException.class);
+//                .isInstanceOf(ResourceConflictException.class);
 //    }
 // }

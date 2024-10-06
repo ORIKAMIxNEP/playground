@@ -1,27 +1,26 @@
 package com.spring_boot_template.infrastructure.project;
 
-import com.spring_boot_template.domain.exception.ValidationException;
+import com.spring_boot_template.domain.exception.ResourceNotFoundException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
+import com.spring_boot_template.domain.model.due_date_detail.DueDateDetail;
+import com.spring_boot_template.domain.model.due_date_detail.value.DueDate;
+import com.spring_boot_template.domain.model.due_date_detail.value.MaxPostponeCount;
+import com.spring_boot_template.domain.model.due_date_detail.value.PostponeCount;
 import com.spring_boot_template.domain.model.project.Project;
 import com.spring_boot_template.domain.model.project.ProjectRepository;
-import com.spring_boot_template.domain.model.project.task.Task;
-import com.spring_boot_template.domain.model.project.task.due_date_detail.DueDateDetail;
-import com.spring_boot_template.domain.model.project.task.due_date_detail.value.DueDate;
-import com.spring_boot_template.domain.model.project.task.due_date_detail.value.MaxPostponeCount;
-import com.spring_boot_template.domain.model.project.task.due_date_detail.value.PostponeCount;
-import com.spring_boot_template.domain.model.project.task.value.Status;
-import com.spring_boot_template.domain.model.project.task.value.TaskId;
-import com.spring_boot_template.domain.model.project.task.value.TaskName;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.project.value.ProjectName;
-import com.spring_boot_template.infrastructure.project.dto.ProjectDto;
-import com.spring_boot_template.infrastructure.project.task.TaskMapper;
-import com.spring_boot_template.infrastructure.project.task.dto.TaskDto;
-import com.spring_boot_template.infrastructure.project.task.due_date_detail.DueDateDetailMapper;
-import com.spring_boot_template.infrastructure.project.task.due_date_detail.dto.DueDateDetailDto;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Optional;
+import com.spring_boot_template.domain.model.task.Task;
+import com.spring_boot_template.domain.model.task.value.Status;
+import com.spring_boot_template.domain.model.task.value.TaskId;
+import com.spring_boot_template.domain.model.task.value.TaskName;
+import com.spring_boot_template.infrastructure.due_date_detail.DueDateDetailDto;
+import com.spring_boot_template.infrastructure.due_date_detail.DueDateDetailMapper;
+import com.spring_boot_template.infrastructure.task.TaskDto;
+import com.spring_boot_template.infrastructure.task.TaskMapper;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.set.ListOrderedSet;
 import org.springframework.stereotype.Repository;
@@ -50,7 +49,8 @@ class ProjectMyBatisPostgreSqlRepository implements ProjectRepository {
         final ListOrderedSet<Task> tasks = project.getTasks();
         tasks.forEach(
                 task -> {
-                    taskMapper.insertTask(projectId, task, tasks.indexOf(task));
+                    final int index = tasks.indexOf(task);
+                    taskMapper.insertTask(projectId, task, index);
 
                     final TaskId taskId = task.getTaskId();
 
@@ -59,6 +59,7 @@ class ProjectMyBatisPostgreSqlRepository implements ProjectRepository {
                                     assignedAccountId ->
                                             taskMapper.insertAssignedAccount(
                                                     taskId, assignedAccountId));
+
                     task.getDueDateDetail()
                             .ifPresent(
                                     dueDateDetail ->
@@ -69,83 +70,62 @@ class ProjectMyBatisPostgreSqlRepository implements ProjectRepository {
 
     @Override
     public Project findProjectByProjectId(final ProjectId projectId) {
-        final Optional<ProjectDto> optionalProjectDto =
-                Optional.ofNullable(projectMapper.selectProjectByProjectId(projectId));
-        final ProjectDto projectDto =
-                optionalProjectDto.orElseThrow(
-                        () -> new ValidationException("Project is not found"));
+        final ProjectDto projectDto = projectMapper.selectProjectByProjectId(projectId);
+
+        if (Objects.isNull(projectDto)) {
+            throw new ResourceNotFoundException("Project is not found");
+        }
+
         final ProjectName projectName = projectDto.getProjectName();
-        final HashSet<AccountId> participatingAccountIds =
-                new HashSet<>(projectDto.getParticipatingAccountIds());
-        final Optional<ArrayList<TaskDto>> optionalTaskDtos =
-                Optional.ofNullable(taskMapper.selectTasksByProjectId(projectId));
-        final Optional<ArrayList<DueDateDetailDto>> optionalDueDateDetailDtos =
-                Optional.ofNullable(dueDateDetailMapper.selectDueDateDetailsByProjectId(projectId));
+        final Set<AccountId> participatingAccountIds = projectDto.getParticipatingAccountIds();
+
+        final List<TaskDto> taskDtos = taskMapper.selectTasksByProjectId(projectId);
+        final List<DueDateDetailDto> dueDateDetailDtos =
+                dueDateDetailMapper.selectDueDateDetailsByProjectId(projectId);
+
         final ListOrderedSet<Task> tasks = new ListOrderedSet<>();
+        taskDtos.stream()
+                .map(
+                        taskDto -> {
+                            final TaskId taskId = taskDto.getTaskId();
+                            final TaskName taskName = taskDto.getTaskName();
+                            final Status status = taskDto.getStatus();
+                            final Set<AccountId> assignedAccountIds =
+                                    taskDto.getAssignedAccountIds();
+                            final DueDateDetail dueDateDetail =
+                                    dueDateDetailDtos.stream()
+                                            .filter(
+                                                    dueDateDetailDto ->
+                                                            dueDateDetailDto
+                                                                    .getTaskId()
+                                                                    .getValue()
+                                                                    .equals(taskId.getValue()))
+                                            .findFirst()
+                                            .map(
+                                                    dueDateDetailDto -> {
+                                                        final DueDate dueDate =
+                                                                new DueDate(
+                                                                        dueDateDetailDto
+                                                                                .getDueDate()
+                                                                                .toLocalDateTime());
+                                                        final PostponeCount postponeCount =
+                                                                dueDateDetailDto.getPostponeCount();
+                                                        final MaxPostponeCount maxPostponeCount =
+                                                                dueDateDetailDto
+                                                                        .getMaxPostponeCount();
 
-        optionalTaskDtos.ifPresent(
-                taskDtos ->
-                        taskDtos.stream()
-                                .map(
-                                        taskDto -> {
-                                            final TaskId taskId = taskDto.getTaskId();
-                                            final TaskName taskName = taskDto.getTaskName();
-                                            final Status status = taskDto.getStatus();
-                                            final HashSet<AccountId> assignedAccountIds =
-                                                    taskDto.getAssignedAccountIds()
-                                                            .map(HashSet::new)
-                                                            .orElseGet(HashSet::new);
-                                            final DueDateDetail dueDateDetail =
-                                                    optionalDueDateDetailDtos
-                                                            .flatMap(
-                                                                    dueDateDetailDtos ->
-                                                                            dueDateDetailDtos
-                                                                                    .stream()
-                                                                                    .filter(
-                                                                                            dueDateDetailDto ->
-                                                                                                    dueDateDetailDto
-                                                                                                            .getTaskId()
-                                                                                                            .getValue()
-                                                                                                            .equals(
-                                                                                                                    taskId
-                                                                                                                            .getValue()))
-                                                                                    .findFirst()
-                                                                                    .map(
-                                                                                            dueDateDetailDto -> {
-                                                                                                final
-                                                                                                DueDate
-                                                                                                        dueDate =
-                                                                                                                new DueDate(
-                                                                                                                        dueDateDetailDto
-                                                                                                                                .getDueDate()
-                                                                                                                                .toLocalDateTime());
-                                                                                                final
-                                                                                                PostponeCount
-                                                                                                        postponeCount =
-                                                                                                                dueDateDetailDto
-                                                                                                                        .getPostponeCount();
-                                                                                                final
-                                                                                                MaxPostponeCount
-                                                                                                        maxPostponeCount =
-                                                                                                                dueDateDetailDto
-                                                                                                                        .getMaxPostponeCount();
+                                                        return DueDateDetail
+                                                                .reconstructDueDateDetail(
+                                                                        dueDate,
+                                                                        postponeCount,
+                                                                        maxPostponeCount);
+                                                    })
+                                            .orElse(null);
 
-                                                                                                return DueDateDetail
-                                                                                                        .reconstructDueDateDetail(
-                                                                                                                dueDate,
-                                                                                                                postponeCount,
-                                                                                                                maxPostponeCount);
-                                                                                            }))
-                                                            .orElse(null);
-
-                                            return Task.reconstructTask(
-                                                    taskId,
-                                                    taskName,
-                                                    status,
-                                                    assignedAccountIds,
-                                                    dueDateDetail);
-                                        })
-                                .forEach(tasks::add));
+                            return Task.reconstructTask(
+                                    taskId, taskName, status, assignedAccountIds, dueDateDetail);
+                        })
+                .forEach(tasks::add);
 
         return Project.reconstructProject(projectId, projectName, participatingAccountIds, tasks);
     }

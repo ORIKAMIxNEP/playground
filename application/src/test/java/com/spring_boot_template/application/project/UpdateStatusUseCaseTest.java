@@ -6,7 +6,7 @@
 // import static org.mockito.Mockito.doReturn;
 // import static org.mockito.Mockito.doThrow;
 //
-// import com.spring_boot_template.domain.exception.ValidationException;
+// import com.spring_boot_template.domain.exception.ResourceConflictException;
 // import com.spring_boot_template.domain.model.account.value.AccountId;
 // import com.spring_boot_template.domain.model.project.task.Task;
 // import com.spring_boot_template.domain.model.project.task.due_date.value.Date;
@@ -18,7 +18,7 @@
 // import
 // com.spring_boot_template.presentation.controller.project.task.request.UpdateTaskStatusRequest;
 // import
-// com.spring_boot_template.presentation.controller.project.task.response.AdvanceStatusResponse;
+// com.spring_boot_template.presentation.controller.project.task.response.StatusResponse;
 // import org.assertj.core.api.AssertionsForClassTypes;
 // import org.junit.jupiter.api.Test;
 // import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,7 +44,7 @@
 //                        new Date("Date"),
 //                        new PostponeCount(0),
 //                        new MaxPostponeCount(10)));
-//        doThrow(ValidationException.class)
+//        doThrow(ResourceConflictException.class)
 //                .when(findTaskByTaskIdUseCaseMock)
 //                .execute(new TaskId("00000000000000000000000000"));
 //        doNothing().when(taskRepositoryMock).deleteTask(any());
@@ -53,12 +53,12 @@
 //        assertThat(
 //                        updateTaskUseCase.execute(
 //                                new UpdateTaskStatusRequest("1123456789ABCDEFGHJKMNPQRS")))
-//                .isEqualTo(new AdvanceStatusResponse("UNDONE"));
+//                .isEqualTo(new StatusResponse("UNDONE"));
 //        AssertionsForClassTypes.assertThatThrownBy(
 //                        () ->
 //                                updateTaskUseCase.execute(
 //                                        new
 // UpdateTaskStatusRequest("00000000000000000000000000")))
-//                .isInstanceOf(ValidationException.class);
+//                .isInstanceOf(ResourceConflictException.class);
 //    }
 // }
