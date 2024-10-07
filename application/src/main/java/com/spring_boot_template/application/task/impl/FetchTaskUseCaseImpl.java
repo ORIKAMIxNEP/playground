@@ -8,8 +8,6 @@ import com.spring_boot_template.application.task.query.TaskQueryService;
 import com.spring_boot_template.domain.exception.ResourceNotFoundException;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.task.value.TaskId;
-import com.spring_boot_template.presentation.controller.due_date_detail.converter.DueDateDetailResponseConverter;
-import com.spring_boot_template.presentation.controller.task.converter.TaskResponseConverter;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,8 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 class FetchTaskUseCaseImpl implements FetchTaskUseCase {
     private final TaskQueryService taskQueryService;
     private final DueDateDetailQueryService dueDateDetailQueryService;
-    private final TaskResponseConverter taskResponseConverter;
-    private final DueDateDetailResponseConverter dueDateDetailResponseConverter;
 
     @Override
     @Transactional

@@ -10,7 +10,7 @@
                max_postpone_count
         FROM due_date_details
         WHERE task_id = #{taskId.value}
-        LIMIT 1 FOR UPDATE
+        LIMIT 1
     </select>
 
     <resultMap id="DueDateDetailQueryDto"

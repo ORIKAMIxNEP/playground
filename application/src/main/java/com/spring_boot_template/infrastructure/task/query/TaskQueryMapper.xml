@@ -19,6 +19,9 @@
     <resultMap id="TaskQueryDto" type="com.spring_boot_template.application.task.query.TaskQueryDto">
         <result property="taskName" column="task_name"/>
         <result property="status" column="status"/>
-        <collection property="assignedAccountIds" column="assigned_account_id"/>
+        <collection property="assignedAccountIds"
+                    ofType="java.lang.String">
+            <result column="assigned_account_id"/>
+        </collection>
     </resultMap>
 </mapper>

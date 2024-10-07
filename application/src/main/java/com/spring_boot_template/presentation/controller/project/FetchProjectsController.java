@@ -2,6 +2,7 @@ package com.spring_boot_template.presentation.controller.project;
 
 import com.spring_boot_template.application.project.FetchProjectsUseCase;
 import com.spring_boot_template.application.project.query.ProjectQueryDto;
+import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.presentation.controller.project.converter.ProjectResponsesConverter;
 import com.spring_boot_template.presentation.controller.project.response.ProjectResponses;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,7 +37,9 @@ final class FetchProjectsController {
                                         schema = @Schema(implementation = ProjectResponses.class)))
             })
     private ResponseEntity<?> execute() {
-        final List<ProjectQueryDto> projectQueryDtos = fetchProjectsUseCase.execute();
+        final AccountId participatingAccountId = new AccountId("0123456789ABCDEFGHJKMNPQRS");
+        final List<ProjectQueryDto> projectQueryDtos =
+                fetchProjectsUseCase.execute(participatingAccountId);
 
         return ResponseEntity.ok(projectResponsesConverter.execute(projectQueryDtos));
     }

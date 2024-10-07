@@ -34,6 +34,7 @@
                                  ON tasks.task_id = task_assigned_accounts.task_id
         WHERE project_id = #{projectId.value}
         ORDER BY index
+            FOR UPDATE
     </select>
 
     <delete id="deleteTasks" parameterType="map">
