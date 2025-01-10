@@ -7,7 +7,6 @@ import com.spring_boot_template.domain.model.due_date_detail.value.DueDate;
 import com.spring_boot_template.domain.model.due_date_detail.value.MaxPostponeCount;
 import com.spring_boot_template.domain.model.due_date_detail.value.PostponeCount;
 import com.spring_boot_template.domain.model.project.Project;
-import com.spring_boot_template.domain.model.project.ProjectRepository;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.project.value.ProjectName;
 import com.spring_boot_template.domain.model.task.Task;
@@ -27,7 +26,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-class ProjectMyBatisPostgreSqlRepository implements ProjectRepository {
+class ProjectRepository implements com.spring_boot_template.domain.model.project.ProjectRepository {
     private final ProjectMapper projectMapper;
     private final TaskMapper taskMapper;
     private final DueDateDetailMapper dueDateDetailMapper;
