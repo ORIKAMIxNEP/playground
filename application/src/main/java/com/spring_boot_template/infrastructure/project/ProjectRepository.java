@@ -45,7 +45,7 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
                                         projectId, participatingAccountId));
 
         taskMapper.deleteTasks(projectId);
-        final ListOrderedSet<Task> tasks = project.getTasks();
+        final ListOrderedSet<Task> tasks = (ListOrderedSet<Task>) project.getTasks();
         tasks.forEach(
                 task -> {
                     final int index = tasks.indexOf(task);
@@ -82,7 +82,7 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
         final List<DueDateDetailDto> dueDateDetailDtos =
                 dueDateDetailMapper.selectDueDateDetailsByProjectId(projectId);
 
-        final ListOrderedSet<Task> tasks = new ListOrderedSet<>();
+        final Set<Task> tasks = new ListOrderedSet<>();
         taskDtos.stream()
                 .map(
                         taskDto -> {
