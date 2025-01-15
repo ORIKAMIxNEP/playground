@@ -22,7 +22,7 @@ public final class Project {
     private final ProjectId projectId;
     private final ProjectName projectName;
     private final Set<AccountId> participatingAccountIds;
-    private final ListOrderedSet<Task> tasks;
+    private final Set<Task> tasks;
 
     private static final int ASSIGNABLE_TASK_COUNT_FOR_ACCOUNT = 10;
 
@@ -30,7 +30,7 @@ public final class Project {
             final IdGenerator idGenerator, final ProjectName projectName) {
         final ProjectId projectId = new ProjectId(idGenerator.generateId());
         final Set<AccountId> participatingAccountIds = Collections.emptySet();
-        final ListOrderedSet<Task> tasks = new ListOrderedSet<>();
+        final Set<Task> tasks = new ListOrderedSet<>();
 
         return new Project(projectId, projectName, participatingAccountIds, tasks);
     }
@@ -39,7 +39,7 @@ public final class Project {
             final ProjectId projectId,
             final ProjectName projectName,
             final Set<AccountId> participatingAccountIds,
-            final ListOrderedSet<Task> tasks) {
+            final Set<Task> tasks) {
         return new Project(projectId, projectName, participatingAccountIds, tasks);
     }
 
