@@ -13,14 +13,14 @@ package "Spring Boot Template" {
     * project_name: TEXT
   }
 
-  entity project_participating_accounts {
+  entity project_account_participations {
     * project_id: VARCHAR(26)
-    * participating_account_id: VARCHAR(26)
+    * account_id: VARCHAR(26)
     --
   }
 
-  accounts ||--o{ project_participating_accounts
-  projects ||--|{ project_participating_accounts
+  accounts ||--o{ project_account_participations
+  projects ||--|{ project_account_participations
 
   entity tasks {
     * task_id: VARCHAR(26)
@@ -33,14 +33,14 @@ package "Spring Boot Template" {
 
   projects ||--o{ tasks
 
-  entity task_assigned_accounts {
+  entity task_account_assignments {
     * task_id: VARCHAR(26)
-    * assigned_account_id: VARCHAR(26)
+    * account_id: VARCHAR(26)
     --
   }
 
-  accounts ||--o{ task_assigned_accounts: "1" - "0..10"
-  tasks ||--o{ task_assigned_accounts
+  accounts ||--o{ task_account_assignments: "1" - "0..10"
+  tasks ||--o{ task_account_assignments
 
   entity due_date_details {
     task_id: VARCHAR(26)
