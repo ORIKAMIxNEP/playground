@@ -21,7 +21,7 @@ import org.apache.commons.collections4.set.ListOrderedSet;
 public final class Project {
     private final ProjectId projectId;
     private final ProjectName projectName;
-    private final Set<AccountId> participatingAccountIds;
+    private final Set<AccountId> accountIds;
     private final Set<Task> tasks;
 
     private static final int ASSIGNABLE_TASK_COUNT_FOR_ACCOUNT = 10;
@@ -29,18 +29,18 @@ public final class Project {
     public static Project createProject(
             final IdGenerator idGenerator, final ProjectName projectName) {
         final ProjectId projectId = new ProjectId(idGenerator.generateId());
-        final Set<AccountId> participatingAccountIds = Collections.emptySet();
+        final Set<AccountId> accountIds = Collections.emptySet();
         final Set<Task> tasks = new ListOrderedSet<>();
 
-        return new Project(projectId, projectName, participatingAccountIds, tasks);
+        return new Project(projectId, projectName, accountIds, tasks);
     }
 
     public static Project reconstructProject(
             final ProjectId projectId,
             final ProjectName projectName,
-            final Set<AccountId> participatingAccountIds,
+            final Set<AccountId> accountIds,
             final Set<Task> tasks) {
-        return new Project(projectId, projectName, participatingAccountIds, tasks);
+        return new Project(projectId, projectName, accountIds, tasks);
     }
 
     public void createTask(final IdGenerator idGenerator, final TaskName taskName) {
@@ -60,10 +60,10 @@ public final class Project {
         task.advanceStatus();
     }
 
-    public void assignAccountToTask(final TaskId taskId, final AccountId assignedAccountId) {
+    public void assignAccountToTask(final TaskId taskId, final AccountId accountId) {
         final long assignedTaskCountToAccount =
                 tasks.stream()
-                        .filter(task -> task.getAssignedAccountIds().contains(assignedAccountId))
+                        .filter(task -> task.getAccountIds().contains(accountId))
                         .filter(task -> task.getStatus().isCountableAsTask())
                         .count();
 
@@ -74,7 +74,7 @@ public final class Project {
 
         final Task task = findTaskByTaskId(taskId);
 
-        task.assignAccount(assignedAccountId);
+        task.assignAccount(accountId);
     }
 
     public void deleteTask(final TaskId taskId) {
