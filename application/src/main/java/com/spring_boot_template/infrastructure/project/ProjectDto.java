@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @Getter
 public final class ProjectDto {
     private final ProjectName projectName;
-    private final Set<AccountId> participatingAccountIds;
+    private final Set<AccountId> accountIds;
 }
