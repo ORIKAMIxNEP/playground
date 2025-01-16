@@ -13,9 +13,8 @@ public interface TaskMapper {
     void insertTask(
             @Param("projectId") final ProjectId projectId, final Task task, final int index);
 
-    void insertAssignedAccount(
-            @Param("taskId") final TaskId taskId,
-            @Param("assignedAccountId") final AccountId assignedAccountId);
+    void insertAccountId(
+            @Param("taskId") final TaskId taskId, @Param("accountId") final AccountId accountId);
 
     List<TaskDto> selectTasksByProjectId(@Param("projectId") final ProjectId projectId);
 
