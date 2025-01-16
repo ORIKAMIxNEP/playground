@@ -37,12 +37,9 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
 
         final ProjectId projectId = project.getProjectId();
 
-        projectMapper.deleteParticipatingAccounts(projectId);
-        project.getParticipatingAccountIds()
-                .forEach(
-                        participatingAccountId ->
-                                projectMapper.insertParticipatingAccount(
-                                        projectId, participatingAccountId));
+        projectMapper.deleteAccountIds(projectId);
+        project.getAccountIds()
+                .forEach(accountId -> projectMapper.insertAccountId(projectId, accountId));
 
         taskMapper.deleteTasks(projectId);
         final ListOrderedSet<Task> tasks = (ListOrderedSet<Task>) project.getTasks();
@@ -53,11 +50,8 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
 
                     final TaskId taskId = task.getTaskId();
 
-                    task.getAssignedAccountIds()
-                            .forEach(
-                                    assignedAccountId ->
-                                            taskMapper.insertAssignedAccount(
-                                                    taskId, assignedAccountId));
+                    task.getAccountIds()
+                            .forEach(accountId -> taskMapper.insertAccountId(taskId, accountId));
 
                     task.getDueDateDetail()
                             .ifPresent(
@@ -76,7 +70,7 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
         }
 
         final ProjectName projectName = projectDto.getProjectName();
-        final Set<AccountId> participatingAccountIds = projectDto.getParticipatingAccountIds();
+        final Set<AccountId> participatingAccountIds = projectDto.getAccountIds();
 
         final List<TaskDto> taskDtos = taskMapper.selectTasksByProjectId(projectId);
         final List<DueDateDetailDto> dueDateDetailDtos =
@@ -89,8 +83,7 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
                             final TaskId taskId = taskDto.getTaskId();
                             final TaskName taskName = taskDto.getTaskName();
                             final Status status = taskDto.getStatus();
-                            final Set<AccountId> assignedAccountIds =
-                                    taskDto.getAssignedAccountIds();
+                            final Set<AccountId> assignedAccountIds = taskDto.getAccountIds();
                             final DueDateDetail dueDateDetail =
                                     dueDateDetailDtos.stream()
                                             .filter(
