@@ -8,6 +8,5 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 interface ProjectQueryMapper {
-    List<ProjectQueryDto> selectProjectsByParticipatingAccountId(
-            @Param("participatingAccountId") final AccountId participatingAccountId);
+    List<ProjectQueryDto> selectProjectsByAccountId(@Param("accountId") final AccountId accountId);
 }
