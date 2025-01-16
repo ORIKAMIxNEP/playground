@@ -13,19 +13,19 @@
             DO UPDATE SET project_name = EXCLUDED.project_name
     </insert>
 
-    <insert id="insertParticipatingAccount" parameterType="map">
-        INSERT INTO project_participating_accounts(project_id,
-                                                   participating_account_id)
+    <insert id="insertAccountId" parameterType="map">
+        INSERT INTO project_account_participations(project_id,
+                                                   account_id)
         VALUES (#{projectId.value},
-                #{participatingAccountId.value})
+                #{accountId.value})
     </insert>
 
     <select id="selectProjectByProjectId" parameterType="map" resultMap="ProjectDto">
         SELECT project_name,
-               participating_account_id
+               account_id
         FROM projects
-                 INNER JOIN project_participating_accounts
-                            ON projects.project_id = project_participating_accounts.project_id
+                 INNER JOIN project_account_participations
+                            ON projects.project_id = project_account_participations.project_id
         WHERE projects.project_id = #{projectId.value}
         LIMIT 1 FOR UPDATE
     </select>
@@ -36,9 +36,9 @@
         WHERE project_id = #{projectId.value}
     </delete>
 
-    <delete id="deleteParticipatingAccounts" parameterType="map">
+    <delete id="deleteAccountIds" parameterType="map">
         DELETE
-        FROM project_participating_accounts
+        FROM project_account_participations
         WHERE project_id = #{projectId.value}
     </delete>
 
@@ -46,9 +46,9 @@
         <association property="projectName" javaType="com.spring_boot_template.domain.model.project.value.ProjectName">
             <result property="value" column="project_name"/>
         </association>
-        <collection property="participatingAccountIds"
+        <collection property="accountIds"
                     ofType="com.spring_boot_template.domain.model.account.value.AccountId">
-            <result property="value" column="participating_account_id"/>
+            <result property="value" column="account_id"/>
         </collection>
     </resultMap>
 </mapper>
