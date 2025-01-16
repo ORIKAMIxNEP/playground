@@ -22,25 +22,25 @@ public class Task {
     private final TaskId taskId;
     private TaskName taskName;
     private Status status;
-    private final Set<AccountId> assignedAccountIds;
+    private final Set<AccountId> accountIds;
     private final DueDateDetail dueDateDetail;
 
     public static Task createTask(final IdGenerator idGenerator, final TaskName taskName) {
         final TaskId taskId = new TaskId(idGenerator.generateId());
         final Status status = Status.UNDONE;
-        final Set<AccountId> assignedAccountIds = Collections.emptySet();
+        final Set<AccountId> accountIds = Collections.emptySet();
         final DueDateDetail dueDateDetail = null;
 
-        return new Task(taskId, taskName, status, assignedAccountIds, dueDateDetail);
+        return new Task(taskId, taskName, status, accountIds, dueDateDetail);
     }
 
     public static Task reconstructTask(
             final TaskId taskId,
             final TaskName taskName,
             final Status status,
-            final Set<AccountId> assignedAccountIds,
+            final Set<AccountId> accountIds,
             final DueDateDetail dueDateDetail) {
-        return new Task(taskId, taskName, status, assignedAccountIds, dueDateDetail);
+        return new Task(taskId, taskName, status, accountIds, dueDateDetail);
     }
 
     public Optional<DueDateDetail> getDueDateDetail() {
@@ -56,7 +56,7 @@ public class Task {
                                                 "Cannot advance Status any more"));
     }
 
-    public void assignAccount(final AccountId assignedAccountId) {
-        assignedAccountIds.add(assignedAccountId);
+    public void assignAccount(final AccountId accountId) {
+        accountIds.add(accountId);
     }
 }
