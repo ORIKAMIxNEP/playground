@@ -4,5 +4,5 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 
 @Schema(title = "取得したプロジェクトリスト")
-public record ProjectResponses(
+public record FetchProjectsResponse(
         @Schema(title = "プロジェクトリスト", type = "array") List<ProjectResponse> projects) {}
