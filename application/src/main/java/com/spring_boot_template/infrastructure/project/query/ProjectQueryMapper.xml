@@ -4,13 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring_boot_template.infrastructure.project.query.ProjectQueryMapper">
 
-    <select id="selectProjectsByParticipatingAccountId" parameterType="map" resultMap="ProjectQueryDto">
+    <select id="selectProjectsByAccountId" parameterType="map" resultMap="ProjectQueryDto">
         SELECT projects.project_id,
                project_name
         FROM projects
-                 INNER JOIN project_participating_accounts
-                            ON projects.project_id = project_participating_accounts.project_id
-        WHERE participating_account_id = #{participatingAccountId.value}
+                 INNER JOIN project_account_participations
+                            ON projects.project_id = project_account_participations.project_id
+        WHERE account_id = #{accountId.value}
     </select>
 
     <resultMap id="ProjectQueryDto" type="com.spring_boot_template.application.project.query.ProjectQueryDto">
