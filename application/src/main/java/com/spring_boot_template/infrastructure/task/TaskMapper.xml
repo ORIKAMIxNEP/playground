@@ -17,21 +17,19 @@
                 #{index})
     </insert>
 
-    <insert id="insertAssignedAccount" parameterType="map">
-        INSERT INTO task_assigned_accounts(task_id,
-                                           assigned_account_id)
+    <insert id="insertAccountId" parameterType="map">
+        INSERT INTO task_account_assignments(task_id,
+                                             account_id)
         VALUES (#{taskId.value},
-                #{assignedAccountId.value})
+                #{accountId.value})
     </insert>
 
     <select id="selectTasksByProjectId" parameterType="map" resultMap="TaskDto">
         SELECT tasks.task_id,
                task_name,
                status,
-               assigned_account_id
-        FROM tasks
-                 LEFT OUTER JOIN task_assigned_accounts
-                                 ON tasks.task_id = task_assigned_accounts.task_id
+               account_id
+        FROM tasks LEFT OUTER JOIN task_account_assignments ON tasks.task_id = task_account_assignments.task_id
         WHERE project_id = #{projectId.value}
         ORDER BY index
             FOR UPDATE
@@ -51,9 +49,9 @@
         <association property="taskName" javaType="com.spring_boot_template.domain.model.task.value.TaskName">
             <result property="value" column="task_name"/>
         </association>
-        <collection property="assignedAccountIds"
+        <collection property="accountIds"
                     ofType="com.spring_boot_template.domain.model.account.value.AccountId">
-            <result property="value" column="assigned_account_id"/>
+            <result property="value" column="account_id"/>
         </collection>
     </resultMap>
 </mapper>
