@@ -10,13 +10,13 @@ import org.apache.ibatis.annotations.Param;
 interface ProjectMapper {
     void upsertProject(final Project project);
 
-    void insertParticipatingAccount(
+    void insertAccountId(
             @Param("projectId") final ProjectId projectId,
-            @Param("participatingAccountId") final AccountId participatingAccountId);
+            @Param("accountId") final AccountId accountId);
 
     ProjectDto selectProjectByProjectId(@Param("projectId") final ProjectId projectId);
 
     void deleteProject(@Param("projectId") final ProjectId projectId);
 
-    void deleteParticipatingAccounts(@Param("projectId") final ProjectId projectId);
+    void deleteAccountIds(@Param("projectId") final ProjectId projectId);
 }
