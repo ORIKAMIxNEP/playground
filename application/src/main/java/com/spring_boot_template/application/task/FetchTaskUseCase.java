@@ -1,7 +1,7 @@
 package com.spring_boot_template.application.task;
 
-import com.spring_boot_template.application.task.query.TaskQueryDto;
+import com.spring_boot_template.presentation.controller.task.response.FetchTaskResponse;
 
 public interface FetchTaskUseCase {
-    TaskQueryDto execute(final String projectIdRequest, final String taskIdRequest);
+    FetchTaskResponse execute(final String projectIdRequest, final String taskIdRequest);
 }
