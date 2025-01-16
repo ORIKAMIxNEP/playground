@@ -1,10 +1,8 @@
 package com.spring_boot_template.presentation.controller.task;
 
 import com.spring_boot_template.application.task.FetchTaskUseCase;
-import com.spring_boot_template.application.task.query.TaskQueryDto;
 import com.spring_boot_template.domain.exception.ResourceNotFoundException;
-import com.spring_boot_template.presentation.controller.task.converter.TaskResponseConverter;
-import com.spring_boot_template.presentation.controller.task.response.TaskResponse;
+import com.spring_boot_template.presentation.controller.task.response.FetchTaskResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 final class FetchTaskController {
     private final FetchTaskUseCase fetchTaskUseCase;
-    private final TaskResponseConverter taskResponseConverter;
 
     @GetMapping(value = "/project/{projectIdRequest}/task/{taskIdRequest}")
     @ResponseBody
@@ -35,7 +32,8 @@ final class FetchTaskController {
                         content =
                                 @Content(
                                         mediaType = "application/json",
-                                        schema = @Schema(implementation = TaskResponse.class))),
+                                        schema =
+                                                @Schema(implementation = FetchTaskResponse.class))),
                 @ApiResponse(
                         responseCode = "400",
                         description = "Bad Request",
@@ -71,8 +69,6 @@ final class FetchTaskController {
                             maxLength = 26,
                             example = "2123456789ABCDEFGHJKMNPQRS")
                     String taskIdRequest) {
-        final TaskQueryDto taskQueryDto = fetchTaskUseCase.execute(projectIdRequest, taskIdRequest);
-
-        return ResponseEntity.ok(taskResponseConverter.execute(taskQueryDto));
+        return ResponseEntity.ok(fetchTaskUseCase.execute(projectIdRequest, taskIdRequest));
     }
 }
