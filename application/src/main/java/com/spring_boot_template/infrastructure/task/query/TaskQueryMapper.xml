@@ -7,10 +7,10 @@
     <select id="selectTaskByProjectIdAndTaskId" parameterType="map" resultMap="TaskQueryDto">
         SELECT task_name,
                status,
-               assigned_account_id
+               account_id
         FROM tasks
-                 LEFT OUTER JOIN task_assigned_accounts
-                                 ON tasks.task_id = task_assigned_accounts.task_id
+             LEFT OUTER JOIN task_account_assignments
+                                 ON tasks.task_id = task_account_assignments.task_id
         WHERE project_id = #{projectId.value}
           AND tasks.task_id = #{taskId.value}
         LIMIT 1
@@ -19,9 +19,9 @@
     <resultMap id="TaskQueryDto" type="com.spring_boot_template.application.task.query.TaskQueryDto">
         <result property="taskName" column="task_name"/>
         <result property="status" column="status"/>
-        <collection property="assignedAccountIds"
+        <collection property="accountIds"
                     ofType="java.lang.String">
-            <result column="assigned_account_id"/>
+            <result column="account_id"/>
         </collection>
     </resultMap>
 </mapper>
