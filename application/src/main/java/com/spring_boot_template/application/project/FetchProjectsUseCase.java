@@ -1,9 +1,8 @@
 package com.spring_boot_template.application.project;
 
-import com.spring_boot_template.application.project.query.ProjectQueryDto;
 import com.spring_boot_template.domain.model.account.value.AccountId;
-import java.util.List;
+import com.spring_boot_template.presentation.controller.project.response.FetchProjectsResponse;
 
 public interface FetchProjectsUseCase {
-    List<ProjectQueryDto> execute(final AccountId participatingAccountId);
+    FetchProjectsResponse execute(final AccountId accountId);
 }
