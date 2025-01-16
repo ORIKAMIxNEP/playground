@@ -15,7 +15,7 @@ import lombok.Setter;
 public final class TaskQueryDto {
     private final String taskName;
     private final String status;
-    private final String[] assignedAccountIds;
+    private final String[] accountIds;
     @Setter private DueDateDetailQueryDto dueDateDetailQueryDto;
 
     public Optional<DueDateDetailQueryDto> getDueDateDetailQueryDto() {
