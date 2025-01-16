@@ -29,14 +29,14 @@ Account ..> IdGenerator
 class Project {
   - projectId: ProjectId
   - projectName: ProjectName
-  - participatingAccountIds: HashSet<AccountId>
+  - accountIds: HashSet<AccountId>
   - tasks: ListOrderedSet<Task>
   {static} + createProject(idGenerator: IdGenerator, projectName: ProjectName): Project
-  {static} + reconstructProject(projectId: ProjectId, projectName: ProjectName, participatingAccountIds: HashSet<AccountId>, tasks: ListOrderedSet<Task>): Project
+  {static} + reconstructProject(projectId: ProjectId, projectName: ProjectName, accountIds: HashSet<AccountId>, tasks: ListOrderedSet<Task>): Project
   + createTask(idGenerator: IdGenerator, taskName: TaskName): void
   + findTaskByTaskId(taskId: TaskId): Task
   + advanceTaskStatus(taskId: TaskId): Status
-  + assignAccountToTask(taskId: TaskId, assignedAccountId: AccountId): void
+  + assignAccountToTask(taskId: TaskId, accountId: AccountId): void
   + deleteTask(taskId: TaskId): void
 }
 
@@ -58,12 +58,12 @@ class Task {
   - taskId: TaskId
   - taskName: TaskName
   - status: Status
-  - assignedAccountIds: HashSet<AccountId>
+  - accountIds: HashSet<AccountId>
   - dueDateDetail: DueDateDetail
   {static} + createTask(idGenerator: IdGenerator, taskName: TaskName): Task
-  {static} + reconstructTask(taskId: TaskId, taskName: TaskName, status: Status, assignedAccountIds: HashSet<AccountId>, dueDateDetail: DueDateDetail): Task
+  {static} + reconstructTask(taskId: TaskId, taskName: TaskName, status: Status, accountIds: HashSet<AccountId>, dueDateDetail: DueDateDetail): Task
   + advanceStatus(): void
-  + assignAccount(assignedAccountId: AccountId): void
+  + assignAccount(accountId: AccountId): void
   + equals(o: Object): boolean
   + hashCode(): int
 }
