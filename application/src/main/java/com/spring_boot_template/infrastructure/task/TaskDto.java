@@ -14,5 +14,5 @@ public final class TaskDto {
     private final TaskId taskId;
     private final TaskName taskName;
     private final Status status;
-    private final Set<AccountId> assignedAccountIds;
+    private final Set<AccountId> accountIds;
 }
