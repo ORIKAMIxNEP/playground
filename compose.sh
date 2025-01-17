@@ -3,6 +3,9 @@
 cd container || exit
 
 if [ $# -eq 0 ]; then
+    cd ../application
+    ./gradlew :jooqCodegen
+    cd ../container
     docker compose build --no-cache mstr-app
     docker compose up -d mstr-app db
     echo "Database IPAddress: $(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' database)"
