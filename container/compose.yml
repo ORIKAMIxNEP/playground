@@ -25,7 +25,8 @@ services:
       - 8080:80
     tty: true
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     container_name: database
@@ -40,6 +41,12 @@ services:
     networks:
       fixed_network:
         ipv4_address: 172.18.0.2
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "postgres" ]
+      start_period: 10s
+      interval: 1s
+      retries: 100
+      timeout: 10s
 
 networks:
   fixed_network:

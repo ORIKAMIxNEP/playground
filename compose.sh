@@ -3,12 +3,24 @@
 cd container || exit
 
 if [ $# -eq 0 ]; then
-    cd ../application
+    # Start Database
+    docker compose up -d db
+    while ! docker inspect -f '{{.State.Health.Status}}' database | grep -q "healthy"; do
+        sleep 1
+    done
+
+    # Generate jOOQ Code
+    cd ../application || exit
+    chmod +x gradlew
     ./gradlew :jooqCodegen
-    cd ../container
+    cd ../container || exit
+
+    # Start Application
     docker compose build --no-cache mstr-app
-    docker compose up -d mstr-app db
-    echo "Database IPAddress: $(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' database)"
+    docker compose up -d mstr-app
+
+    # Display Database's IP Address
+    echo "Database's IP Address: $(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' database)"
 else
     while getopts "de:l:" option; do
         case $option in

@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(
         title = "追加するタスク",
         requiredProperties = {"taskName"})
-public record TaskRequest(
+public record AddTaskRequest(
         @Schema(
                         title = "タスク名",
                         type = "string",

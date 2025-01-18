@@ -2,7 +2,7 @@ package com.spring_boot_template.presentation.controller.task;
 
 import com.spring_boot_template.application.task.AddTaskUseCase;
 import com.spring_boot_template.domain.exception.ResourceNotFoundException;
-import com.spring_boot_template.presentation.controller.task.request.TaskRequest;
+import com.spring_boot_template.presentation.controller.task.request.AddTaskRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -55,8 +55,8 @@ final class AddTaskController {
                             maxLength = 26,
                             example = "1123456789ABCDEFGHJKMNPQRS")
                     final String projectIdRequest,
-            final TaskRequest taskRequest) {
-        addTaskUseCase.execute(projectIdRequest, taskRequest);
+            final AddTaskRequest addTaskRequest) {
+        addTaskUseCase.execute(projectIdRequest, addTaskRequest);
 
         return ResponseEntity.noContent().build();
     }

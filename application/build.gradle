@@ -31,7 +31,7 @@ dependencies {
     implementation group: 'org.jooq', name: 'jooq-meta', version: '3.19.18'
     implementation group: 'org.jooq', name: 'jooq-codegen', version: '3.19.18'
     implementation group: 'org.jooq', name: 'jooq-postgres-extensions', version: '3.19.18'
-    jooqCodegen group: 'org.postgresql',name: 'postgresql', version: '42.7.3'
+    jooqCodegen group: 'org.postgresql', name: 'postgresql', version: '42.7.3'
     implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '3.0.3'
 
     // Lombok
@@ -57,26 +57,28 @@ sourceSets.main {
 }
 
 jooq {
-    configuration {
-        jdbc {
-            driver = 'org.postgresql.Driver'
-            url = 'jdbc:postgresql://172.18.0.2:5432/spring_boot_template'
+    if (!gradle.startParameter.taskNames.contains('bootRun')) {
+        configuration {
+            jdbc {
+                driver = 'org.postgresql.Driver'
+                url = 'jdbc:postgresql://172.18.0.2:5432/spring_boot_template'
 
-            File envFile = new File('../container/.env')
-            Properties envProperties = new Properties()
-            envProperties.load(envFile.newDataInputStream())
+                File envFile = new File('../container/.env')
+                Properties envProperties = new Properties()
+                envProperties.load(envFile.newDataInputStream())
 
-            user = envProperties.getProperty('POSTGRES_USER')
-            password = envProperties.getProperty('POSTGRES_PASSWORD')
-        }
-        generator {
-            database {
-                name = 'org.jooq.meta.postgres.PostgresDatabase'
-                inputSchema = 'public'
-                includes = '.*'
+                user = envProperties.getProperty('POSTGRES_USER')
+                password = envProperties.getProperty('POSTGRES_PASSWORD')
             }
-            target {
-                packageName = 'com.spring_boot_template.jooq'
+            generator {
+                database {
+                    name = 'org.jooq.meta.postgres.PostgresDatabase'
+                    inputSchema = 'public'
+                    includes = '.*'
+                }
+                target {
+                    packageName = 'com.spring_boot_template.jooq'
+                }
             }
         }
     }
@@ -84,7 +86,7 @@ jooq {
 
 bootRun {
     if (project.hasProperty('args')) {
-        args project.args.split('\\s+')
+        args project.args.toString().split('\\s+')
     }
 }
 
