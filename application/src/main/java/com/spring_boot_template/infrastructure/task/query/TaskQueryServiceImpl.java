@@ -32,14 +32,7 @@ final class TaskQueryServiceImpl implements TaskQueryService {
     public FetchTaskResponse findTaskByProjectIdAndTaskId(
             final ProjectId projectId, final TaskId taskId) {
         final Result<Record3<String, String, String>> taskRecords =
-                dslContext
-                        .select(TASKS.TASK_NAME, TASKS.STATUS, TASK_ACCOUNT_ASSIGNMENTS.ACCOUNT_ID)
-                        .from(TASKS)
-                        .leftJoin(TASK_ACCOUNT_ASSIGNMENTS)
-                        .on(TASKS.TASK_ID.eq(TASK_ACCOUNT_ASSIGNMENTS.TASK_ID))
-                        .where(TASKS.PROJECT_ID.eq(projectId.value()))
-                        .and(TASKS.TASK_ID.eq(taskId.value()))
-                        .fetch();
+                selectTaskByProjectIdAndTaskId(projectId.value(), taskId.value());
 
         if (CollectionUtils.isEmpty(taskRecords)) {
             throw new ResourceNotFoundException("Task is not found");
@@ -50,6 +43,26 @@ final class TaskQueryServiceImpl implements TaskQueryService {
         final String status = taskRecord.get(TASKS.STATUS);
         final List<String> accountIds = taskRecords.getValues(TASK_ACCOUNT_ASSIGNMENTS.ACCOUNT_ID);
 
+        final Result<Record3<String, Integer, Integer>> dueDateDetailRecords =
+                selectDueDateDetailByTaskId(taskId.value());
+
+        return null;
+    }
+
+    private Result<Record3<String, String, String>> selectTaskByProjectIdAndTaskId(
+            final String projectId, final String taskId) {
+        return dslContext
+                .select(TASKS.TASK_NAME, TASKS.STATUS, TASK_ACCOUNT_ASSIGNMENTS.ACCOUNT_ID)
+                .from(TASKS)
+                .leftJoin(TASK_ACCOUNT_ASSIGNMENTS)
+                .on(TASKS.TASK_ID.eq(TASK_ACCOUNT_ASSIGNMENTS.TASK_ID))
+                .where(TASKS.PROJECT_ID.eq(projectId))
+                .and(TASKS.TASK_ID.eq(taskId))
+                .fetch();
+    }
+
+    private Result<Record3<String, Integer, Integer>> selectDueDateDetailByTaskId(
+            final String taskId) {
         return null;
     }
 

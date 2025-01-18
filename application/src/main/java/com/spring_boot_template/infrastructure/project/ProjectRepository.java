@@ -1,5 +1,6 @@
 package com.spring_boot_template.infrastructure.project;
 
+import static com.spring_boot_template.jooq.Tables.DUE_DATE_DETAILS;
 import static com.spring_boot_template.jooq.Tables.PROJECT_ACCOUNT_PARTICIPATIONS;
 import static com.spring_boot_template.jooq.Tables.TASKS;
 import static com.spring_boot_template.jooq.Tables.TASK_ACCOUNT_ASSIGNMENTS;
@@ -22,6 +23,7 @@ import com.spring_boot_template.infrastructure.due_date_detail.DueDateDetailDto;
 import com.spring_boot_template.infrastructure.due_date_detail.DueDateDetailMapper;
 import com.spring_boot_template.infrastructure.task.TaskDto;
 import com.spring_boot_template.infrastructure.task.TaskMapper;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -52,7 +54,7 @@ final class ProjectRepository
         participatingAccountIds.forEach(
                 accountId -> insertProjectAccountParticipation(projectId, accountId.value()));
 
-        deleteTask(projectId);
+        deleteTasks(projectId);
         final ListOrderedSet<Task> tasks = (ListOrderedSet<Task>) project.getTasks();
         tasks.forEach(
                 task -> {
@@ -69,7 +71,7 @@ final class ProjectRepository
                     final Optional<DueDateDetail> optionalDueDateDetail = task.getDueDateDetail();
                     optionalDueDateDetail.ifPresent(
                             dueDateDetail -> {
-                                final String dueDate = dueDateDetail.getDueDate().toString();
+                                final LocalDateTime dueDate = dueDateDetail.getDueDate().value();
                                 final int postponeCount = dueDateDetail.getPostponeCount().value();
                                 final int maxPostponeCount =
                                         dueDateDetail.getMaxPostponeCount().value();
@@ -187,7 +189,7 @@ final class ProjectRepository
                 .execute();
     }
 
-    private void deleteTask(final String projectId) {
+    private void deleteTasks(final String projectId) {
         dslContext.deleteFrom(TASKS).where(TASKS.PROJECT_ID.eq(projectId)).execute();
     }
 
@@ -201,9 +203,17 @@ final class ProjectRepository
 
     private void insertDueDateDetail(
             final String taskId,
-            final String dueDate,
+            final LocalDateTime dueDate,
             final int postponeCount,
             final int maxPostponeCount) {
-        return;
+        dslContext
+                .insertInto(
+                        DUE_DATE_DETAILS,
+                        DUE_DATE_DETAILS.TASK_ID,
+                        DUE_DATE_DETAILS.DUE_DATE,
+                        DUE_DATE_DETAILS.POSTPONE_COUNT,
+                        DUE_DATE_DETAILS.MAX_POSTPONE_COUNT)
+                .values(taskId, dueDate, postponeCount, maxPostponeCount)
+                .execute();
     }
 }
