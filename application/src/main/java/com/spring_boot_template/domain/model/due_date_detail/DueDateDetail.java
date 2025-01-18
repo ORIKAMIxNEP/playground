@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class DueDateDetail {
+public final class DueDateDetail {
     private DueDate dueDate;
     private PostponeCount postponeCount;
     private final MaxPostponeCount maxPostponeCount;

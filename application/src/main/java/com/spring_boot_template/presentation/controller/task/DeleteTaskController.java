@@ -42,7 +42,7 @@ final class DeleteTaskController {
                                         schema =
                                                 @Schema(oneOf = {ResourceNotFoundException.class})))
             })
-    public ResponseEntity<?> execute(
+    private ResponseEntity<?> execute(
             @PathVariable
                     @Schema(
                             title = "プロジェクトID",

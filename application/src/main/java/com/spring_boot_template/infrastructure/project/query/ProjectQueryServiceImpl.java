@@ -19,15 +19,18 @@ final class ProjectQueryServiceImpl implements ProjectQueryService {
 
     @Override
     public FetchProjectsResponse findProjectsByAccountId(final AccountId accountId) {
-        final List<ProjectResponse> projectResponses =
-                dslContext
-                        .select(PROJECTS.PROJECT_ID, PROJECTS.PROJECT_NAME)
-                        .from(PROJECTS)
-                        .join(PROJECT_ACCOUNT_PARTICIPATIONS)
-                        .on(PROJECTS.PROJECT_ID.eq(PROJECT_ACCOUNT_PARTICIPATIONS.PROJECT_ID))
-                        .where(PROJECT_ACCOUNT_PARTICIPATIONS.ACCOUNT_ID.eq(accountId.getValue()))
-                        .fetchInto(ProjectResponse.class);
+        List<ProjectResponse> projectResponses = selectProjectsByAccountId(accountId.value());
 
         return new FetchProjectsResponse(projectResponses);
+    }
+
+    private List<ProjectResponse> selectProjectsByAccountId(final String accountId) {
+        return dslContext
+                .select(PROJECTS.PROJECT_ID, PROJECTS.PROJECT_NAME)
+                .from(PROJECTS)
+                .join(PROJECT_ACCOUNT_PARTICIPATIONS)
+                .on(PROJECTS.PROJECT_ID.eq(PROJECT_ACCOUNT_PARTICIPATIONS.PROJECT_ID))
+                .where(PROJECT_ACCOUNT_PARTICIPATIONS.ACCOUNT_ID.eq(accountId))
+                .fetchInto(ProjectResponse.class);
     }
 }

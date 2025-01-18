@@ -52,7 +52,7 @@ final class AdvanceStatusController {
                                 @Content(
                                         schema = @Schema(oneOf = {DomainKnowledgeException.class})))
             })
-    public ResponseEntity<?> execute(
+    private ResponseEntity<?> execute(
             @PathVariable
                     @Schema(
                             title = "プロジェクトID",

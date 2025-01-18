@@ -1,7 +1,6 @@
 package com.spring_boot_template.presentation.controller.project;
 
 import com.spring_boot_template.application.project.FetchProjectsUseCase;
-import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.presentation.controller.project.response.FetchProjectsResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -36,8 +35,8 @@ final class FetchProjectsController {
                                                                 FetchProjectsResponse.class)))
             })
     private ResponseEntity<?> execute() {
-        final AccountId accountId = new AccountId("0123456789ABCDEFGHJKMNPQRS");
+        final String accountIdRequest = "0123456789ABCDEFGHJKMNPQRS";
 
-        return ResponseEntity.ok(fetchProjectsUseCase.execute(accountId));
+        return ResponseEntity.ok(fetchProjectsUseCase.execute(accountIdRequest));
     }
 }

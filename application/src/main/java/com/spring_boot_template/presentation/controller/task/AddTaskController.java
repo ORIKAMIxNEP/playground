@@ -46,7 +46,7 @@ final class AddTaskController {
                                         schema =
                                                 @Schema(oneOf = {ResourceNotFoundException.class})))
             })
-    public ResponseEntity<String> execute(
+    private ResponseEntity<String> execute(
             @PathVariable
                     @Schema(
                             title = "プロジェクトID",

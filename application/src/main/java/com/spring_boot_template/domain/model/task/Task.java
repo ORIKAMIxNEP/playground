@@ -18,7 +18,7 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @EqualsAndHashCode(of = "taskId")
-public class Task {
+public final class Task {
     private final TaskId taskId;
     private TaskName taskName;
     private Status status;
