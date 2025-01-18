@@ -1,11 +1,5 @@
 package com.spring_boot_template.infrastructure.project;
 
-import static com.spring_boot_template.jooq.Tables.DUE_DATE_DETAILS;
-import static com.spring_boot_template.jooq.Tables.PROJECT_ACCOUNT_PARTICIPATIONS;
-import static com.spring_boot_template.jooq.Tables.TASKS;
-import static com.spring_boot_template.jooq.Tables.TASK_ACCOUNT_ASSIGNMENTS;
-import static com.spring_boot_template.jooq.tables.Projects.PROJECTS;
-
 import com.spring_boot_template.domain.exception.ResourceNotFoundException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.due_date_detail.DueDateDetail;
@@ -21,18 +15,27 @@ import com.spring_boot_template.domain.model.task.value.TaskId;
 import com.spring_boot_template.domain.model.task.value.TaskName;
 import com.spring_boot_template.infrastructure.due_date_detail.DueDateDetailDto;
 import com.spring_boot_template.infrastructure.due_date_detail.DueDateDetailMapper;
-import com.spring_boot_template.infrastructure.task.TaskDto;
 import com.spring_boot_template.infrastructure.task.TaskMapper;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.set.ListOrderedSet;
+import org.jooq.DSLContext;
+import org.jooq.Record3;
+import org.jooq.Result;
+import org.jooq.impl.DSL;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.set.ListOrderedSet;
-import org.jooq.DSLContext;
-import org.jooq.impl.DSL;
-import org.springframework.stereotype.Repository;
+
+import static com.spring_boot_template.jooq.Tables.DUE_DATE_DETAILS;
+import static com.spring_boot_template.jooq.Tables.PROJECT_ACCOUNT_PARTICIPATIONS;
+import static com.spring_boot_template.jooq.Tables.TASKS;
+import static com.spring_boot_template.jooq.Tables.TASK_ACCOUNT_ASSIGNMENTS;
+import static com.spring_boot_template.jooq.tables.Projects.PROJECTS;
 
 @Repository
 @RequiredArgsConstructor
@@ -83,16 +86,28 @@ final class ProjectRepository
 
     @Override
     public Project findProjectByProjectId(final ProjectId projectId) {
-        final ProjectDto projectDto = projectMapper.selectProjectByProjectId(projectId);
-
+        final ProjectDto projectDto = selectProjectByProjectId(projectId.value());
         if (Objects.isNull(projectDto)) {
             throw new ResourceNotFoundException("Project is not found");
         }
-
         final ProjectName projectName = projectDto.getProjectName();
         final Set<AccountId> participatingAccountIds = projectDto.getAccountIds();
 
-        final List<TaskDto> taskDtos = taskMapper.selectTasksByProjectId(projectId);
+        final Result<Record3<String, String, String>> taskRecords = selectTasksByProjectId(projectId.value());
+        if (CollectionUtils.isEmpty(taskRecords)) {
+            throw new ResourceNotFoundException("Task is not found");
+        }
+        taskRecords.forEach(
+                taskRecord->{
+
+                }
+        );
+        final String taskName = taskRecord.get(TASKS.TASK_NAME);
+        final String status = taskRecord.get(TASKS.STATUS);
+        final String[] accountIds =
+                taskRecords.getValues(TASK_ACCOUNT_ASSIGNMENTS.ACCOUNT_ID).toArray(new String[0]);
+
+
         final List<DueDateDetailDto> dueDateDetailDtos =
                 dueDateDetailMapper.selectDueDateDetailsByProjectId(projectId);
 
@@ -158,6 +173,10 @@ final class ProjectRepository
                 .execute();
     }
 
+    private ProjectDto selectProjectByProjectId(final String projectId){
+        return null;
+    }
+
     private void insertProjectAccountParticipation(final String projectId, final String accountId) {
         dslContext
                 .insertInto(PROJECT_ACCOUNT_PARTICIPATIONS)
@@ -189,6 +208,17 @@ final class ProjectRepository
                 .execute();
     }
 
+    private Result<Record3<String, String, String>> selectTasksByProjectId(
+            final String projectId) {
+        return dslContext
+                .select(TASKS.TASK_NAME, TASKS.STATUS, TASK_ACCOUNT_ASSIGNMENTS.ACCOUNT_ID)
+                .from(TASKS)
+                .leftJoin(TASK_ACCOUNT_ASSIGNMENTS)
+                .on(TASKS.TASK_ID.eq(TASK_ACCOUNT_ASSIGNMENTS.TASK_ID))
+                .where(TASKS.PROJECT_ID.eq(projectId))
+                .fetch();
+    }
+
     private void deleteTasks(final String projectId) {
         dslContext.deleteFrom(TASKS).where(TASKS.PROJECT_ID.eq(projectId)).execute();
     }
@@ -215,5 +245,16 @@ final class ProjectRepository
                         DUE_DATE_DETAILS.MAX_POSTPONE_COUNT)
                 .values(taskId, dueDate, postponeCount, maxPostponeCount)
                 .execute();
+    }
+
+    private List<DueDateDetailDto> selectDueDateDetailsByProjectId(final String taskId) {
+        return dslContext
+                .select(
+                        DUE_DATE_DETAILS.DUE_DATE,
+                        DUE_DATE_DETAILS.POSTPONE_COUNT,
+                        DUE_DATE_DETAILS.MAX_POSTPONE_COUNT)
+                .from(DUE_DATE_DETAILS)
+                .where(DUE_DATE_DETAILS.TASK_ID.eq(taskId))
+                .fetchInto(DueDateDetailDto.class);
     }
 }
