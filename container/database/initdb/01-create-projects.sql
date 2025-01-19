@@ -8,4 +8,4 @@ CREATE INDEX project_name_index ON projects (project_name);
 INSERT INTO projects(project_id,
                      project_name)
 VALUES ('1123456789ABCDEFGHJKMNPQRS',
-        'ProjectName');
+        'ProjectName1');

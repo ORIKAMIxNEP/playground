@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -55,7 +56,7 @@ final class AddTaskController {
                             maxLength = 26,
                             example = "1123456789ABCDEFGHJKMNPQRS")
                     final String projectIdRequest,
-            final AddTaskRequest addTaskRequest) {
+            @RequestBody final AddTaskRequest addTaskRequest) {
         addTaskUseCase.execute(projectIdRequest, addTaskRequest);
 
         return ResponseEntity.noContent().build();

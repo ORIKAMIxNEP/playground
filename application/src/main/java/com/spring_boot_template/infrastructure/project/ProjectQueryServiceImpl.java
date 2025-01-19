@@ -1,13 +1,15 @@
-package com.spring_boot_template.infrastructure.project.query;
+package com.spring_boot_template.infrastructure.project;
 
 import static com.spring_boot_template.jooq.tables.ProjectAccountParticipations.PROJECT_ACCOUNT_PARTICIPATIONS;
 import static com.spring_boot_template.jooq.tables.Projects.PROJECTS;
 
+import com.spring_boot_template.application.project.query.FetchProjectsQueryDto;
 import com.spring_boot_template.application.project.query.ProjectQueryService;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.presentation.controller.project.response.FetchProjectsResponse;
 import com.spring_boot_template.presentation.controller.project.response.ProjectResponse;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Service;
@@ -19,18 +21,28 @@ final class ProjectQueryServiceImpl implements ProjectQueryService {
 
     @Override
     public FetchProjectsResponse findProjectsByAccountId(final AccountId accountId) {
-        List<ProjectResponse> projectResponses = selectProjectsByAccountId(accountId.value());
+        final List<FetchProjectsQueryDto> fetchProjectsQueryDtos =
+                selectProjectsByAccountId(accountId.value());
+        final List<ProjectResponse> projectResponses =
+                fetchProjectsQueryDtos.stream()
+                        .map(
+                                fetchProjectsQueryDto -> {
+                                    final String projectId = fetchProjectsQueryDto.projectId();
+                                    final String projectName = fetchProjectsQueryDto.projectName();
+                                    return new ProjectResponse(projectId, projectName);
+                                })
+                        .collect(Collectors.toList());
 
         return new FetchProjectsResponse(projectResponses);
     }
 
-    private List<ProjectResponse> selectProjectsByAccountId(final String accountId) {
+    private List<FetchProjectsQueryDto> selectProjectsByAccountId(final String accountId) {
         return dslContext
                 .select(PROJECTS.PROJECT_ID, PROJECTS.PROJECT_NAME)
                 .from(PROJECTS)
                 .join(PROJECT_ACCOUNT_PARTICIPATIONS)
                 .on(PROJECTS.PROJECT_ID.eq(PROJECT_ACCOUNT_PARTICIPATIONS.PROJECT_ID))
                 .where(PROJECT_ACCOUNT_PARTICIPATIONS.ACCOUNT_ID.eq(accountId))
-                .fetchInto(ProjectResponse.class);
+                .fetchInto(FetchProjectsQueryDto.class);
     }
 }

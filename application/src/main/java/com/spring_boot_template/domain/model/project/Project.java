@@ -10,11 +10,11 @@ import com.spring_boot_template.domain.model.task.value.TaskId;
 import com.spring_boot_template.domain.model.task.value.TaskName;
 import com.spring_boot_template.domain.shared.IdGenerator;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.apache.commons.collections4.set.ListOrderedSet;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -30,7 +30,7 @@ public final class Project {
             final IdGenerator idGenerator, final ProjectName projectName) {
         final ProjectId projectId = new ProjectId(idGenerator.generateId());
         final Set<AccountId> accountIds = Collections.emptySet();
-        final Set<Task> tasks = new ListOrderedSet<>();
+        final Set<Task> tasks = new LinkedHashSet<>();
 
         return new Project(projectId, projectName, accountIds, tasks);
     }
@@ -44,7 +44,9 @@ public final class Project {
     }
 
     public void createTask(final IdGenerator idGenerator, final TaskName taskName) {
-        tasks.add(Task.createTask(idGenerator, taskName));
+        final Task task = Task.createTask(idGenerator, taskName);
+
+        tasks.add(task);
     }
 
     public Task findTaskByTaskId(final TaskId taskId) {

@@ -1,5 +1,11 @@
 package com.spring_boot_template.infrastructure.project;
 
+import static com.spring_boot_template.jooq.Tables.DUE_DATE_DETAILS;
+import static com.spring_boot_template.jooq.Tables.PROJECT_ACCOUNT_PARTICIPATIONS;
+import static com.spring_boot_template.jooq.Tables.TASKS;
+import static com.spring_boot_template.jooq.Tables.TASK_ACCOUNT_ASSIGNMENTS;
+import static com.spring_boot_template.jooq.tables.Projects.PROJECTS;
+
 import com.spring_boot_template.domain.exception.ResourceNotFoundException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.due_date_detail.DueDateDetail;
@@ -14,37 +20,25 @@ import com.spring_boot_template.domain.model.task.value.Status;
 import com.spring_boot_template.domain.model.task.value.TaskId;
 import com.spring_boot_template.domain.model.task.value.TaskName;
 import com.spring_boot_template.infrastructure.due_date_detail.DueDateDetailDto;
-import com.spring_boot_template.infrastructure.due_date_detail.DueDateDetailMapper;
-import com.spring_boot_template.infrastructure.task.TaskMapper;
+import com.spring_boot_template.infrastructure.task.TaskDto;
+import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.collections4.set.ListOrderedSet;
 import org.jooq.DSLContext;
-import org.jooq.Record3;
-import org.jooq.Result;
 import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-
-import static com.spring_boot_template.jooq.Tables.DUE_DATE_DETAILS;
-import static com.spring_boot_template.jooq.Tables.PROJECT_ACCOUNT_PARTICIPATIONS;
-import static com.spring_boot_template.jooq.Tables.TASKS;
-import static com.spring_boot_template.jooq.Tables.TASK_ACCOUNT_ASSIGNMENTS;
-import static com.spring_boot_template.jooq.tables.Projects.PROJECTS;
-
 @Repository
 @RequiredArgsConstructor
-final class ProjectRepository
-        implements com.spring_boot_template.domain.model.project.ProjectRepository {
+class ProjectRepository implements com.spring_boot_template.domain.model.project.ProjectRepository {
     private final DSLContext dslContext;
-    private final ProjectMapper projectMapper;
-    private final TaskMapper taskMapper;
-    private final DueDateDetailMapper dueDateDetailMapper;
 
     @Override
     public void saveProject(final Project project) {
@@ -58,13 +52,17 @@ final class ProjectRepository
                 accountId -> insertProjectAccountParticipation(projectId, accountId.value()));
 
         deleteTasks(projectId);
-        final ListOrderedSet<Task> tasks = (ListOrderedSet<Task>) project.getTasks();
+        final LinkedHashSet<Task> tasks = (LinkedHashSet<Task>) project.getTasks();
         tasks.forEach(
                 task -> {
                     final String taskId = task.getTaskId().value();
                     final String taskName = task.getTaskName().value();
                     final String status = task.getStatus().toString();
-                    final int index = tasks.indexOf(task);
+                    final int index =
+                            IntStream.range(0, tasks.size())
+                                    .filter(i -> tasks.toArray()[i].equals(task))
+                                    .findFirst()
+                                    .orElse(-1);
                     insertTask(projectId, taskId, taskName, status, index);
 
                     final Set<AccountId> assignedAccountIds = task.getAccountIds();
@@ -86,73 +84,83 @@ final class ProjectRepository
 
     @Override
     public Project findProjectByProjectId(final ProjectId projectId) {
-        final ProjectDto projectDto = selectProjectByProjectId(projectId.value());
-        if (Objects.isNull(projectDto)) {
+        final List<ProjectDto> projectDtos = selectProjectByProjectId(projectId.value());
+        if (CollectionUtils.isEmpty(projectDtos)) {
             throw new ResourceNotFoundException("Project is not found");
         }
-        final ProjectName projectName = projectDto.getProjectName();
-        final Set<AccountId> participatingAccountIds = projectDto.getAccountIds();
+        final ProjectDto projectDto = projectDtos.get(0);
+        final ProjectName projectName = projectDto.projectName();
+        final Set<AccountId> participatingAccountIds =
+                projectDtos.stream().map(ProjectDto::accountId).collect(Collectors.toSet());
 
-        final Result<Record3<String, String, String>> taskRecords = selectTasksByProjectId(projectId.value());
-        if (CollectionUtils.isEmpty(taskRecords)) {
-            throw new ResourceNotFoundException("Task is not found");
-        }
-        taskRecords.forEach(
-                taskRecord->{
+        final List<TaskDto> taskDtos = selectTasksByProjectId(projectId.value());
+        final Set<Task> tasks =
+                taskDtos.stream()
+                        .collect(
+                                Collectors.groupingBy(
+                                        TaskDto::taskId,
+                                        Collectors.collectingAndThen(
+                                                Collectors.toList(),
+                                                list -> {
+                                                    final TaskDto taskDto = list.get(0);
+                                                    final TaskName taskName = taskDto.taskName();
+                                                    final Status status = taskDto.status();
+                                                    System.out.println("a");
+                                                    System.out.println(list);
+                                                    final Set<AccountId> assignedAccountIds =
+                                                            list.stream()
+                                                                    .map(TaskDto::accountId)
+                                                                    .collect(Collectors.toSet());
+                                                    return Map.entry(
+                                                            Map.entry(taskName, status),
+                                                            assignedAccountIds);
+                                                })))
+                        .entrySet()
+                        .stream()
+                        .map(
+                                entry -> {
+                                    final TaskId taskId = entry.getKey();
+                                    final TaskName taskName = entry.getValue().getKey().getKey();
+                                    final Status status = entry.getValue().getKey().getValue();
+                                    final Set<AccountId> assignedAccountIds =
+                                            entry.getValue().getValue();
 
-                }
-        );
-        final String taskName = taskRecord.get(TASKS.TASK_NAME);
-        final String status = taskRecord.get(TASKS.STATUS);
-        final String[] accountIds =
-                taskRecords.getValues(TASK_ACCOUNT_ASSIGNMENTS.ACCOUNT_ID).toArray(new String[0]);
-
-
-        final List<DueDateDetailDto> dueDateDetailDtos =
-                dueDateDetailMapper.selectDueDateDetailsByProjectId(projectId);
-
-        final Set<Task> tasks = new ListOrderedSet<>();
-        taskDtos.stream()
-                .map(
-                        taskDto -> {
-                            final TaskId taskId = taskDto.getTaskId();
-                            final TaskName taskName = taskDto.getTaskName();
-                            final Status status = taskDto.getStatus();
-                            final Set<AccountId> assignedAccountIds = taskDto.getAccountIds();
-                            final DueDateDetail dueDateDetail =
-                                    dueDateDetailDtos.stream()
-                                            .filter(
-                                                    dueDateDetailDto ->
-                                                            dueDateDetailDto
-                                                                    .getTaskId()
-                                                                    .value()
-                                                                    .equals(taskId.value()))
-                                            .findFirst()
-                                            .map(
-                                                    dueDateDetailDto -> {
-                                                        final DueDate dueDate =
-                                                                new DueDate(
+                                    final List<DueDateDetailDto> dueDateDetailDtos =
+                                            selectDueDateDetailsByProjectId(projectId.value());
+                                    final DueDateDetail dueDateDetail =
+                                            dueDateDetailDtos.stream()
+                                                    .filter(
+                                                            dueDateDetailDto ->
+                                                                    dueDateDetailDto
+                                                                            .taskId()
+                                                                            .equals(taskId))
+                                                    .findFirst()
+                                                    .map(
+                                                            dueDateDetailDto -> {
+                                                                final DueDate dueDate =
+                                                                        dueDateDetailDto.dueDate();
+                                                                final PostponeCount postponeCount =
                                                                         dueDateDetailDto
-                                                                                .getDueDate()
-                                                                                .toLocalDateTime());
-                                                        final PostponeCount postponeCount =
-                                                                dueDateDetailDto.getPostponeCount();
-                                                        final MaxPostponeCount maxPostponeCount =
-                                                                dueDateDetailDto
-                                                                        .getMaxPostponeCount();
-
-                                                        return DueDateDetail
-                                                                .reconstructDueDateDetail(
-                                                                        dueDate,
-                                                                        postponeCount,
-                                                                        maxPostponeCount);
-                                                    })
-                                            .orElse(null);
-
-                            return Task.reconstructTask(
-                                    taskId, taskName, status, assignedAccountIds, dueDateDetail);
-                        })
-                .forEach(tasks::add);
+                                                                                .postponeCount();
+                                                                final MaxPostponeCount
+                                                                        maxPostponeCount =
+                                                                                dueDateDetailDto
+                                                                                        .maxPostponeCount();
+                                                                return DueDateDetail
+                                                                        .reconstructDueDateDetail(
+                                                                                dueDate,
+                                                                                postponeCount,
+                                                                                maxPostponeCount);
+                                                            })
+                                                    .orElse(null);
+                                    return Task.reconstructTask(
+                                            taskId,
+                                            taskName,
+                                            status,
+                                            assignedAccountIds,
+                                            dueDateDetail);
+                                })
+                        .collect(Collectors.toCollection(LinkedHashSet::new));
 
         return Project.reconstructProject(projectId, projectName, participatingAccountIds, tasks);
     }
@@ -173,8 +181,15 @@ final class ProjectRepository
                 .execute();
     }
 
-    private ProjectDto selectProjectByProjectId(final String projectId){
-        return null;
+    private List<ProjectDto> selectProjectByProjectId(final String projectId) {
+        return dslContext
+                .select(PROJECTS.PROJECT_NAME, PROJECT_ACCOUNT_PARTICIPATIONS.ACCOUNT_ID)
+                .from(PROJECTS)
+                .innerJoin(PROJECT_ACCOUNT_PARTICIPATIONS)
+                .on(PROJECTS.PROJECT_ID.eq(PROJECT_ACCOUNT_PARTICIPATIONS.PROJECT_ID))
+                .where(PROJECTS.PROJECT_ID.eq(projectId))
+                .forUpdate()
+                .fetchInto(ProjectDto.class);
     }
 
     private void insertProjectAccountParticipation(final String projectId, final String accountId) {
@@ -208,15 +223,21 @@ final class ProjectRepository
                 .execute();
     }
 
-    private Result<Record3<String, String, String>> selectTasksByProjectId(
-            final String projectId) {
+    private List<TaskDto> selectTasksByProjectId(final String projectId) {
         return dslContext
-                .select(TASKS.TASK_NAME, TASKS.STATUS, TASK_ACCOUNT_ASSIGNMENTS.ACCOUNT_ID)
+                .select(
+                        TASKS.TASK_ID,
+                        TASKS.TASK_NAME,
+                        TASKS.STATUS,
+                        TASK_ACCOUNT_ASSIGNMENTS.ACCOUNT_ID)
                 .from(TASKS)
                 .leftJoin(TASK_ACCOUNT_ASSIGNMENTS)
                 .on(TASKS.TASK_ID.eq(TASK_ACCOUNT_ASSIGNMENTS.TASK_ID))
                 .where(TASKS.PROJECT_ID.eq(projectId))
-                .fetch();
+                .orderBy(TASKS.INDEX)
+                .forUpdate()
+                .of(TASKS)
+                .fetchInto(TaskDto.class);
     }
 
     private void deleteTasks(final String projectId) {
@@ -247,14 +268,16 @@ final class ProjectRepository
                 .execute();
     }
 
-    private List<DueDateDetailDto> selectDueDateDetailsByProjectId(final String taskId) {
+    private List<DueDateDetailDto> selectDueDateDetailsByProjectId(final String projectId) {
         return dslContext
                 .select(
+                        DUE_DATE_DETAILS.TASK_ID,
                         DUE_DATE_DETAILS.DUE_DATE,
                         DUE_DATE_DETAILS.POSTPONE_COUNT,
                         DUE_DATE_DETAILS.MAX_POSTPONE_COUNT)
                 .from(DUE_DATE_DETAILS)
-                .where(DUE_DATE_DETAILS.TASK_ID.eq(taskId))
+                .where(DUE_DATE_DETAILS.TASK_ID.eq(projectId))
+                .forUpdate()
                 .fetchInto(DueDateDetailDto.class);
     }
 }

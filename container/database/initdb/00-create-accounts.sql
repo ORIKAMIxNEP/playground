@@ -10,5 +10,5 @@ INSERT INTO accounts(account_id,
                      account_name,
                      password)
 VALUES ('0123456789ABCDEFGHJKMNPQRS',
-        'AccountName',
-        'Password');
+        'AccountName1',
+        'Password1');
