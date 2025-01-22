@@ -7,7 +7,7 @@ import com.spring_boot_template.application.project.query.FetchProjectsQueryDto;
 import com.spring_boot_template.application.project.query.ProjectQueryService;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.presentation.controller.project.response.FetchProjectsResponse;
-import com.spring_boot_template.presentation.controller.project.response.ProjectResponse;
+import com.spring_boot_template.presentation.controller.project.response.FetchProjectsResponseProjectElement;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -23,17 +23,18 @@ final class ProjectQueryServiceImpl implements ProjectQueryService {
     public FetchProjectsResponse findProjectsByAccountId(final AccountId accountId) {
         final List<FetchProjectsQueryDto> fetchProjectsQueryDtos =
                 selectProjectsByAccountId(accountId.value());
-        final List<ProjectResponse> projectResponses =
+        final List<FetchProjectsResponseProjectElement> fetchProjectsResponsElements =
                 fetchProjectsQueryDtos.stream()
                         .map(
                                 fetchProjectsQueryDto -> {
                                     final String projectId = fetchProjectsQueryDto.projectId();
                                     final String projectName = fetchProjectsQueryDto.projectName();
-                                    return new ProjectResponse(projectId, projectName);
+                                    return new FetchProjectsResponseProjectElement(
+                                            projectId, projectName);
                                 })
                         .collect(Collectors.toList());
 
-        return new FetchProjectsResponse(projectResponses);
+        return new FetchProjectsResponse(fetchProjectsResponsElements);
     }
 
     private List<FetchProjectsQueryDto> selectProjectsByAccountId(final String accountId) {
