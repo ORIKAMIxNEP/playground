@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(
         title = "設定する詳細締め切り期日",
         requiredProperties = {"dueDate, maxPostponeCount"})
-public record DueDateDetailRequest(
+public record SetDueDateDetailRequest(
         @Schema(
                         title = "締め切り期日",
                         type = "string",
