@@ -3,7 +3,7 @@ package com.spring_boot_template.presentation.controller.due_date_detail.respons
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(title = "詳細締め切り期日")
-public record DueDateDetailResponse(
+public record FetchTaskResponseDueDateDetailField(
         @Schema(
                         title = "締め切り期日",
                         type = "string",
