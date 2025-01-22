@@ -10,7 +10,7 @@ import com.spring_boot_template.application.task.query.TaskQueryService;
 import com.spring_boot_template.domain.exception.ResourceNotFoundException;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.task.value.TaskId;
-import com.spring_boot_template.presentation.controller.due_date_detail.response.DueDateDetailResponse;
+import com.spring_boot_template.presentation.controller.due_date_detail.response.FetchTaskResponseDueDateDetailField;
 import com.spring_boot_template.presentation.controller.task.response.FetchTaskResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -44,10 +44,11 @@ final class TaskQueryServiceImpl implements TaskQueryService {
         final String dueDate = dueDateDetailQueryDto.dueDate();
         final int postponeCount = dueDateDetailQueryDto.postponeCount();
         final int maxPostponeCount = dueDateDetailQueryDto.maxPostponeCount();
-        final DueDateDetailResponse dueDateDetailResponse =
-                new DueDateDetailResponse(dueDate, postponeCount, maxPostponeCount);
+        final FetchTaskResponseDueDateDetailField fetchTaskResponseDueDateDetailField =
+                new FetchTaskResponseDueDateDetailField(dueDate, postponeCount, maxPostponeCount);
 
-        return new FetchTaskResponse(taskName, status, accountIds, dueDateDetailResponse);
+        return new FetchTaskResponse(
+                taskName, status, accountIds, fetchTaskResponseDueDateDetailField);
     }
 
     private List<FetchTaskQueryDto> selectTaskByProjectIdAndTaskId(
