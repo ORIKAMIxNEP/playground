@@ -5,4 +5,5 @@ import java.util.List;
 
 @Schema(title = "取得したプロジェクトリスト")
 public record FetchProjectsResponse(
-        @Schema(title = "プロジェクトリスト", type = "array") List<ProjectResponse> projects) {}
+        @Schema(title = "プロジェクトリスト", type = "array")
+                List<FetchProjectsResponseProjectElement> projects) {}
