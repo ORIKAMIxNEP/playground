@@ -33,10 +33,10 @@
 //    public void executeTest() {
 //        doReturn(
 //                new Task(
-//                        new TaskId("1123456789ABCDEFGHJKMNPQRS"),
+//                        new TaskId("0100ABCDEFGHJKMNPQRSTVWXYZ"),
 //                        new TaskName("TaskName"),
 //                        Status.UNDONE,
-//                        new AccountId("0123456789ABCDEFGHJKMNPQRS"),
+//                        new AccountId("0000ABCDEFGHJKMNPQRSTVWXYZ"),
 //                        new Date("Date"),
 //                        new PostponeCount(0),
 //                        new MaxPostponeCount(10)));
@@ -48,7 +48,7 @@
 //        assertThatThrownBy(
 //                        () ->
 //                                deleteTaskUseCase.execute(
-//                                        new DeleteTaskRequest("1123456789ABCDEFGHJKMNPQRS")))
+//                                        new DeleteTaskRequest("0100ABCDEFGHJKMNPQRSTVWXYZ")))
 //                .doesNotThrowAnyException();
 //        assertThatThrownBy(
 //                        () ->
