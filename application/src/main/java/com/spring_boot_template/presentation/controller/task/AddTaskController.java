@@ -54,7 +54,7 @@ final class AddTaskController {
                             type = "string",
                             minLength = 26,
                             maxLength = 26,
-                            example = "1123456789ABCDEFGHJKMNPQRS")
+                            example = "0100ABCDEFGHJKMNPQRSTVWXYZ")
                     final String projectIdRequest,
             @RequestBody final AddTaskRequest addTaskRequest) {
         addTaskUseCase.execute(projectIdRequest, addTaskRequest);
