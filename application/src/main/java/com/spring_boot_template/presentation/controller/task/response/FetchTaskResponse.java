@@ -7,6 +7,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public record FetchTaskResponse(
         @Schema(title = "タスク名", type = "string", example = "TaskName") String taskName,
         @Schema(title = "ステータス", type = "string", example = "UNDONE") String status,
-        @Schema(title = "アカウントID", type = "array", example = "[0123456789ABCDEFGHJKMNPQRS]")
+        @Schema(title = "アカウントID", type = "array", example = "[0000ABCDEFGHJKMNPQRSTVWXYZ]")
                 String[] accountId,
         FetchTaskResponseDueDateDetailField dueDateDetail) {}
