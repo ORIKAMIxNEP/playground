@@ -31,23 +31,23 @@
 //    public void executeTest() {
 //        doReturn(
 //                        new Task(
-//                                new TaskId("1123456789ABCDEFGHJKMNPQRS"),
+//                                new TaskId("0100ABCDEFGHJKMNPQRSTVWXYZ"),
 //                                new TaskName("TaskName"),
 //                                Status.UNDONE,
-//                                new AccountId("0123456789ABCDEFGHJKMNPQRS"),
+//                                new AccountId("0000ABCDEFGHJKMNPQRSTVWXYZ"),
 //                                new Date("Date"),
 //                                new PostponeCount(0),
 //                                new MaxPostponeCount(10)))
 //                .when(findTaskByTaskIdUseCaseMock)
-//                .execute(new TaskId("1123456789ABCDEFGHJKMNPQRS"));
+//                .execute(new TaskId("0100ABCDEFGHJKMNPQRSTVWXYZ"));
 //        doThrow(ResourceConflictException.class)
 //                .when(findTaskByTaskIdUseCaseMock)
 //                .execute(new TaskId("00000000000000000000000000"));
 //
-//        assertThat(fetchTaskUseCase.execute("1123456789ABCDEFGHJKMNPQRS"))
+//        assertThat(fetchTaskUseCase.execute("0100ABCDEFGHJKMNPQRSTVWXYZ"))
 //                .isEqualTo(
 //                        new TaskResponse(
-//                                "TaskName", "UNDONE", "0123456789ABCDEFGHJKMNPQRS", "Date", 0,
+//                                "TaskName", "UNDONE", "0000ABCDEFGHJKMNPQRSTVWXYZ", "Date", 0,
 // 10));
 //        assertThatThrownBy(() -> fetchTaskUseCase.execute("00000000000000000000000000"))
 //                .isInstanceOf(ResourceConflictException.class);
