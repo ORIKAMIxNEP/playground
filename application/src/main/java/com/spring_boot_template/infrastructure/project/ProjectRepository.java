@@ -33,7 +33,6 @@ import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.CollectionUtils;
 
 @Repository
 @RequiredArgsConstructor
@@ -85,7 +84,7 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
     @Override
     public Project findProjectByProjectId(final ProjectId projectId) {
         final List<ProjectDto> projectDtos = selectProjectByProjectId(projectId.value());
-        if (CollectionUtils.isEmpty(projectDtos)) {
+        if (projectDtos.isEmpty()) {
             throw new ResourceNotFoundException("Project is not found");
         }
         final ProjectDto projectDto = projectDtos.get(0);
