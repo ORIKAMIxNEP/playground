@@ -37,10 +37,10 @@
 //    public void executeTest() {
 //        doReturn(
 //                new Task(
-//                        new TaskId("1123456789ABCDEFGHJKMNPQRS"),
+//                        new TaskId("0100ABCDEFGHJKMNPQRSTVWXYZ"),
 //                        new TaskName("TaskName"),
 //                        Status.UNDONE,
-//                        new AccountId("0123456789ABCDEFGHJKMNPQRS"),
+//                        new AccountId("0000ABCDEFGHJKMNPQRSTVWXYZ"),
 //                        new Date("Date"),
 //                        new PostponeCount(0),
 //                        new MaxPostponeCount(10)));
@@ -52,7 +52,7 @@
 //
 //        assertThat(
 //                        updateTaskUseCase.execute(
-//                                new UpdateTaskStatusRequest("1123456789ABCDEFGHJKMNPQRS")))
+//                                new UpdateTaskStatusRequest("0100ABCDEFGHJKMNPQRSTVWXYZ")))
 //                .isEqualTo(new StatusResponse("UNDONE"));
 //        AssertionsForClassTypes.assertThatThrownBy(
 //                        () ->
