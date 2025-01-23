@@ -4,6 +4,11 @@ CREATE TABLE project_account_participations
     account_id VARCHAR(26) REFERENCES accounts (account_id),
     PRIMARY KEY (project_id, account_id)
 );
+
 INSERT INTO project_account_participations(project_id, account_id)
-VALUES ('1123456789ABCDEFGHJKMNPQRS',
-        '0123456789ABCDEFGHJKMNPQRS');
+VALUES ('0100ABCDEFGHJKMNPQRSTVWXYZ',
+        '0000ABCDEFGHJKMNPQRSTVWXYZ'),
+       ('0100ABCDEFGHJKMNPQRSTVWXYZ',
+        '0001ABCDEFGHJKMNPQRSTVWXYZ'),
+       ('0101ABCDEFGHJKMNPQRSTVWXYZ',
+        '0000ABCDEFGHJKMNPQRSTVWXYZ');
