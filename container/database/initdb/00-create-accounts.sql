@@ -9,6 +9,9 @@ CREATE TABLE accounts
 INSERT INTO accounts(account_id,
                      account_name,
                      password)
-VALUES ('0123456789ABCDEFGHJKMNPQRS',
+VALUES ('0000ABCDEFGHJKMNPQRSTVWXYZ',
+        'AccountName0',
+        'Password0'),
+        ('0001ABCDEFGHJKMNPQRSTVWXYZ',
         'AccountName1',
         'Password1');
