@@ -59,7 +59,7 @@ final class FetchTaskController {
                             type = "string",
                             minLength = 26,
                             maxLength = 26,
-                            example = "1123456789ABCDEFGHJKMNPQRS")
+                            example = "0100ABCDEFGHJKMNPQRSTVWXYZ")
                     final String projectIdRequest,
             @PathVariable
                     @Schema(
@@ -67,7 +67,7 @@ final class FetchTaskController {
                             type = "string",
                             minLength = 26,
                             maxLength = 26,
-                            example = "2123456789ABCDEFGHJKMNPQRS")
+                            example = "0200ABCDEFGHJKMNPQRSTVWXYZ")
                     String taskIdRequest) {
         return ResponseEntity.ok(fetchTaskUseCase.execute(projectIdRequest, taskIdRequest));
     }
