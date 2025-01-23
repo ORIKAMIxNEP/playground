@@ -1,15 +1,19 @@
-CREATE TABLE projects
+CREATE TABLE accounts
 (
-    project_id   VARCHAR(26),
-    project_name TEXT NOT NULL,
-    PRIMARY KEY (project_id)
+    account_id   VARCHAR(26),
+    account_name TEXT NOT NULL,
+    password     TEXT NOT NULL,
+    PRIMARY KEY (account_id),
+    UNIQUE (account_name)
 );
 
-CREATE INDEX project_name_index ON projects (project_name);
+INSERT INTO accounts(account_id,
+                     account_name,
+                     password)
 
-INSERT INTO projects(project_id,
-                     project_name)
-VALUES ('0100ABCDEFGHJKMNPQRSTVWXYZ',
-        'ProjectName0'),
-       ('0101ABCDEFGHJKMNPQRSTVWXYZ',
-        'ProjectName1');
+VALUES ('0000ABCDEFGHJKMNPQRSTVWXYZ',
+        'AccountName0',
+        'Password0'),
+       ('0001ABCDEFGHJKMNPQRSTVWXYZ',
+        'AccountName1',
+        'Password1');
