@@ -35,7 +35,7 @@ final class FetchProjectsController {
                                                                 FetchProjectsResponse.class)))
             })
     private ResponseEntity<?> execute() {
-        final String accountIdRequest = "0123456789ABCDEFGHJKMNPQRS";
+        final String accountIdRequest = "0000ABCDEFGHJKMNPQRSTVWXYZ";
 
         return ResponseEntity.ok(fetchProjectsUseCase.execute(accountIdRequest));
     }
