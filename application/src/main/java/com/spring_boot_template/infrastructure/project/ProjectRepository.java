@@ -22,9 +22,10 @@ import com.spring_boot_template.domain.model.task.value.TaskName;
 import com.spring_boot_template.infrastructure.due_date_detail.DueDateDetailDto;
 import com.spring_boot_template.infrastructure.task.TaskDto;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,26 +33,33 @@ import java.util.stream.IntStream;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
 class ProjectRepository implements com.spring_boot_template.domain.model.project.ProjectRepository {
     private final DSLContext dslContext;
+    private final MessageSource messageSource;
 
     @Override
     public void saveProject(final Project project) {
         final String projectId = project.getProjectId().value();
         final String projectName = project.getProjectName().value();
+
         insertProject(projectId, projectName);
 
+        final Set<AccountId> projectAccountParticipations = project.getAccountIds();
+
         deleteProjectAccountParticipations(projectId);
-        final Set<AccountId> participatingAccountIds = project.getAccountIds();
-        participatingAccountIds.forEach(
-                accountId -> insertProjectAccountParticipation(projectId, accountId.value()));
+        projectAccountParticipations.forEach(
+                projectAccountParticipation ->
+                        insertProjectAccountParticipation(
+                                projectId, projectAccountParticipation.value()));
+
+        final LinkedHashSet<Task> tasks = project.getTasks();
 
         deleteTasks(projectId);
-        final LinkedHashSet<Task> tasks = (LinkedHashSet<Task>) project.getTasks();
         tasks.forEach(
                 task -> {
                     final String taskId = task.getTaskId().value();
@@ -62,19 +70,25 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
                                     .filter(i -> tasks.toArray()[i].equals(task))
                                     .findFirst()
                                     .orElse(-1);
+
                     insertTask(projectId, taskId, taskName, status, index);
 
-                    final Set<AccountId> assignedAccountIds = task.getAccountIds();
-                    assignedAccountIds.forEach(
-                            accountId -> insertTaskAccountAssignment(taskId, accountId.value()));
+                    final Set<AccountId> taskAccountAssignments = task.getAccountIds();
+
+                    taskAccountAssignments.forEach(
+                            taskAccountAssignment ->
+                                    insertTaskAccountAssignment(
+                                            taskId, taskAccountAssignment.value()));
 
                     final Optional<DueDateDetail> optionalDueDateDetail = task.getDueDateDetail();
+
                     optionalDueDateDetail.ifPresent(
                             dueDateDetail -> {
                                 final LocalDateTime dueDate = dueDateDetail.getDueDate().value();
                                 final int postponeCount = dueDateDetail.getPostponeCount().value();
                                 final int maxPostponeCount =
                                         dueDateDetail.getMaxPostponeCount().value();
+
                                 insertDueDateDetail(
                                         taskId, dueDate, postponeCount, maxPostponeCount);
                             });
@@ -83,61 +97,40 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
 
     @Override
     public Project findProjectByProjectId(final ProjectId projectId) {
-        final List<ProjectDto> projectDtos = selectProjectByProjectId(projectId.value());
-        if (projectDtos.isEmpty()) {
-            throw new ResourceNotFoundException("Project is not found");
-        }
-        final ProjectDto projectDto = projectDtos.get(0);
+        final ProjectDto projectDto =
+                Optional.ofNullable(selectProjectByProjectId(projectId.value()))
+                        .orElseThrow(
+                                () ->
+                                        new ResourceNotFoundException(
+                                                messageSource.getMessage(
+                                                        "project.not-found",
+                                                        null,
+                                                        Locale.getDefault())));
         final ProjectName projectName = projectDto.projectName();
-        final Set<AccountId> participatingAccountIds =
-                projectDtos.stream().map(ProjectDto::accountId).collect(Collectors.toSet());
-
-        final List<TaskDto> taskDtos = selectTasksByProjectId(projectId.value());
-        final Set<Task> tasks =
-                taskDtos.stream()
-                        .collect(
-                                Collectors.groupingBy(
-                                        TaskDto::taskId,
-                                        Collectors.collectingAndThen(
-                                                Collectors.toList(),
-                                                list -> {
-                                                    final TaskDto taskDto = list.get(0);
-                                                    final TaskName taskName = taskDto.taskName();
-                                                    final Status status = taskDto.status();
-                                                    System.out.println("a");
-                                                    System.out.println(list);
-                                                    final Set<AccountId> assignedAccountIds =
-                                                            list.stream()
-                                                                    .map(TaskDto::accountId)
-                                                                    .collect(Collectors.toSet());
-                                                    return Map.entry(
-                                                            Map.entry(taskName, status),
-                                                            assignedAccountIds);
-                                                })))
-                        .entrySet()
-                        .stream()
+        final Set<AccountId> projectAccountParticipations =
+                new HashSet<>(selectProjectAccountParticipationsByProjectId(projectId.value()));
+        final LinkedHashSet<Task> tasks =
+                selectTasksByProjectId(projectId.value()).stream()
                         .map(
-                                entry -> {
-                                    final TaskId taskId = entry.getKey();
-                                    final TaskName taskName = entry.getValue().getKey().getKey();
-                                    final Status status = entry.getValue().getKey().getValue();
-                                    final Set<AccountId> assignedAccountIds =
-                                            entry.getValue().getValue();
-
-                                    final List<DueDateDetailDto> dueDateDetailDtos =
-                                            selectDueDateDetailsByProjectId(projectId.value());
+                                taskDto -> {
+                                    final TaskId taskId = taskDto.taskId();
+                                    final TaskName taskName = taskDto.taskName();
+                                    final Status status = taskDto.status();
+                                    final Set<AccountId> taskAccountAssignments =
+                                            new HashSet<>(
+                                                    selectTaskAccountAssignmentsByTaskId(
+                                                            taskId.value()));
                                     final DueDateDetail dueDateDetail =
-                                            dueDateDetailDtos.stream()
-                                                    .filter(
-                                                            dueDateDetailDto ->
-                                                                    dueDateDetailDto
-                                                                            .taskId()
-                                                                            .equals(taskId))
-                                                    .findFirst()
+                                            Optional.ofNullable(
+                                                            selectDueDateDetailByTaskId(
+                                                                    taskId.value()))
                                                     .map(
                                                             dueDateDetailDto -> {
                                                                 final DueDate dueDate =
-                                                                        dueDateDetailDto.dueDate();
+                                                                        new DueDate(
+                                                                                dueDateDetailDto
+                                                                                        .dueDate()
+                                                                                        .toLocalDateTime());
                                                                 final PostponeCount postponeCount =
                                                                         dueDateDetailDto
                                                                                 .postponeCount();
@@ -145,6 +138,7 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
                                                                         maxPostponeCount =
                                                                                 dueDateDetailDto
                                                                                         .maxPostponeCount();
+
                                                                 return DueDateDetail
                                                                         .reconstructDueDateDetail(
                                                                                 dueDate,
@@ -152,16 +146,18 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
                                                                                 maxPostponeCount);
                                                             })
                                                     .orElse(null);
+
                                     return Task.reconstructTask(
                                             taskId,
                                             taskName,
                                             status,
-                                            assignedAccountIds,
+                                            taskAccountAssignments,
                                             dueDateDetail);
                                 })
                         .collect(Collectors.toCollection(LinkedHashSet::new));
 
-        return Project.reconstructProject(projectId, projectName, participatingAccountIds, tasks);
+        return Project.reconstructProject(
+                projectId, projectName, projectAccountParticipations, tasks);
     }
 
     @Override
@@ -180,15 +176,13 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
                 .execute();
     }
 
-    private List<ProjectDto> selectProjectByProjectId(final String projectId) {
+    private ProjectDto selectProjectByProjectId(final String projectId) {
         return dslContext
-                .select(PROJECTS.PROJECT_NAME, PROJECT_ACCOUNT_PARTICIPATIONS.ACCOUNT_ID)
+                .select(PROJECTS.PROJECT_NAME)
                 .from(PROJECTS)
-                .innerJoin(PROJECT_ACCOUNT_PARTICIPATIONS)
-                .on(PROJECTS.PROJECT_ID.eq(PROJECT_ACCOUNT_PARTICIPATIONS.PROJECT_ID))
                 .where(PROJECTS.PROJECT_ID.eq(projectId))
                 .forUpdate()
-                .fetchInto(ProjectDto.class);
+                .fetchOneInto(ProjectDto.class);
     }
 
     private void insertProjectAccountParticipation(final String projectId, final String accountId) {
@@ -199,6 +193,15 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
                         PROJECT_ACCOUNT_PARTICIPATIONS.ACCOUNT_ID)
                 .values(projectId, accountId)
                 .execute();
+    }
+
+    private List<AccountId> selectProjectAccountParticipationsByProjectId(final String projectId) {
+        return dslContext
+                .select(PROJECT_ACCOUNT_PARTICIPATIONS.ACCOUNT_ID)
+                .from(PROJECT_ACCOUNT_PARTICIPATIONS)
+                .where(PROJECT_ACCOUNT_PARTICIPATIONS.PROJECT_ID.eq(projectId))
+                .forUpdate()
+                .fetchInto(AccountId.class);
     }
 
     private void deleteProjectAccountParticipations(final String projectId) {
@@ -224,18 +227,11 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
 
     private List<TaskDto> selectTasksByProjectId(final String projectId) {
         return dslContext
-                .select(
-                        TASKS.TASK_ID,
-                        TASKS.TASK_NAME,
-                        TASKS.STATUS,
-                        TASK_ACCOUNT_ASSIGNMENTS.ACCOUNT_ID)
+                .select(TASKS.TASK_ID, TASKS.TASK_NAME, TASKS.STATUS)
                 .from(TASKS)
-                .leftJoin(TASK_ACCOUNT_ASSIGNMENTS)
-                .on(TASKS.TASK_ID.eq(TASK_ACCOUNT_ASSIGNMENTS.TASK_ID))
                 .where(TASKS.PROJECT_ID.eq(projectId))
                 .orderBy(TASKS.INDEX)
                 .forUpdate()
-                .of(TASKS)
                 .fetchInto(TaskDto.class);
     }
 
@@ -249,6 +245,15 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
                 .columns(TASK_ACCOUNT_ASSIGNMENTS.TASK_ID, TASK_ACCOUNT_ASSIGNMENTS.ACCOUNT_ID)
                 .values(taskId, accountId)
                 .execute();
+    }
+
+    private List<AccountId> selectTaskAccountAssignmentsByTaskId(final String taskId) {
+        return dslContext
+                .select(TASK_ACCOUNT_ASSIGNMENTS.ACCOUNT_ID)
+                .from(TASK_ACCOUNT_ASSIGNMENTS)
+                .where(TASK_ACCOUNT_ASSIGNMENTS.TASK_ID.eq(taskId))
+                .forUpdate()
+                .fetchInto(AccountId.class);
     }
 
     private void insertDueDateDetail(
@@ -267,16 +272,15 @@ class ProjectRepository implements com.spring_boot_template.domain.model.project
                 .execute();
     }
 
-    private List<DueDateDetailDto> selectDueDateDetailsByProjectId(final String projectId) {
+    private DueDateDetailDto selectDueDateDetailByTaskId(final String taskId) {
         return dslContext
                 .select(
-                        DUE_DATE_DETAILS.TASK_ID,
                         DUE_DATE_DETAILS.DUE_DATE,
                         DUE_DATE_DETAILS.POSTPONE_COUNT,
                         DUE_DATE_DETAILS.MAX_POSTPONE_COUNT)
                 .from(DUE_DATE_DETAILS)
-                .where(DUE_DATE_DETAILS.TASK_ID.eq(projectId))
+                .where(DUE_DATE_DETAILS.TASK_ID.eq(taskId))
                 .forUpdate()
-                .fetchInto(DueDateDetailDto.class);
+                .fetchOneInto(DueDateDetailDto.class);
     }
 }
