@@ -8,12 +8,14 @@ import com.spring_boot_template.domain.model.task.value.TaskId;
 import com.spring_boot_template.domain.model.task.value.TaskName;
 import com.spring_boot_template.domain.shared.IdGenerator;
 import java.util.Collections;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.springframework.context.MessageSource;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
@@ -25,13 +27,14 @@ public final class Task {
     private final Set<AccountId> accountIds;
     private final DueDateDetail dueDateDetail;
 
+    private final MessageSource messageSource;
+
     public static Task createTask(final IdGenerator idGenerator, final TaskName taskName) {
         final TaskId taskId = new TaskId(idGenerator.generateId());
         final Status status = Status.UNDONE;
         final Set<AccountId> accountIds = Collections.emptySet();
-        final DueDateDetail dueDateDetail = null;
 
-        return new Task(taskId, taskName, status, accountIds, dueDateDetail);
+        return new Task(taskId, taskName, status, accountIds, null, null);
     }
 
     public static Task reconstructTask(
@@ -40,11 +43,7 @@ public final class Task {
             final Status status,
             final Set<AccountId> accountIds,
             final DueDateDetail dueDateDetail) {
-        return new Task(taskId, taskName, status, accountIds, dueDateDetail);
-    }
-
-    public Optional<DueDateDetail> getDueDateDetail() {
-        return Optional.ofNullable(dueDateDetail);
+        return new Task(taskId, taskName, status, accountIds, dueDateDetail, null);
     }
 
     public void advanceStatus() {
@@ -53,10 +52,17 @@ public final class Task {
                         .orElseThrow(
                                 () ->
                                         new DomainKnowledgeException(
-                                                "Cannot advance Status any more"));
+                                                messageSource.getMessage(
+                                                        "project.task.status.cannot-advance",
+                                                        null,
+                                                        Locale.getDefault())));
     }
 
     public void assignAccount(final AccountId accountId) {
         accountIds.add(accountId);
+    }
+
+    public Optional<DueDateDetail> getDueDateDetail() {
+        return Optional.ofNullable(dueDateDetail);
     }
 }
