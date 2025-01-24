@@ -12,34 +12,37 @@ import com.spring_boot_template.domain.model.task.value.TaskId;
 import com.spring_boot_template.presentation.controller.due_date_detail.response.FetchTaskResponseDueDateDetailField;
 import com.spring_boot_template.presentation.controller.task.response.FetchTaskResponse;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 final class TaskQueryServiceImpl implements TaskQueryService {
     private final DSLContext dslContext;
+    private final MessageSource messageSource;
 
     @Override
     public FetchTaskResponse findTaskByProjectIdAndTaskId(
             final ProjectId projectId, final TaskId taskId) {
         final List<FetchTaskQueryDto> fetchTaskQueryDtos =
                 selectTaskByProjectIdAndTaskId(projectId.value(), taskId.value());
+
         if (fetchTaskQueryDtos.isEmpty()) {
-            throw new ResourceNotFoundException("Task is not found");
+            throw new ResourceNotFoundException(
+                    messageSource.getMessage("project.task.not-found", null, Locale.getDefault()));
         }
 
         final FetchTaskQueryDto fetchTaskQueryDto = fetchTaskQueryDtos.get(0);
         final String taskName = fetchTaskQueryDto.taskName();
         final String status = fetchTaskQueryDto.status();
-
         final String[] accountIds =
                 fetchTaskQueryDtos.stream()
                         .map(FetchTaskQueryDto::accountId)
                         .toArray(String[]::new);
-
         final FetchTaskResponseDueDateDetailField fetchTaskResponseDueDateDetailField =
                 Optional.ofNullable(fetchTaskQueryDto.dueDate())
                         .map(
