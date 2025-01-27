@@ -18,11 +18,11 @@ class AdvanceStatusUseCaseImpl implements AdvanceStatusUseCase {
     @Transactional
     public void execute(final String projectIdRequest, final String taskIdRequest) {
         final ProjectId projectId = new ProjectId(projectIdRequest);
-        final TaskId taskId = new TaskId(taskIdRequest);
-
         final Project project = projectRepository.findProjectByProjectId(projectId);
 
+        final TaskId taskId = new TaskId(taskIdRequest);
         project.advanceTaskStatus(taskId);
+
         projectRepository.saveProject(project);
     }
 }
