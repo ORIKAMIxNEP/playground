@@ -25,7 +25,6 @@ class AddTaskUseCaseImpl implements AddTaskUseCase {
 
         final TaskName taskName = new TaskName(addTaskRequest.taskName());
         project.createTask(idGenerator, taskName);
-
         projectRepository.saveProject(project);
     }
 }
