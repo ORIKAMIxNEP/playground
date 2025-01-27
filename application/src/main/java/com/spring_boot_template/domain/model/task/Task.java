@@ -33,7 +33,6 @@ public final class Task {
         final TaskId taskId = new TaskId(idGenerator.generateId());
         final Status status = Status.UNDONE;
         final Set<AccountId> accountIds = Collections.emptySet();
-
         return new Task(taskId, taskName, status, accountIds, null, null);
     }
 
