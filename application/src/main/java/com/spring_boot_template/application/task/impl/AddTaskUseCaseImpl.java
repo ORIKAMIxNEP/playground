@@ -21,10 +21,11 @@ class AddTaskUseCaseImpl implements AddTaskUseCase {
     @Transactional
     public void execute(final String projectIdRequest, final AddTaskRequest addTaskRequest) {
         final ProjectId projectId = new ProjectId(projectIdRequest);
-        final TaskName taskName = new TaskName(addTaskRequest.taskName());
-
         final Project project = projectRepository.findProjectByProjectId(projectId);
+
+        final TaskName taskName = new TaskName(addTaskRequest.taskName());
         project.createTask(idGenerator, taskName);
+
         projectRepository.saveProject(project);
     }
 }
