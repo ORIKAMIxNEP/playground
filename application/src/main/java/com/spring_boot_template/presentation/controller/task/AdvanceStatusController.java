@@ -70,7 +70,6 @@ final class AdvanceStatusController {
                             example = "0200ABCDEFGHJKMNPQRSTVWXYZ")
                     String taskIdRequest) {
         advanceStatusUseCase.execute(projectIdRequest, taskIdRequest);
-
         return ResponseEntity.noContent().build();
     }
 }
