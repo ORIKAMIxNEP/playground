@@ -60,7 +60,6 @@ final class DeleteTaskController {
                             example = "0200ABCDEFGHJKMNPQRSTVWXYZ")
                     String taskIdRequest) {
         deleteTaskUseCase.execute(projectIdRequest, taskIdRequest);
-
         return ResponseEntity.noContent().build();
     }
 }
