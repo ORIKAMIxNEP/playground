@@ -20,28 +20,24 @@ final class GlobalControllerAdvice {
     private ResponseEntity<String> handleMethodArgumentNotValidException(
             final Exception exception) {
         final String message = exception.getMessage();
-
         return ResponseEntity.badRequest().body(message);
     }
 
     @ExceptionHandler(value = {ResourceNotFoundException.class})
     private ResponseEntity<String> handleResourceNotFoundException(final Exception exception) {
         final String message = exception.getMessage();
-
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
 
     @ExceptionHandler(value = {ResourceConflictException.class})
     private ResponseEntity<String> handleResourceConflictException(final Exception exception) {
         final String message = exception.getMessage();
-
         return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
     }
 
     @ExceptionHandler(value = {DomainKnowledgeException.class})
     private ResponseEntity<String> handleDomainKnowledgeException(final Exception exception) {
         final String message = exception.getMessage();
-
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(message);
     }
 }
