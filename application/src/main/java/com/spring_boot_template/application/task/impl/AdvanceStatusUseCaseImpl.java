@@ -22,7 +22,6 @@ class AdvanceStatusUseCaseImpl implements AdvanceStatusUseCase {
 
         final TaskId taskId = new TaskId(taskIdRequest);
         project.advanceTaskStatus(taskId);
-
         projectRepository.saveProject(project);
     }
 }
