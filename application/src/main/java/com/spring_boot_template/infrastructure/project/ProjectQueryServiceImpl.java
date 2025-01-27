@@ -33,7 +33,6 @@ final class ProjectQueryServiceImpl implements ProjectQueryService {
                                             projectId, projectName);
                                 })
                         .collect(Collectors.toList());
-
         return new FetchProjectsResponse(fetchProjectsResponsElements);
     }
 
