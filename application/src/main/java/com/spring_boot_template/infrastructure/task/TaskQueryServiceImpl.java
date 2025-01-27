@@ -30,7 +30,6 @@ final class TaskQueryServiceImpl implements TaskQueryService {
             final ProjectId projectId, final TaskId taskId) {
         final List<FetchTaskQueryDto> fetchTaskQueryDtos =
                 selectTaskByProjectIdAndTaskId(projectId.value(), taskId.value());
-
         if (fetchTaskQueryDtos.isEmpty()) {
             throw new ResourceNotFoundException(
                     messageSource.getMessage("project.task.not-found", null, Locale.getDefault()));
@@ -39,10 +38,12 @@ final class TaskQueryServiceImpl implements TaskQueryService {
         final FetchTaskQueryDto fetchTaskQueryDto = fetchTaskQueryDtos.get(0);
         final String taskName = fetchTaskQueryDto.taskName();
         final String status = fetchTaskQueryDto.status();
+
         final String[] accountIds =
                 fetchTaskQueryDtos.stream()
                         .map(FetchTaskQueryDto::accountId)
                         .toArray(String[]::new);
+
         final FetchTaskResponseDueDateDetailField fetchTaskResponseDueDateDetailField =
                 Optional.ofNullable(fetchTaskQueryDto.dueDate())
                         .map(
