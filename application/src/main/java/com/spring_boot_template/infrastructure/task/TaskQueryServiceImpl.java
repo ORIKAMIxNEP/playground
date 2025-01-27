@@ -38,7 +38,6 @@ final class TaskQueryServiceImpl implements TaskQueryService {
         final FetchTaskQueryDto fetchTaskQueryDto = fetchTaskQueryDtos.get(0);
         final String taskName = fetchTaskQueryDto.taskName();
         final String status = fetchTaskQueryDto.status();
-
         final String[] accountIds =
                 fetchTaskQueryDtos.stream()
                         .map(FetchTaskQueryDto::accountId)
