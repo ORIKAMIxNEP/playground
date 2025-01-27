@@ -17,7 +17,6 @@ public final class DueDateDetail {
     public static DueDateDetail createDueDateDetail(
             final DueDate dueDate, final MaxPostponeCount maxPostponeCount) {
         final PostponeCount postponeCount = new PostponeCount(0);
-
         return new DueDateDetail(dueDate, postponeCount, maxPostponeCount);
     }
 
