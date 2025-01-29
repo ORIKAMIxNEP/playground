@@ -6,4 +6,6 @@ ENV POSTGRES_USER=${POSTGRES_USER}
 ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
 RUN chmod +x gradlew
+RUN ./gradlew testClasses
+
 ENTRYPOINT ["./gradlew", "bootRun"]
