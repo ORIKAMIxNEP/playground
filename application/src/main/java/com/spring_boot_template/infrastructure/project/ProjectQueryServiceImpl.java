@@ -20,9 +20,10 @@ final class ProjectQueryServiceImpl implements ProjectQueryService {
     private final DSLContext dslContext;
 
     @Override
-    public FetchProjectsResponse findProjectsByAccountId(final AccountId accountId) {
+    public FetchProjectsResponse findProjectsByParticipatingAccountId(
+            final AccountId participatingAccountId) {
         final List<FetchProjectsQueryDto> fetchProjectsQueryDtos =
-                selectProjectsByAccountId(accountId.value());
+                selectProjectsByParticipatingAccountId(participatingAccountId.value());
         final List<FetchProjectsResponseProjectElement> fetchProjectsResponsElements =
                 fetchProjectsQueryDtos.stream()
                         .map(
@@ -36,13 +37,16 @@ final class ProjectQueryServiceImpl implements ProjectQueryService {
         return new FetchProjectsResponse(fetchProjectsResponsElements);
     }
 
-    private List<FetchProjectsQueryDto> selectProjectsByAccountId(final String accountId) {
+    private List<FetchProjectsQueryDto> selectProjectsByParticipatingAccountId(
+            final String participatingAccountId) {
         return dslContext
                 .select(PROJECTS.PROJECT_ID, PROJECTS.PROJECT_NAME)
                 .from(PROJECTS)
                 .join(PROJECT_ACCOUNT_PARTICIPATIONS)
                 .on(PROJECTS.PROJECT_ID.eq(PROJECT_ACCOUNT_PARTICIPATIONS.PROJECT_ID))
-                .where(PROJECT_ACCOUNT_PARTICIPATIONS.ACCOUNT_ID.eq(accountId))
+                .where(
+                        PROJECT_ACCOUNT_PARTICIPATIONS.PARTICIPATING_ACCOUNT_ID.eq(
+                                participatingAccountId))
                 .fetchInto(FetchProjectsQueryDto.class);
     }
 }
