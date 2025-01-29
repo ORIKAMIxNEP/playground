@@ -4,6 +4,8 @@ import com.spring_boot_template.application.task.FetchTaskUseCase;
 import com.spring_boot_template.application.task.query.TaskQueryService;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.task.value.TaskId;
+import com.spring_boot_template.presentation.controller.project.request.ProjectIdRequest;
+import com.spring_boot_template.presentation.controller.task.request.TaskIdRequest;
 import com.spring_boot_template.presentation.controller.task.response.FetchTaskResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,9 +18,10 @@ class FetchTaskUseCaseImpl implements FetchTaskUseCase {
 
     @Override
     @Transactional
-    public FetchTaskResponse execute(final String projectIdRequest, final String taskIdRequest) {
-        final ProjectId projectId = new ProjectId(projectIdRequest);
-        final TaskId taskId = new TaskId(taskIdRequest);
+    public FetchTaskResponse execute(
+            final ProjectIdRequest projectIdRequest, final TaskIdRequest taskIdRequest) {
+        final ProjectId projectId = new ProjectId(projectIdRequest.value());
+        final TaskId taskId = new TaskId(taskIdRequest.value());
         return taskQueryService.findTaskByProjectIdAndTaskId(projectId, taskId);
     }
 }
