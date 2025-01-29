@@ -38,9 +38,9 @@ final class TaskQueryServiceImpl implements TaskQueryService {
         final FetchTaskQueryDto fetchTaskQueryDto = fetchTaskQueryDtos.get(0);
         final String taskName = fetchTaskQueryDto.taskName();
         final String status = fetchTaskQueryDto.status();
-        final String[] accountIds =
+        final String[] assignedAccountIds =
                 fetchTaskQueryDtos.stream()
-                        .map(FetchTaskQueryDto::accountId)
+                        .map(FetchTaskQueryDto::assignedAccountId)
                         .toArray(String[]::new);
 
         final FetchTaskResponseDueDateDetailField fetchTaskResponseDueDateDetailField =
@@ -56,7 +56,7 @@ final class TaskQueryServiceImpl implements TaskQueryService {
                         .orElse(null);
 
         return new FetchTaskResponse(
-                taskName, status, accountIds, fetchTaskResponseDueDateDetailField);
+                taskName, status, assignedAccountIds, fetchTaskResponseDueDateDetailField);
     }
 
     private List<FetchTaskQueryDto> selectTaskByProjectIdAndTaskId(
@@ -65,7 +65,7 @@ final class TaskQueryServiceImpl implements TaskQueryService {
                 .select(
                         TASKS.TASK_NAME,
                         TASKS.STATUS,
-                        TASK_ACCOUNT_ASSIGNMENTS.ACCOUNT_ID,
+                        TASK_ACCOUNT_ASSIGNMENTS.ASSIGNED_ACCOUNT_ID,
                         DUE_DATE_DETAILS.DUE_DATE,
                         DUE_DATE_DETAILS.POSTPONE_COUNT,
                         DUE_DATE_DETAILS.MAX_POSTPONE_COUNT)
