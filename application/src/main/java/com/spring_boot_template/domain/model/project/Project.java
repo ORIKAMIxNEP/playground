@@ -10,6 +10,7 @@ import com.spring_boot_template.domain.model.task.value.TaskName;
 import com.spring_boot_template.domain.shared.IdGenerator;
 import java.util.Collections;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import lombok.AccessLevel;
@@ -22,7 +23,7 @@ import org.springframework.context.MessageSource;
 public final class Project {
     private final ProjectId projectId;
     private final ProjectName projectName;
-    private final Set<AccountId> accountIds;
+    private final Set<AccountId> participatingAccountIds;
     private final LinkedHashSet<Task> tasks;
 
     private final MessageSource messageSource;
@@ -30,24 +31,24 @@ public final class Project {
     public static Project createProject(
             final IdGenerator idGenerator, final ProjectName projectName) {
         final ProjectId projectId = new ProjectId(idGenerator.generateId());
-        final Set<AccountId> accountIds = Collections.emptySet();
+        final Set<AccountId> participatingAccountIds = Collections.emptySet();
         final LinkedHashSet<Task> tasks = new LinkedHashSet<>();
-
-        return new Project(projectId, projectName, accountIds, tasks, null);
+        return new Project(projectId, projectName, participatingAccountIds, tasks, null);
     }
 
     public static Project reconstructProject(
             final ProjectId projectId,
             final ProjectName projectName,
-            final Set<AccountId> accountIds,
-            final LinkedHashSet<Task> tasks) {
-        return new Project(projectId, projectName, accountIds, tasks, null);
+            final Set<AccountId> participatingAccountIds,
+            final LinkedHashSet<Task> tasks,
+            final MessageSource messageSource) {
+        return new Project(projectId, projectName, participatingAccountIds, tasks, messageSource);
     }
 
-    public void createTask(final IdGenerator idGenerator, final TaskName taskName) {
+    public TaskId createTask(final IdGenerator idGenerator, final TaskName taskName) {
         final Task task = Task.createTask(idGenerator, taskName);
-
         tasks.add(task);
+        return task.getTaskId();
     }
 
     public Task findTaskByTaskId(final TaskId taskId) {
@@ -63,21 +64,21 @@ public final class Project {
                                                 Locale.getDefault())));
     }
 
-    public void deleteTask(final TaskId taskId) {
+    public void updateTask(
+            final TaskId taskId,
+            final TaskName taskName,
+            final List<AccountId> assignedAccountIds) {
         final Task task = findTaskByTaskId(taskId);
-
-        tasks.remove(task);
+        task.updateTask(taskName, assignedAccountIds);
     }
 
     public void advanceTaskStatus(final TaskId taskId) {
         final Task task = findTaskByTaskId(taskId);
-
         task.advanceStatus();
     }
 
-    public void assignAccountToTask(final TaskId taskId, final AccountId accountId) {
+    public void deleteTask(final TaskId taskId) {
         final Task task = findTaskByTaskId(taskId);
-
-        task.assignAccount(accountId);
+        tasks.remove(task);
     }
 }
