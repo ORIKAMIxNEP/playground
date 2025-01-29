@@ -15,8 +15,8 @@ class FetchProjectsUseCaseImpl implements FetchProjectsUseCase {
 
     @Override
     @Transactional
-    public FetchProjectsResponse execute(final String accountIdRequest) {
-        final AccountId accountId = new AccountId(accountIdRequest);
-        return projectQueryService.findProjectsByAccountId(accountId);
+    public FetchProjectsResponse execute(final String participatingAccountIdRequest) {
+        final AccountId participatingAccountId = new AccountId(participatingAccountIdRequest);
+        return projectQueryService.findProjectsByParticipatingAccountId(participatingAccountId);
     }
 }
