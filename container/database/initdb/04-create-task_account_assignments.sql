@@ -1,6 +1,6 @@
 CREATE TABLE task_account_assignments
 (
-    task_id    VARCHAR(26) REFERENCES tasks (task_id) ON DELETE CASCADE,
+    task_id             VARCHAR(26) REFERENCES tasks (task_id) ON DELETE CASCADE,
     assigned_account_id VARCHAR(26) REFERENCES accounts (account_id) ON DELETE CASCADE,
     PRIMARY KEY (task_id, assigned_account_id)
 );
