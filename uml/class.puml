@@ -3,14 +3,10 @@ class Account {
   - accountId: AccountId
   - accountName: AccountName
   - password: Password
-    {static} + createAccount(idGenerator: IdGenerator, accountName: AccountName, password: Password): Account
-    {static} + reconstruct(accountId: AccountId, accountName: AccountName, password: Password): Account
 }
 
 class AccountId {
   - value: String
-  + equals(o: Object): boolean
-  + hashCode(): int
 }
 
 class AccountName {
@@ -24,19 +20,16 @@ class Password {
 Account *-- AccountId
 Account *-- AccountName
 Account *-- Password
-Account ..> IdGenerator
 
 class Project {
   - projectId: ProjectId
   - projectName: ProjectName
-  - accountIds: HashSet<AccountId>
-  - tasks: ListOrderedSet<Task>
-  {static} + createProject(idGenerator: IdGenerator, projectName: ProjectName): Project
-  {static} + reconstructProject(projectId: ProjectId, projectName: ProjectName, accountIds: HashSet<AccountId>, tasks: ListOrderedSet<Task>): Project
+  - participatingAccountIds: Set<AccountId>
+  - tasks: LinkedHashSet<Task>
   + createTask(idGenerator: IdGenerator, taskName: TaskName): void
   + findTaskByTaskId(taskId: TaskId): Task
+  + updateTask(taskId: TaskId, taskName: TaskName, assignedAccountIds: List<AccountId>): void
   + advanceTaskStatus(taskId: TaskId): Status
-  + assignAccountToTask(taskId: TaskId, accountId: AccountId): void
   + deleteTask(taskId: TaskId): void
 }
 
@@ -52,20 +45,15 @@ Project *-- ProjectId
 Project *-- ProjectName
 Project "0..*" --> "1..*" AccountId
 Project "1" *-- "0..*" Task
-Project ..> IdGenerator
 
 class Task {
   - taskId: TaskId
   - taskName: TaskName
   - status: Status
-  - accountIds: HashSet<AccountId>
+  - assignedAccountIds: Set<AccountId>
   - dueDateDetail: DueDateDetail
-  {static} + createTask(idGenerator: IdGenerator, taskName: TaskName): Task
-  {static} + reconstructTask(taskId: TaskId, taskName: TaskName, status: Status, accountIds: HashSet<AccountId>, dueDateDetail: DueDateDetail): Task
   + advanceStatus(): void
-  + assignAccount(accountId: AccountId): void
-  + equals(o: Object): boolean
-  + hashCode(): int
+  + updateTask(taskName: TaskName, assignedAccountIds: List<AccountId>): void
 }
 
 class TaskId {
@@ -87,14 +75,11 @@ Task *-- TaskName
 Task *-- Status
 Task "0..10" --> "0..*" AccountId
 Task *-- DueDateDetail
-Task ..> IdGenerator
 
 class DueDateDetail {
   - dueDate: DueDate
   - postponeCount: PostponeCount
   - maxPostponeCount: MaxPostponeCount
-    {static} + createDueDateDetail(dueDate: DueDate, postponeCount: PostponeCount, maxPostponeCount: MaxPostponeCount): DueDateDetail
-    {static} + reconstructDueDateDetail(dueDate: DueDate, postponeCount: PostponeCount, maxPostponeCount: MaxPostponeCount): DueDateDetail
 }
 
 class DueDate {
@@ -112,9 +97,4 @@ class MaxPostponeCount {
 DueDateDetail *-- DueDate
 DueDateDetail *-- PostponeCount
 DueDateDetail *-- MaxPostponeCount
-
-class IdGenerator {
-  - ulid: ULID
-  + generateId(): String
-}
 @enduml
