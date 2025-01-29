@@ -4,8 +4,10 @@ import com.spring_boot_template.application.task.AddTaskUseCase;
 import com.spring_boot_template.domain.model.project.Project;
 import com.spring_boot_template.domain.model.project.ProjectRepository;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
+import com.spring_boot_template.domain.model.task.value.TaskId;
 import com.spring_boot_template.domain.model.task.value.TaskName;
 import com.spring_boot_template.domain.shared.IdGenerator;
+import com.spring_boot_template.presentation.controller.project.request.ProjectIdRequest;
 import com.spring_boot_template.presentation.controller.task.request.AddTaskRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,12 +21,14 @@ class AddTaskUseCaseImpl implements AddTaskUseCase {
 
     @Override
     @Transactional
-    public void execute(final String projectIdRequest, final AddTaskRequest addTaskRequest) {
-        final ProjectId projectId = new ProjectId(projectIdRequest);
+    public String execute(
+            final ProjectIdRequest projectIdRequest, final AddTaskRequest addTaskRequest) {
+        final ProjectId projectId = new ProjectId(projectIdRequest.value());
         final Project project = projectRepository.findProjectByProjectId(projectId);
 
         final TaskName taskName = new TaskName(addTaskRequest.taskName());
-        project.createTask(idGenerator, taskName);
+        final TaskId taskId = project.createTask(idGenerator, taskName);
         projectRepository.saveProject(project);
+        return taskId.value();
     }
 }
