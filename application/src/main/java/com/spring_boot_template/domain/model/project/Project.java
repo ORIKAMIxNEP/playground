@@ -1,6 +1,6 @@
 package com.spring_boot_template.domain.model.project;
 
-import com.spring_boot_template.domain.exception.ResourceNotFoundException;
+import com.spring_boot_template.domain.exception.DomainNotFoundException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.project.value.ProjectName;
@@ -56,12 +56,13 @@ public final class Project {
                 .filter(task -> task.getTaskId().equals(taskId))
                 .findFirst()
                 .orElseThrow(
-                        () ->
-                                new ResourceNotFoundException(
-                                        messageSource.getMessage(
-                                                "project.task.not-found",
-                                                null,
-                                                Locale.getDefault())));
+                        () -> {
+                            final String code = "not-found";
+                            final Object[] args = new Object[] {"Task"};
+                            final Locale locale = Locale.getDefault();
+                            final String message = messageSource.getMessage(code, args, locale);
+                            return new DomainNotFoundException(message);
+                        });
     }
 
     public void updateTask(
