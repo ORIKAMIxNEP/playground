@@ -1,6 +1,6 @@
 package com.spring_boot_template.infrastructure.project;
 
-import com.spring_boot_template.domain.exception.ResourceNotFoundException;
+import com.spring_boot_template.domain.exception.DomainNotFoundException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.due_date_detail.DueDateDetail;
 import com.spring_boot_template.domain.model.due_date_detail.value.DueDate;
@@ -56,12 +56,14 @@ class ProjectRepositoryImpl implements ProjectRepository {
         final ProjectDto projectDto =
                 Optional.ofNullable(projectMapper.selectProjectByProjectId(projectId.value()))
                         .orElseThrow(
-                                () ->
-                                        new ResourceNotFoundException(
-                                                messageSource.getMessage(
-                                                        "project.not-found",
-                                                        null,
-                                                        Locale.getDefault())));
+                                () -> {
+                                    final String code = "not-found";
+                                    final Object[] args = new Object[] {"Project"};
+                                    final Locale locale = Locale.getDefault();
+                                    final String message =
+                                            messageSource.getMessage(code, args, locale);
+                                    return new DomainNotFoundException(message);
+                                });
         final ProjectName projectName = projectDto.projectName();
 
         final Set<AccountId> participatingAccountIds =
