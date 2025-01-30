@@ -1,7 +1,7 @@
 package com.spring_boot_template.domain.model.task;
 
+import com.spring_boot_template.domain.exception.DomainConflictException;
 import com.spring_boot_template.domain.exception.DomainKnowledgeException;
-import com.spring_boot_template.domain.exception.ResourceConflictException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.due_date_detail.DueDateDetail;
 import com.spring_boot_template.domain.model.task.value.Status;
@@ -55,11 +55,11 @@ public final class Task {
         assignedAccountIds.forEach(
                 assignedAccountId -> {
                     if (!this.assignedAccountIds.add(assignedAccountId)) {
-                        throw new ResourceConflictException(
-                                messageSource.getMessage(
-                                        "project.task.account-ids.already-assigned",
-                                        null,
-                                        Locale.getDefault()));
+                        final String code = "already-assigned";
+                        final Object[] args = new Object[] {"AccountId"};
+                        final Locale locale = Locale.getDefault();
+                        final String message = messageSource.getMessage(code, args, locale);
+                        throw new DomainConflictException(message);
                     }
                 });
     }
@@ -68,12 +68,13 @@ public final class Task {
         status =
                 status.nextStatus()
                         .orElseThrow(
-                                () ->
-                                        new DomainKnowledgeException(
-                                                messageSource.getMessage(
-                                                        "project.task.status.cannot-advance",
-                                                        null,
-                                                        Locale.getDefault())));
+                                () -> {
+                                    final String code = "status-cannot-advanced";
+                                    final Locale locale = Locale.getDefault();
+                                    final String message =
+                                            messageSource.getMessage(code, null, locale);
+                                    return new DomainKnowledgeException(message);
+                                });
     }
 
     public Optional<DueDateDetail> getDueDateDetail() {
