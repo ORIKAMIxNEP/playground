@@ -6,7 +6,7 @@ import static com.spring_boot_template.jooq.Tables.TASK_ACCOUNT_ASSIGNMENTS;
 
 import com.spring_boot_template.application.task.query.FetchTaskQueryDto;
 import com.spring_boot_template.application.task.query.TaskQueryService;
-import com.spring_boot_template.domain.exception.ResourceNotFoundException;
+import com.spring_boot_template.domain.exception.DomainNotFoundException;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.task.value.TaskId;
 import com.spring_boot_template.presentation.controller.due_date_detail.response.FetchTaskResponseDueDateDetailField;
@@ -31,8 +31,11 @@ final class TaskQueryServiceImpl implements TaskQueryService {
         final List<FetchTaskQueryDto> fetchTaskQueryDtos =
                 selectTaskByProjectIdAndTaskId(projectId.value(), taskId.value());
         if (fetchTaskQueryDtos.isEmpty()) {
-            throw new ResourceNotFoundException(
-                    messageSource.getMessage("project.task.not-found", null, Locale.getDefault()));
+            final String code = "not-found";
+            final Object[] args = {"Task"};
+            final Locale locale = Locale.getDefault();
+            final String message = messageSource.getMessage(code, args, locale);
+            throw new DomainNotFoundException(message);
         }
 
         final FetchTaskQueryDto fetchTaskQueryDto = fetchTaskQueryDtos.get(0);
