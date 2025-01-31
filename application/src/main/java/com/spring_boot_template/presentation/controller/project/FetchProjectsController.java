@@ -1,6 +1,8 @@
 package com.spring_boot_template.presentation.controller.project;
 
 import com.spring_boot_template.application.project.FetchProjectsUseCase;
+import com.spring_boot_template.domain.exception.DomainNotFoundException;
+import com.spring_boot_template.domain.exception.RequestInvalidException;
 import com.spring_boot_template.presentation.controller.project.response.FetchProjectsResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,10 +34,21 @@ final class FetchProjectsController {
                                         schema =
                                                 @Schema(
                                                         implementation =
-                                                                FetchProjectsResponse.class)))
+                                                                FetchProjectsResponse.class))),
+                @ApiResponse(
+                        responseCode = "400",
+                        description = "Bad Request",
+                        content =
+                                @Content(
+                                        schema = @Schema(oneOf = {RequestInvalidException.class}))),
+                @ApiResponse(
+                        responseCode = "404",
+                        description = "Not Found",
+                        content =
+                                @Content(schema = @Schema(oneOf = {DomainNotFoundException.class})))
             })
     private ResponseEntity<?> execute() {
-        final String accountIdRequest = "0000ABCDEFGHJKMNPQRSTVWXYZ";
-        return ResponseEntity.ok(fetchProjectsUseCase.execute(accountIdRequest));
+        final String participatingAccountIdRequest = "0000ABCDEFGHJKMNPQRSTVWXYZ";
+        return ResponseEntity.ok(fetchProjectsUseCase.execute(participatingAccountIdRequest));
     }
 }
