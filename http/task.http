@@ -14,7 +14,8 @@ PUT {{baseUrl}}/project/0100ABCDEFGHJKMNPQRSTVWXYZ/task/0200ABCDEFGHJKMNPQRSTVWX
 Content-Type: application/json
 
 {
-  "taskName": "UpdatedTaskName"
+  "taskName": "UpdatedTaskName",
+  "assignedAccountIds": ["0000ABCDEFGHJKMNPQRSTVWXYZ"]
 }
 
 ### AdvanceStatus
