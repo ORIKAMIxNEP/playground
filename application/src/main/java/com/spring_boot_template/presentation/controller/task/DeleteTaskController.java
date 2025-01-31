@@ -1,11 +1,11 @@
 package com.spring_boot_template.presentation.controller.task;
 
 import com.spring_boot_template.application.task.DeleteTaskUseCase;
-import com.spring_boot_template.domain.exception.DomainNotFoundException;
 import com.spring_boot_template.domain.exception.RequestInvalidException;
+import com.spring_boot_template.domain.exception.ResourceNotFoundException;
+import com.spring_boot_template.presentation.anotation.ValidUlid;
 import com.spring_boot_template.presentation.controller.project.request.ProjectIdRequest;
 import com.spring_boot_template.presentation.controller.task.request.TaskIdRequest;
-import com.spring_boot_template.presentation.validator.ValidUlid;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -37,7 +37,9 @@ final class DeleteTaskController {
                         responseCode = "404",
                         description = "Not Found",
                         content =
-                                @Content(schema = @Schema(oneOf = {DomainNotFoundException.class})))
+                                @Content(
+                                        schema =
+                                                @Schema(oneOf = {ResourceNotFoundException.class})))
             })
     private ResponseEntity<?> execute(
             @PathVariable @ValidUlid final ProjectIdRequest projectIdRequest,

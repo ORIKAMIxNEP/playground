@@ -3,7 +3,7 @@ package com.spring_boot_template.domain.model.account;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.account.value.AccountName;
 import com.spring_boot_template.domain.model.account.value.Password;
-import com.spring_boot_template.domain.shared.IdGenerator;
+import com.spring_boot_template.domain.module.IdGenerator;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

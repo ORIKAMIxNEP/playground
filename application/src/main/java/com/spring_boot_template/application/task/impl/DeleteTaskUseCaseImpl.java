@@ -7,6 +7,7 @@ import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.task.value.TaskId;
 import com.spring_boot_template.presentation.controller.project.request.ProjectIdRequest;
 import com.spring_boot_template.presentation.controller.task.request.TaskIdRequest;
+import com.spring_boot_template.shared.module.MessageGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
     private final ProjectRepository projectRepository;
+    private final MessageGenerator messageGenerator;
 
     @Override
     @Transactional
@@ -24,7 +26,7 @@ class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
         final Project project = projectRepository.findProjectByProjectId(projectId);
 
         final TaskId taskId = new TaskId(taskIdRequest.value());
-        project.deleteTask(taskId);
+        project.deleteTask(taskId, messageGenerator);
         projectRepository.saveProject(project);
     }
 }

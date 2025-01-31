@@ -6,24 +6,24 @@ import static com.spring_boot_template.jooq.Tables.TASK_ACCOUNT_ASSIGNMENTS;
 
 import com.spring_boot_template.application.task.query.FetchTaskQueryDto;
 import com.spring_boot_template.application.task.query.TaskQueryService;
-import com.spring_boot_template.domain.exception.DomainNotFoundException;
+import com.spring_boot_template.domain.exception.ResourceNotFoundException;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
+import com.spring_boot_template.domain.model.task.Task;
 import com.spring_boot_template.domain.model.task.value.TaskId;
 import com.spring_boot_template.presentation.controller.due_date_detail.response.FetchTaskResponseDueDateDetailField;
 import com.spring_boot_template.presentation.controller.task.response.FetchTaskResponse;
+import com.spring_boot_template.shared.constants.MessageCode;
+import com.spring_boot_template.shared.module.MessageGenerator;
 import java.util.List;
-import java.util.Locale;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 final class TaskQueryServiceImpl implements TaskQueryService {
     private final DSLContext dslContext;
-    private final MessageSource messageSource;
+    private final MessageGenerator messageGenerator;
 
     @Override
     public FetchTaskResponse findTaskByProjectIdAndTaskId(
@@ -31,28 +31,27 @@ final class TaskQueryServiceImpl implements TaskQueryService {
         final List<FetchTaskQueryDto> fetchTaskQueryDtos =
                 selectTaskByProjectIdAndTaskId(projectId.value(), taskId.value());
         if (fetchTaskQueryDtos.isEmpty()) {
-            final String code = "not-found";
-            final Object[] args = {"Task"};
-            final Locale locale = Locale.getDefault();
-            final String message = messageSource.getMessage(code, args, locale);
-            throw new DomainNotFoundException(message);
+            final String message =
+                    messageGenerator.generateMessage(MessageCode.NOT_FOUND, Task.class);
+            throw new ResourceNotFoundException(message);
         }
 
         final FetchTaskQueryDto fetchTaskQueryDto = fetchTaskQueryDtos.get(0);
-        final String taskName = fetchTaskQueryDto.taskName();
-        final String status = fetchTaskQueryDto.status();
+        final String taskName = fetchTaskQueryDto.getTaskName();
+        final String status = fetchTaskQueryDto.getStatus();
         final String[] assignedAccountIds =
                 fetchTaskQueryDtos.stream()
-                        .map(FetchTaskQueryDto::assignedAccountId)
+                        .map(FetchTaskQueryDto::getAssignedAccountId)
                         .toArray(String[]::new);
 
         final FetchTaskResponseDueDateDetailField fetchTaskResponseDueDateDetailField =
-                Optional.ofNullable(fetchTaskQueryDto.dueDate())
+                fetchTaskQueryDto
+                        .getDueDate()
                         .map(
                                 dueDate -> {
-                                    final int postponeCount = fetchTaskQueryDto.postponeCount();
+                                    final int postponeCount = fetchTaskQueryDto.getPostponeCount();
                                     final int maxPostponeCount =
-                                            fetchTaskQueryDto.maxPostponeCount();
+                                            fetchTaskQueryDto.getMaxPostponeCount();
                                     return new FetchTaskResponseDueDateDetailField(
                                             dueDate, postponeCount, maxPostponeCount);
                                 })

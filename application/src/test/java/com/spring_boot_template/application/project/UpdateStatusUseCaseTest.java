@@ -6,7 +6,7 @@
 // import static org.mockito.Mockito.doReturn;
 // import static org.mockito.Mockito.doThrow;
 //
-// import com.spring_boot_template.domain.exception.DomainConflictException;
+// import com.spring_boot_template.domain.exception.ResourceConflictException;
 // import com.spring_boot_template.domain.model.account.value.AccountId;
 // import com.spring_boot_template.domain.model.project.task.Task;
 // import com.spring_boot_template.domain.model.project.task.due_date.value.Date;
@@ -44,7 +44,7 @@
 //                        new Date("Date"),
 //                        new PostponeCount(0),
 //                        new MaxPostponeCount(10)));
-//        doThrow(DomainConflictException.class)
+//        doThrow(ResourceConflictException.class)
 //                .when(findTaskByTaskIdUseCaseMock)
 //                .execute(new TaskId("00000000000000000000000000"));
 //        doNothing().when(taskRepositoryMock).deleteTask(any());
@@ -59,6 +59,6 @@
 //                                updateTaskUseCase.execute(
 //                                        new
 // UpdateTaskStatusRequest("00000000000000000000000000")))
-//                .isInstanceOf(DomainConflictException.class);
+//                .isInstanceOf(ResourceConflictException.class);
 //    }
 // }

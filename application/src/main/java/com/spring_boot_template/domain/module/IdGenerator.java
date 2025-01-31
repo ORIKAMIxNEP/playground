@@ -1,4 +1,4 @@
-package com.spring_boot_template.domain.shared;
+package com.spring_boot_template.domain.module;
 
 import de.huxhorn.sulky.ulid.ULID;
 import org.springframework.stereotype.Component;

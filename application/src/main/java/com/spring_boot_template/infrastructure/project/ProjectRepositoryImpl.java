@@ -1,6 +1,6 @@
 package com.spring_boot_template.infrastructure.project;
 
-import com.spring_boot_template.domain.exception.DomainNotFoundException;
+import com.spring_boot_template.domain.exception.ResourceNotFoundException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
 import com.spring_boot_template.domain.model.due_date_detail.DueDateDetail;
 import com.spring_boot_template.domain.model.due_date_detail.value.DueDate;
@@ -14,24 +14,24 @@ import com.spring_boot_template.domain.model.task.Task;
 import com.spring_boot_template.domain.model.task.value.Status;
 import com.spring_boot_template.domain.model.task.value.TaskId;
 import com.spring_boot_template.domain.model.task.value.TaskName;
+import com.spring_boot_template.shared.constants.MessageCode;
+import com.spring_boot_template.shared.module.MessageGenerator;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
 class ProjectRepositoryImpl implements ProjectRepository {
     private final ProjectMapper projectMapper;
-    private final MessageSource messageSource;
+    private final MessageGenerator messageGenerator;
 
     @Override
     public void saveProject(final Project project) {
@@ -54,16 +54,16 @@ class ProjectRepositoryImpl implements ProjectRepository {
     @Override
     public Project findProjectByProjectId(final ProjectId projectId) {
         final ProjectDto projectDto =
-                Optional.ofNullable(projectMapper.selectProjectByProjectId(projectId.value()))
+                projectMapper
+                        .selectProjectByProjectId(projectId.value())
                         .orElseThrow(
                                 () -> {
-                                    final String code = "not-found";
-                                    final Object[] args = new Object[] {"Project"};
-                                    final Locale locale = Locale.getDefault();
                                     final String message =
-                                            messageSource.getMessage(code, args, locale);
-                                    return new DomainNotFoundException(message);
+                                            messageGenerator.generateMessage(
+                                                    MessageCode.NOT_FOUND, Project.class);
+                                    return new ResourceNotFoundException(message);
                                 });
+
         final ProjectName projectName = projectDto.projectName();
 
         final Set<AccountId> participatingAccountIds =
@@ -73,8 +73,7 @@ class ProjectRepositoryImpl implements ProjectRepository {
 
         final LinkedHashSet<Task> tasks = findTasksByProjectId(projectId.value());
 
-        return Project.reconstructProject(
-                projectId, projectName, participatingAccountIds, tasks, messageSource);
+        return Project.reconstructProject(projectId, projectName, participatingAccountIds, tasks);
     }
 
     @Override
@@ -97,8 +96,8 @@ class ProjectRepositoryImpl implements ProjectRepository {
                                     projectMapper.insertTaskAccountAssignment(
                                             taskId, taskAccountAssignment.value()));
 
-                    final Optional<DueDateDetail> optionalDueDateDetail = task.getDueDateDetail();
-                    saveDueDateDetail(taskId, optionalDueDateDetail);
+                    task.getDueDateDetail()
+                            .ifPresent(dueDateDetail -> saveDueDateDetail(taskId, dueDateDetail));
                 });
     }
 
@@ -116,33 +115,24 @@ class ProjectRepositoryImpl implements ProjectRepository {
                                                     taskId.value()));
 
                             final DueDateDetail dueDateDetail =
-                                    findDueDateDetailByTaskId(taskId.value());
+                                    findDueDateDetailByTaskId(taskId.value()).orElse(null);
 
                             return Task.reconstructTask(
-                                    taskId,
-                                    taskName,
-                                    status,
-                                    assignedAccountIds,
-                                    dueDateDetail,
-                                    messageSource);
+                                    taskId, taskName, status, assignedAccountIds, dueDateDetail);
                         })
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
-    private void saveDueDateDetail(
-            final String taskId, final Optional<DueDateDetail> optionalDueDateDetail) {
-        optionalDueDateDetail.ifPresent(
-                dueDateDetail -> {
-                    final LocalDateTime dueDate = dueDateDetail.getDueDate().value();
-                    final int postponeCount = dueDateDetail.getPostponeCount().value();
-                    final int maxPostponeCount = dueDateDetail.getMaxPostponeCount().value();
-                    projectMapper.insertDueDateDetail(
-                            taskId, dueDate, postponeCount, maxPostponeCount);
-                });
+    private void saveDueDateDetail(final String taskId, final DueDateDetail dueDateDetail) {
+        final LocalDateTime dueDate = dueDateDetail.getDueDate().value();
+        final int postponeCount = dueDateDetail.getPostponeCount().value();
+        final int maxPostponeCount = dueDateDetail.getMaxPostponeCount().value();
+        projectMapper.insertDueDateDetail(taskId, dueDate, postponeCount, maxPostponeCount);
     }
 
-    private DueDateDetail findDueDateDetailByTaskId(final String taskId) {
-        return Optional.ofNullable(projectMapper.selectDueDateDetailByTaskId(taskId))
+    private Optional<DueDateDetail> findDueDateDetailByTaskId(final String taskId) {
+        return projectMapper
+                .selectDueDateDetailByTaskId(taskId)
                 .map(
                         dueDateDetailDto -> {
                             final DueDate dueDate =
@@ -152,7 +142,6 @@ class ProjectRepositoryImpl implements ProjectRepository {
                                     dueDateDetailDto.maxPostponeCount();
                             return DueDateDetail.reconstructDueDateDetail(
                                     dueDate, postponeCount, maxPostponeCount);
-                        })
-                .orElse(null);
+                        });
     }
 }

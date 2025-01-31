@@ -7,7 +7,7 @@ Content-Type: application/json
 }
 
 ### FetchTask
-GET {{baseUrl}}/project/0100ABCDEFGHJKMNPQRSTVWXYZ/task/0200ABCDEFGHJKMNPQRSTVWXYZ
+GET {{baseUrl}}/project/0100ABCDEFGHJKMNPQRSTVWXYZ/task/0200ABCDEFGHJKMNPQRSTVWXYZa
 
 ### UpdateTask
 PUT {{baseUrl}}/project/0100ABCDEFGHJKMNPQRSTVWXYZ/task/0200ABCDEFGHJKMNPQRSTVWXYZ
@@ -15,7 +15,9 @@ Content-Type: application/json
 
 {
   "taskName": "UpdatedTaskName",
-  "assignedAccountIds": ["0000ABCDEFGHJKMNPQRSTVWXYZ"]
+  "assignedAccountIds": [
+    "0000ABCDEFGHJKMNPQRSTVWXYZ"
+  ]
 }
 
 ### AdvanceStatus

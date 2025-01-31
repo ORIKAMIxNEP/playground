@@ -12,6 +12,7 @@ import com.spring_boot_template.infrastructure.task.TaskDto;
 import com.spring_boot_template.jooq.tables.Projects;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
@@ -35,13 +36,14 @@ final class ProjectMapperImpl implements ProjectMapper {
     }
 
     @Override
-    public ProjectDto selectProjectByProjectId(final String projectId) {
-        return dslContext
-                .select(PROJECTS.PROJECT_NAME)
-                .from(PROJECTS)
-                .where(PROJECTS.PROJECT_ID.eq(projectId))
-                .forUpdate()
-                .fetchOneInto(ProjectDto.class);
+    public Optional<ProjectDto> selectProjectByProjectId(final String projectId) {
+        return Optional.ofNullable(
+                dslContext
+                        .select(PROJECTS.PROJECT_NAME)
+                        .from(PROJECTS)
+                        .where(PROJECTS.PROJECT_ID.eq(projectId))
+                        .forUpdate()
+                        .fetchOneInto(ProjectDto.class));
     }
 
     @Override
@@ -152,15 +154,16 @@ final class ProjectMapperImpl implements ProjectMapper {
     }
 
     @Override
-    public DueDateDetailDto selectDueDateDetailByTaskId(final String taskId) {
-        return dslContext
-                .select(
-                        DUE_DATE_DETAILS.DUE_DATE,
-                        DUE_DATE_DETAILS.POSTPONE_COUNT,
-                        DUE_DATE_DETAILS.MAX_POSTPONE_COUNT)
-                .from(DUE_DATE_DETAILS)
-                .where(DUE_DATE_DETAILS.TASK_ID.eq(taskId))
-                .forUpdate()
-                .fetchOneInto(DueDateDetailDto.class);
+    public Optional<DueDateDetailDto> selectDueDateDetailByTaskId(final String taskId) {
+        return Optional.ofNullable(
+                dslContext
+                        .select(
+                                DUE_DATE_DETAILS.DUE_DATE,
+                                DUE_DATE_DETAILS.POSTPONE_COUNT,
+                                DUE_DATE_DETAILS.MAX_POSTPONE_COUNT)
+                        .from(DUE_DATE_DETAILS)
+                        .where(DUE_DATE_DETAILS.TASK_ID.eq(taskId))
+                        .forUpdate()
+                        .fetchOneInto(DueDateDetailDto.class));
     }
 }

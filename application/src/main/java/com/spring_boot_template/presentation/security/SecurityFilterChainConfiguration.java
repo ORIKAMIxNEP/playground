@@ -1,4 +1,4 @@
-package com.spring_boot_template.config;
+package com.spring_boot_template.presentation.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,9 +8,9 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig {
+class SecurityFilterChainConfiguration {
     @Bean
-    public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity)
+    public SecurityFilterChain configureSecurityFilterChain(final HttpSecurity httpSecurity)
             throws Exception {
         httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/project/**"));
         return httpSecurity.build();

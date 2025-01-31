@@ -6,7 +6,7 @@ import com.spring_boot_template.domain.model.project.ProjectRepository;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.task.value.TaskId;
 import com.spring_boot_template.domain.model.task.value.TaskName;
-import com.spring_boot_template.domain.shared.IdGenerator;
+import com.spring_boot_template.domain.module.IdGenerator;
 import com.spring_boot_template.presentation.controller.project.request.ProjectIdRequest;
 import com.spring_boot_template.presentation.controller.task.request.AddTaskRequest;
 import lombok.RequiredArgsConstructor;

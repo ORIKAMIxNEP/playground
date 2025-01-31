@@ -5,11 +5,12 @@ import com.spring_boot_template.infrastructure.due_date_detail.DueDateDetailDto;
 import com.spring_boot_template.infrastructure.task.TaskDto;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 interface ProjectMapper {
     void insertProject(final String projectId, final String projectName);
 
-    ProjectDto selectProjectByProjectId(final String projectId);
+    Optional<ProjectDto> selectProjectByProjectId(final String projectId);
 
     void deleteProject(final String projectId);
 
@@ -41,5 +42,5 @@ interface ProjectMapper {
             final int postponeCount,
             final int maxPostponeCount);
 
-    DueDateDetailDto selectDueDateDetailByTaskId(final String taskId);
+    Optional<DueDateDetailDto> selectDueDateDetailByTaskId(final String taskId);
 }

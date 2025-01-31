@@ -1,9 +1,9 @@
-package com.spring_boot_template.presentation.handler;
+package com.spring_boot_template.presentation.module;
 
-import com.spring_boot_template.domain.exception.DomainConflictException;
-import com.spring_boot_template.domain.exception.DomainKnowledgeException;
-import com.spring_boot_template.domain.exception.DomainNotFoundException;
+import com.spring_boot_template.domain.exception.DomainRuleViolationException;
 import com.spring_boot_template.domain.exception.RequestInvalidException;
+import com.spring_boot_template.domain.exception.ResourceConflictException;
+import com.spring_boot_template.domain.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,24 +18,24 @@ final class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(message);
     }
 
-    @ExceptionHandler(value = {DomainNotFoundException.class})
+    @ExceptionHandler(value = {ResourceNotFoundException.class})
     private ResponseEntity<String> handleDomainNotFoundException(
-            final DomainNotFoundException domainNotFoundException) {
-        final String message = domainNotFoundException.getMessage();
+            final ResourceNotFoundException resourceNotFoundException) {
+        final String message = resourceNotFoundException.getMessage();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
 
-    @ExceptionHandler(value = {DomainConflictException.class})
+    @ExceptionHandler(value = {ResourceConflictException.class})
     private ResponseEntity<String> handleDomainConflictException(
-            final DomainConflictException domainConflictException) {
-        final String message = domainConflictException.getMessage();
+            final ResourceConflictException resourceConflictException) {
+        final String message = resourceConflictException.getMessage();
         return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
     }
 
-    @ExceptionHandler(value = {DomainKnowledgeException.class})
+    @ExceptionHandler(value = {DomainRuleViolationException.class})
     private ResponseEntity<String> handleDomainKnowledgeException(
-            final DomainKnowledgeException domainKnowledgeException) {
-        final String message = domainKnowledgeException.getMessage();
+            final DomainRuleViolationException domainRuleViolationException) {
+        final String message = domainRuleViolationException.getMessage();
         return ResponseEntity.unprocessableEntity().body(message);
     }
 }

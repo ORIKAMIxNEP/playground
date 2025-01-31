@@ -10,6 +10,7 @@ import com.spring_boot_template.domain.model.task.value.TaskName;
 import com.spring_boot_template.presentation.controller.project.request.ProjectIdRequest;
 import com.spring_boot_template.presentation.controller.task.request.TaskIdRequest;
 import com.spring_boot_template.presentation.controller.task.request.UpdateTaskRequest;
+import com.spring_boot_template.shared.module.MessageGenerator;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
     private final ProjectRepository projectRepository;
+    private final MessageGenerator messageGenerator;
 
     @Override
     @Transactional
@@ -34,7 +36,7 @@ class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
         final TaskName taskName = new TaskName(updateTaskRequest.taskName());
         final List<AccountId> assignedAccountIds =
                 Arrays.stream(updateTaskRequest.assignedAccountIds()).map(AccountId::new).toList();
-        project.updateTask(taskId, taskName, assignedAccountIds);
+        project.updateTask(taskId, taskName, assignedAccountIds, messageGenerator);
         projectRepository.saveProject(project);
     }
 }
