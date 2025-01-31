@@ -7,14 +7,14 @@ Content-Type: application/json
 }
 
 ### FetchTask
-GET {{baseUrl}}/project/0100ABCDEFGHJKMNPQRSTVWXYZ/task/0200ABCDEFGHJKMNPQRSTVWXYZa
+GET {{baseUrl}}/project/0100ABCDEFGHJKMNPQRSTVWXYZ/task/0200ABCDEFGHJKMNPQRSTVWXYZ
 
 ### UpdateTask
 PUT {{baseUrl}}/project/0100ABCDEFGHJKMNPQRSTVWXYZ/task/0200ABCDEFGHJKMNPQRSTVWXYZ
 Content-Type: application/json
 
 {
-  "taskName": "UpdatedTaskName",
+  "taskName": "TaskName",
   "assignedAccountIds": [
     "0000ABCDEFGHJKMNPQRSTVWXYZ"
   ]
