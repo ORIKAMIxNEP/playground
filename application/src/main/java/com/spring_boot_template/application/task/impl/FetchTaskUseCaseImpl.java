@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-class FetchTaskUseCaseImpl implements FetchTaskUseCase {
+public class FetchTaskUseCaseImpl implements FetchTaskUseCase {
     private final TaskQueryService taskQueryService;
 
     @Override
