@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
+public class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
     private final ProjectRepository projectRepository;
     private final MessageGenerator messageGenerator;
 

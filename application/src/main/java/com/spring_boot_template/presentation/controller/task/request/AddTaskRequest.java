@@ -9,11 +9,11 @@ import jakarta.validation.constraints.Size;
         requiredProperties = {"taskName"})
 public record AddTaskRequest(
         @NotBlank
-                @Size(min = 1, max = 10)
+                @Size(min = 1, max = 20)
                 @Schema(
                         title = "タスク名",
                         type = "string",
                         minLength = 1,
-                        maxLength = 10,
+                        maxLength = 20,
                         example = "TaskName")
                 String taskName) {}

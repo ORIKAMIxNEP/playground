@@ -28,17 +28,7 @@ final class FetchTaskUseCaseImplTest {
     void testExecute() {
         final ProjectId projectId = new ProjectId("0100ABCDEFGHJKMNPQRSTVWXYZ");
         final TaskId taskId = new TaskId("0200ABCDEFGHJKMNPQRSTVWXYZ");
-        final String taskName = "TaskName";
-        final String status = "UNDONE";
-        final String[] assignedAccountIds = {"0000ABCDEFGHJKMNPQRSTVWXYZ"};
-        final String dueDate = "2000-01-01T00:00:00Z";
-        final int postponeCount = 0;
-        final int maxPostponeCount = 0;
-        final FetchTaskResponseDueDateDetailField fetchTaskResponseDueDateDetailField =
-                new FetchTaskResponseDueDateDetailField(dueDate, postponeCount, maxPostponeCount);
-        final FetchTaskResponse expectedFetchTaskResponse =
-                new FetchTaskResponse(
-                        taskName, status, assignedAccountIds, fetchTaskResponseDueDateDetailField);
+        final FetchTaskResponse expectedFetchTaskResponse = generateFetchTaskResponse();
         doReturn(expectedFetchTaskResponse)
                 .when(taskQueryService)
                 .findTaskByProjectIdAndTaskId(projectId, taskId);
@@ -50,5 +40,18 @@ final class FetchTaskUseCaseImplTest {
                 fetchTaskUseCaseImpl.execute(projectIdRequest, taskIdRequest);
 
         assertThat(actualFetchTaskResponse).isEqualTo(expectedFetchTaskResponse);
+    }
+
+    private FetchTaskResponse generateFetchTaskResponse() {
+        final String taskName = "TaskName";
+        final String status = "UNDONE";
+        final String[] assignedAccountIds = {"0000ABCDEFGHJKMNPQRSTVWXYZ"};
+        final String dueDate = "2000-01-01T00:00:00Z";
+        final int postponeCount = 0;
+        final int maxPostponeCount = 0;
+        final FetchTaskResponseDueDateDetailField fetchTaskResponseDueDateDetailField =
+                new FetchTaskResponseDueDateDetailField(dueDate, postponeCount, maxPostponeCount);
+        return new FetchTaskResponse(
+                taskName, status, assignedAccountIds, fetchTaskResponseDueDateDetailField);
     }
 }
