@@ -11,14 +11,14 @@ import com.spring_boot_template.presentation.controller.due_date_detail.response
 import com.spring_boot_template.presentation.controller.project.request.ProjectIdRequest;
 import com.spring_boot_template.presentation.controller.task.request.TaskIdRequest;
 import com.spring_boot_template.presentation.controller.task.response.FetchTaskResponse;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@RequiredArgsConstructor
 @ExtendWith(MockitoExtension.class)
 final class FetchTaskUseCaseImplTest {
     @Mock private TaskQueryService taskQueryService;
