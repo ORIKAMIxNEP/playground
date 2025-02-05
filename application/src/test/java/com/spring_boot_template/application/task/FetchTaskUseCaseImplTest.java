@@ -20,7 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
-final class FetchTaskUseCaseTest {
+final class FetchTaskUseCaseImplTest {
     @Mock private TaskQueryService taskQueryService;
     @InjectMocks private FetchTaskUseCaseImpl fetchTaskUseCaseImpl;
 
