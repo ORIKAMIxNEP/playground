@@ -16,7 +16,8 @@ public final class UlidValidator implements ConstraintValidator<ValidUlid, UlidR
     @Override
     public boolean isValid(
             final UlidRequest ulidRequest, final ConstraintValidatorContext context) {
-        if (ulidRequest.value().matches("^(?!.*[ILOU])[0-9A-Z]{26}$")) {
+        final String ulidRegex = "^(?!.*[ILOU])[0-9A-Z]{26}$";
+        if (ulidRequest.value().matches(ulidRegex)) {
             return true;
         }
         final String message =
