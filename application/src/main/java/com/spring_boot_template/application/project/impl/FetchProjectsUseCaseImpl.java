@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-class FetchProjectsUseCaseImpl implements FetchProjectsUseCase {
+public class FetchProjectsUseCaseImpl implements FetchProjectsUseCase {
     private final ProjectQueryService projectQueryService;
 
     @Override
