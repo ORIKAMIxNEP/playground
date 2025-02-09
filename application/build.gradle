@@ -26,12 +26,12 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
     // Database
-    runtimeOnly group: 'org.postgresql', name: 'postgresql', version: '42.7.3'
+    runtimeOnly group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
     implementation group: 'org.jooq', name: 'jooq', version: '3.19.18'
     implementation group: 'org.jooq', name: 'jooq-meta', version: '3.19.18'
     implementation group: 'org.jooq', name: 'jooq-codegen', version: '3.19.18'
     implementation group: 'org.jooq', name: 'jooq-postgres-extensions', version: '3.19.18'
-    jooqCodegen group: 'org.postgresql', name: 'postgresql', version: '42.7.3'
+    jooqCodegen group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
     implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '3.0.3'
 
     // Lombok
