@@ -1,11 +1,11 @@
-package com.spring_boot_template.presentation.controller.due_date_detail.response;
+package com.spring_boot_template.presentation.controller.deadline.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(title = "取得したタスクの詳細締め切り期日")
-public record FetchTaskResponseDueDateDetailField(
+@Schema(title = "取得したタスクの締め切り")
+public record FetchTaskResponseDeadlineField(
         @Schema(
-                        title = "締め切り期日",
+                        title = "期日",
                         type = "string",
                         format = "date-time",
                         example = "2000-01-01T00:00:00")

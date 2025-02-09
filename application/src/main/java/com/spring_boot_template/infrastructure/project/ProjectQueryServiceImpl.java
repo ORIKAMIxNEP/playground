@@ -24,7 +24,7 @@ final class ProjectQueryServiceImpl implements ProjectQueryService {
             final AccountId participatingAccountId) {
         final List<FetchProjectsQueryDto> fetchProjectsQueryDtos =
                 selectProjectsByParticipatingAccountId(participatingAccountId.value());
-        final List<FetchProjectsResponseProjectElement> fetchProjectsResponsElements =
+        final List<FetchProjectsResponseProjectElement> fetchProjectsResponseElements =
                 fetchProjectsQueryDtos.stream()
                         .map(
                                 fetchProjectsQueryDto -> {
@@ -34,7 +34,7 @@ final class ProjectQueryServiceImpl implements ProjectQueryService {
                                             projectId, projectName);
                                 })
                         .collect(Collectors.toList());
-        return new FetchProjectsResponse(fetchProjectsResponsElements);
+        return new FetchProjectsResponse(fetchProjectsResponseElements);
     }
 
     private List<FetchProjectsQueryDto> selectProjectsByParticipatingAccountId(

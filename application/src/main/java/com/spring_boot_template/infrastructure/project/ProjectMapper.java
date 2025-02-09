@@ -1,7 +1,7 @@
 package com.spring_boot_template.infrastructure.project;
 
 import com.spring_boot_template.domain.model.account.value.AccountId;
-import com.spring_boot_template.infrastructure.due_date_detail.DueDateDetailDto;
+import com.spring_boot_template.infrastructure.deadline.DeadlineDto;
 import com.spring_boot_template.infrastructure.task.TaskDto;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,11 +36,11 @@ interface ProjectMapper {
 
     List<AccountId> selectTaskAccountAssignmentsByTaskId(final String taskId);
 
-    void insertDueDateDetail(
+    void insertDeadline(
             final String taskId,
             final LocalDateTime dueDate,
             final int postponeCount,
             final int maxPostponeCount);
 
-    Optional<DueDateDetailDto> selectDueDateDetailByTaskId(final String taskId);
+    Optional<DeadlineDto> selectDeadlineByTaskId(final String taskId);
 }

@@ -2,8 +2,9 @@ package com.spring_boot_template.domain.model.task;
 
 import com.spring_boot_template.domain.exception.DomainRuleViolationException;
 import com.spring_boot_template.domain.exception.ResourceConflictException;
+import com.spring_boot_template.domain.model.account.Account;
 import com.spring_boot_template.domain.model.account.value.AccountId;
-import com.spring_boot_template.domain.model.due_date_detail.DueDateDetail;
+import com.spring_boot_template.domain.model.deadline.Deadline;
 import com.spring_boot_template.domain.model.task.value.Status;
 import com.spring_boot_template.domain.model.task.value.TaskId;
 import com.spring_boot_template.domain.model.task.value.TaskName;
@@ -27,7 +28,11 @@ public final class Task {
     private TaskName taskName;
     private Status status;
     private final Set<AccountId> assignedAccountIds;
-    private final DueDateDetail dueDateDetail;
+    private final Deadline deadline;
+
+    public Optional<Deadline> getDeadline() {
+        return Optional.ofNullable(deadline);
+    }
 
     public static Task createTask(final IdGenerator idGenerator, final TaskName taskName) {
         final TaskId taskId = new TaskId(idGenerator.generateId());
@@ -41,8 +46,8 @@ public final class Task {
             final TaskName taskName,
             final Status status,
             final Set<AccountId> assignedAccountIds,
-            final DueDateDetail dueDateDetail) {
-        return new Task(taskId, taskName, status, assignedAccountIds, dueDateDetail);
+            final Deadline deadline) {
+        return new Task(taskId, taskName, status, assignedAccountIds, deadline);
     }
 
     public void updateTask(
@@ -54,12 +59,14 @@ public final class Task {
         this.assignedAccountIds.clear();
         assignedAccountIds.forEach(
                 assignedAccountId -> {
-                    if (this.assignedAccountIds.add(assignedAccountId)) {
+                    final boolean isAssignableToTask =
+                            this.assignedAccountIds.add(assignedAccountId);
+                    if (isAssignableToTask) {
                         return;
                     }
                     final String message =
                             messageGenerator.generateMessage(
-                                    MessageCode.ALREADY_ASSIGNED, AccountId.class);
+                                    MessageCode.ALREADY_ASSIGNED, Account.class);
                     throw new ResourceConflictException(message);
                 });
     }
@@ -76,7 +83,5 @@ public final class Task {
                                 });
     }
 
-    public Optional<DueDateDetail> getDueDateDetail() {
-        return Optional.ofNullable(dueDateDetail);
-    }
+    public void postponeDeadlineDate() {}
 }

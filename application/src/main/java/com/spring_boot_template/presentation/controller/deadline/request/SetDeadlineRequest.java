@@ -1,4 +1,4 @@
-package com.spring_boot_template.presentation.controller.due_date_detail.request;
+package com.spring_boot_template.presentation.controller.deadline.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
@@ -7,13 +7,13 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 @Schema(
-        title = "設定する詳細締め切り期日",
+        title = "設定する締め切り",
         requiredProperties = {"dueDate, maxPostponeCount"})
-public record SetDueDateDetailRequest(
+public record SetDeadlineRequest(
         @NotBlank
                 @Pattern(regexp = "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}")
                 @Schema(
-                        title = "締め切り期日",
+                        title = "期日",
                         type = "string",
                         format = "date-time",
                         example = "2000-01-01T00:00:00")

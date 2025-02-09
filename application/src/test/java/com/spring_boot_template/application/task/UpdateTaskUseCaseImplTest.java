@@ -5,10 +5,10 @@ import static org.mockito.Mockito.doReturn;
 
 import com.spring_boot_template.application.task.impl.UpdateTaskUseCaseImpl;
 import com.spring_boot_template.domain.model.account.value.AccountId;
-import com.spring_boot_template.domain.model.due_date_detail.DueDateDetail;
-import com.spring_boot_template.domain.model.due_date_detail.value.DueDate;
-import com.spring_boot_template.domain.model.due_date_detail.value.MaxPostponeCount;
-import com.spring_boot_template.domain.model.due_date_detail.value.PostponeCount;
+import com.spring_boot_template.domain.model.deadline.Deadline;
+import com.spring_boot_template.domain.model.deadline.value.DueDate;
+import com.spring_boot_template.domain.model.deadline.value.MaxPostponeCount;
+import com.spring_boot_template.domain.model.deadline.value.PostponeCount;
 import com.spring_boot_template.domain.model.project.Project;
 import com.spring_boot_template.domain.model.project.ProjectRepository;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
@@ -64,11 +64,10 @@ final class UpdateTaskUseCaseImplTest {
         final DueDate dueDate = new DueDate(LocalDateTime.of(2000, 1, 1, 0, 0, 0));
         final PostponeCount postponeCount = new PostponeCount(0);
         final MaxPostponeCount maxPostponeCount = new MaxPostponeCount(0);
-        final DueDateDetail dueDateDetail =
-                DueDateDetail.reconstructDueDateDetail(dueDate, postponeCount, maxPostponeCount);
+        final Deadline deadline =
+                Deadline.reconstructDeadline(dueDate, postponeCount, maxPostponeCount);
         final LinkedHashSet<Task> tasks = new LinkedHashSet<>();
-        tasks.add(
-                Task.reconstructTask(taskId, taskName, status, assignedAccountIds, dueDateDetail));
+        tasks.add(Task.reconstructTask(taskId, taskName, status, assignedAccountIds, deadline));
         return Project.reconstructProject(projectId, projectName, participatingAccountIds, tasks);
     }
 

@@ -51,7 +51,7 @@ class Task {
   - taskName: TaskName
   - status: Status
   - assignedAccountIds: Set<AccountId>
-  - dueDateDetail: DueDateDetail
+  - deadline: Deadline
   + advanceStatus(): void
   + updateTask(taskName: TaskName, assignedAccountIds: List<AccountId>): void
 }
@@ -74,9 +74,9 @@ Task *-- TaskId
 Task *-- TaskName
 Task *-- Status
 Task "0..10" --> "0..*" AccountId
-Task *-- DueDateDetail
+Task *-- Deadline
 
-class DueDateDetail {
+class Deadline {
   - dueDate: DueDate
   - postponeCount: PostponeCount
   - maxPostponeCount: MaxPostponeCount
@@ -94,7 +94,7 @@ class MaxPostponeCount {
   - value: int
 }
 
-DueDateDetail *-- DueDate
-DueDateDetail *-- PostponeCount
-DueDateDetail *-- MaxPostponeCount
+Deadline *-- DueDate
+Deadline *-- PostponeCount
+Deadline *-- MaxPostponeCount
 @enduml

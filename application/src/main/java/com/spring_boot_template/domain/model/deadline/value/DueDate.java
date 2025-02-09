@@ -1,4 +1,4 @@
-package com.spring_boot_template.domain.model.due_date_detail.value;
+package com.spring_boot_template.domain.model.deadline.value;
 
 import java.time.LocalDateTime;
 

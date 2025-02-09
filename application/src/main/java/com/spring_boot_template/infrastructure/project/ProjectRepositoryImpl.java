@@ -2,10 +2,10 @@ package com.spring_boot_template.infrastructure.project;
 
 import com.spring_boot_template.domain.exception.ResourceNotFoundException;
 import com.spring_boot_template.domain.model.account.value.AccountId;
-import com.spring_boot_template.domain.model.due_date_detail.DueDateDetail;
-import com.spring_boot_template.domain.model.due_date_detail.value.DueDate;
-import com.spring_boot_template.domain.model.due_date_detail.value.MaxPostponeCount;
-import com.spring_boot_template.domain.model.due_date_detail.value.PostponeCount;
+import com.spring_boot_template.domain.model.deadline.Deadline;
+import com.spring_boot_template.domain.model.deadline.value.DueDate;
+import com.spring_boot_template.domain.model.deadline.value.MaxPostponeCount;
+import com.spring_boot_template.domain.model.deadline.value.PostponeCount;
 import com.spring_boot_template.domain.model.project.Project;
 import com.spring_boot_template.domain.model.project.ProjectRepository;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
@@ -96,8 +96,7 @@ class ProjectRepositoryImpl implements ProjectRepository {
                                     projectMapper.insertTaskAccountAssignment(
                                             taskId, taskAccountAssignment.value()));
 
-                    task.getDueDateDetail()
-                            .ifPresent(dueDateDetail -> saveDueDateDetail(taskId, dueDateDetail));
+                    task.getDeadline().ifPresent(deadline -> saveDeadline(taskId, deadline));
                 });
     }
 
@@ -114,33 +113,33 @@ class ProjectRepositoryImpl implements ProjectRepository {
                                             projectMapper.selectTaskAccountAssignmentsByTaskId(
                                                     taskId.value()));
 
-                            final DueDateDetail dueDateDetail =
-                                    findDueDateDetailByTaskId(taskId.value()).orElse(null);
+                            final Deadline deadline =
+                                    findDeadlineByTaskId(taskId.value()).orElse(null);
 
                             return Task.reconstructTask(
-                                    taskId, taskName, status, assignedAccountIds, dueDateDetail);
+                                    taskId, taskName, status, assignedAccountIds, deadline);
                         })
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
-    private void saveDueDateDetail(final String taskId, final DueDateDetail dueDateDetail) {
-        final LocalDateTime dueDate = dueDateDetail.getDueDate().value();
-        final int postponeCount = dueDateDetail.getPostponeCount().value();
-        final int maxPostponeCount = dueDateDetail.getMaxPostponeCount().value();
-        projectMapper.insertDueDateDetail(taskId, dueDate, postponeCount, maxPostponeCount);
+    private void saveDeadline(final String taskId, final Deadline deadline) {
+        final LocalDateTime dueDate = deadline.getDueDate().value();
+        final int postponeCount = deadline.getPostponeCount().value();
+        final int maxPostponeCount = deadline.getMaxPostponeCount().value();
+        projectMapper.insertDeadline(taskId, dueDate, postponeCount, maxPostponeCount);
     }
 
-    private Optional<DueDateDetail> findDueDateDetailByTaskId(final String taskId) {
+    private Optional<Deadline> findDeadlineByTaskId(final String taskId) {
         return projectMapper
-                .selectDueDateDetailByTaskId(taskId)
+                .selectDeadlineByTaskId(taskId)
                 .map(
-                        dueDateDetailDto -> {
+                        deadlineDto -> {
                             final DueDate dueDate =
-                                    new DueDate(dueDateDetailDto.dueDate().toLocalDateTime());
-                            final PostponeCount postponeCount = dueDateDetailDto.postponeCount();
+                                    new DueDate(deadlineDto.dueDate().toLocalDateTime());
+                            final PostponeCount postponeCount = deadlineDto.postponeCount();
                             final MaxPostponeCount maxPostponeCount =
-                                    dueDateDetailDto.maxPostponeCount();
-                            return DueDateDetail.reconstructDueDateDetail(
+                                    deadlineDto.maxPostponeCount();
+                            return Deadline.reconstructDeadline(
                                     dueDate, postponeCount, maxPostponeCount);
                         });
     }

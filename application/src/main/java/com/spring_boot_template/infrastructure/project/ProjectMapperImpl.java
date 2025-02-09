@@ -1,13 +1,13 @@
 package com.spring_boot_template.infrastructure.project;
 
-import static com.spring_boot_template.jooq.Tables.DUE_DATE_DETAILS;
+import static com.spring_boot_template.jooq.Tables.DEADLINES;
 import static com.spring_boot_template.jooq.Tables.PROJECTS;
 import static com.spring_boot_template.jooq.Tables.PROJECT_ACCOUNT_PARTICIPATIONS;
 import static com.spring_boot_template.jooq.Tables.TASKS;
 import static com.spring_boot_template.jooq.Tables.TASK_ACCOUNT_ASSIGNMENTS;
 
 import com.spring_boot_template.domain.model.account.value.AccountId;
-import com.spring_boot_template.infrastructure.due_date_detail.DueDateDetailDto;
+import com.spring_boot_template.infrastructure.deadline.DeadlineDto;
 import com.spring_boot_template.infrastructure.task.TaskDto;
 import com.spring_boot_template.jooq.tables.Projects;
 import java.time.LocalDateTime;
@@ -137,33 +137,33 @@ final class ProjectMapperImpl implements ProjectMapper {
     }
 
     @Override
-    public void insertDueDateDetail(
+    public void insertDeadline(
             final String taskId,
             final LocalDateTime dueDate,
             final int postponeCount,
             final int maxPostponeCount) {
         dslContext
                 .insertInto(
-                        DUE_DATE_DETAILS,
-                        DUE_DATE_DETAILS.TASK_ID,
-                        DUE_DATE_DETAILS.DUE_DATE,
-                        DUE_DATE_DETAILS.POSTPONE_COUNT,
-                        DUE_DATE_DETAILS.MAX_POSTPONE_COUNT)
+                        DEADLINES,
+                        DEADLINES.TASK_ID,
+                        DEADLINES.DUE_DATE,
+                        DEADLINES.POSTPONE_COUNT,
+                        DEADLINES.MAX_POSTPONE_COUNT)
                 .values(taskId, dueDate, postponeCount, maxPostponeCount)
                 .execute();
     }
 
     @Override
-    public Optional<DueDateDetailDto> selectDueDateDetailByTaskId(final String taskId) {
+    public Optional<DeadlineDto> selectDeadlineByTaskId(final String taskId) {
         return Optional.ofNullable(
                 dslContext
                         .select(
-                                DUE_DATE_DETAILS.DUE_DATE,
-                                DUE_DATE_DETAILS.POSTPONE_COUNT,
-                                DUE_DATE_DETAILS.MAX_POSTPONE_COUNT)
-                        .from(DUE_DATE_DETAILS)
-                        .where(DUE_DATE_DETAILS.TASK_ID.eq(taskId))
+                                DEADLINES.DUE_DATE,
+                                DEADLINES.POSTPONE_COUNT,
+                                DEADLINES.MAX_POSTPONE_COUNT)
+                        .from(DEADLINES)
+                        .where(DEADLINES.TASK_ID.eq(taskId))
                         .forUpdate()
-                        .fetchOneInto(DueDateDetailDto.class));
+                        .fetchOneInto(DeadlineDto.class));
     }
 }

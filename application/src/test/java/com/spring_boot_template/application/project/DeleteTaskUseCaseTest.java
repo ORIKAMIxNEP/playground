@@ -9,7 +9,7 @@
 // import com.spring_boot_template.domain.exception.ResourceConflictException;
 // import com.spring_boot_template.domain.model.account.value.AccountId;
 // import com.spring_boot_template.domain.model.project.task.Task;
-// import com.spring_boot_template.domain.model.project.task.due_date.value.Date;
+// import com.spring_boot_template.domain.model.project.task.due_date.value.DueDate;
 // import com.spring_boot_template.domain.model.project.task.due_date.value.MaxPostponeCount;
 // import com.spring_boot_template.domain.model.project.task.due_date.value.PostponeCount;
 // import com.spring_boot_template.domain.model.project.task.value.Status;
@@ -37,7 +37,7 @@
 //                        new TaskName("TaskName"),
 //                        Status.UNDONE,
 //                        new AccountId("0000ABCDEFGHJKMNPQRSTVWXYZ"),
-//                        new Date("Date"),
+//                        new DueDate("DueDate"),
 //                        new PostponeCount(0),
 //                        new MaxPostponeCount(10)));
 //        doThrow(ResourceConflictException.class)

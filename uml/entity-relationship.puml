@@ -42,13 +42,13 @@ package "Spring Boot Template" {
   accounts ||--o{ task_account_assignments: "1" - "0..10"
   tasks ||--o{ task_account_assignments
 
-  entity due_date_details {
+  entity deadlines {
     task_id: VARCHAR(26)
     due_date: TIMESTAMP
     postpone_count: INTEGER
     max_postpone_count: INTEGER
   }
 
-  tasks ||--|| due_date_details
+  tasks ||--|| deadlines
 }
 @enduml

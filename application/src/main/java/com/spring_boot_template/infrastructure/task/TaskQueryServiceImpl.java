@@ -1,6 +1,6 @@
 package com.spring_boot_template.infrastructure.task;
 
-import static com.spring_boot_template.jooq.Tables.DUE_DATE_DETAILS;
+import static com.spring_boot_template.jooq.Tables.DEADLINES;
 import static com.spring_boot_template.jooq.Tables.TASKS;
 import static com.spring_boot_template.jooq.Tables.TASK_ACCOUNT_ASSIGNMENTS;
 
@@ -10,7 +10,7 @@ import com.spring_boot_template.domain.exception.ResourceNotFoundException;
 import com.spring_boot_template.domain.model.project.value.ProjectId;
 import com.spring_boot_template.domain.model.task.Task;
 import com.spring_boot_template.domain.model.task.value.TaskId;
-import com.spring_boot_template.presentation.controller.due_date_detail.response.FetchTaskResponseDueDateDetailField;
+import com.spring_boot_template.presentation.controller.deadline.response.FetchTaskResponseDeadlineField;
 import com.spring_boot_template.presentation.controller.task.response.FetchTaskResponse;
 import com.spring_boot_template.shared.constants.MessageCode;
 import com.spring_boot_template.shared.module.MessageGenerator;
@@ -44,7 +44,7 @@ final class TaskQueryServiceImpl implements TaskQueryService {
                         .map(FetchTaskQueryDto::getAssignedAccountId)
                         .toArray(String[]::new);
 
-        final FetchTaskResponseDueDateDetailField fetchTaskResponseDueDateDetailField =
+        final FetchTaskResponseDeadlineField fetchTaskResponseDeadlineField =
                 fetchTaskQueryDto
                         .getDueDate()
                         .map(
@@ -52,13 +52,13 @@ final class TaskQueryServiceImpl implements TaskQueryService {
                                     final int postponeCount = fetchTaskQueryDto.getPostponeCount();
                                     final int maxPostponeCount =
                                             fetchTaskQueryDto.getMaxPostponeCount();
-                                    return new FetchTaskResponseDueDateDetailField(
+                                    return new FetchTaskResponseDeadlineField(
                                             dueDate, postponeCount, maxPostponeCount);
                                 })
                         .orElse(null);
 
         return new FetchTaskResponse(
-                taskName, status, assignedAccountIds, fetchTaskResponseDueDateDetailField);
+                taskName, status, assignedAccountIds, fetchTaskResponseDeadlineField);
     }
 
     private List<FetchTaskQueryDto> selectTaskByProjectIdAndTaskId(
@@ -68,14 +68,14 @@ final class TaskQueryServiceImpl implements TaskQueryService {
                         TASKS.TASK_NAME,
                         TASKS.STATUS,
                         TASK_ACCOUNT_ASSIGNMENTS.ASSIGNED_ACCOUNT_ID,
-                        DUE_DATE_DETAILS.DUE_DATE,
-                        DUE_DATE_DETAILS.POSTPONE_COUNT,
-                        DUE_DATE_DETAILS.MAX_POSTPONE_COUNT)
+                        DEADLINES.DUE_DATE,
+                        DEADLINES.POSTPONE_COUNT,
+                        DEADLINES.MAX_POSTPONE_COUNT)
                 .from(TASKS)
                 .leftJoin(TASK_ACCOUNT_ASSIGNMENTS)
                 .on(TASKS.TASK_ID.eq(TASK_ACCOUNT_ASSIGNMENTS.TASK_ID))
-                .leftJoin(DUE_DATE_DETAILS)
-                .on(TASKS.TASK_ID.eq(DUE_DATE_DETAILS.TASK_ID))
+                .leftJoin(DEADLINES)
+                .on(TASKS.TASK_ID.eq(DEADLINES.TASK_ID))
                 .where(TASKS.PROJECT_ID.eq(projectId))
                 .and(TASKS.TASK_ID.eq(taskId))
                 .fetchInto(FetchTaskQueryDto.class);
