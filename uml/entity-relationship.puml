@@ -1,5 +1,5 @@
 @startuml
-package "Spring Boot Template" {
+package "Playground" {
   entity accounts {
     * account_id: VARCHAR(26)
     --

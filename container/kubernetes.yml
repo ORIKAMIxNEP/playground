@@ -150,7 +150,7 @@ metadata:
 data:
   POSTGRES_USER: "your_postgres_user"
   POSTGRES_PASSWORD: "your_postgres_password"
-  POSTGRES_DB: "spring_boot_template"
+  POSTGRES_DB: "playground"
 
 ---
 
