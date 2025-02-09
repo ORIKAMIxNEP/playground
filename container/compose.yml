@@ -1,6 +1,6 @@
 services:
-  mstr-app:
-    container_name: master-application
+  app:
+    container_name: application
     build:
       context: ..
       dockerfile: application/Dockerfile
@@ -9,20 +9,6 @@ services:
       - fixed_network
     ports:
       - 80:80
-    tty: true
-    depends_on:
-      - db
-
-  dev-app:
-    container_name: develop-application
-    build:
-      context: ..
-      dockerfile: application/Dockerfile
-    env_file: .env
-    networks:
-      - fixed_network
-    ports:
-      - 8080:80
     tty: true
     depends_on:
       db:
@@ -45,8 +31,8 @@ services:
       test: [ "CMD", "pg_isready", "-U", "postgres" ]
       start_period: 10s
       interval: 1s
-      retries: 100
-      timeout: 10s
+      retries: 60
+      timeout: 5s
 
 networks:
   fixed_network:

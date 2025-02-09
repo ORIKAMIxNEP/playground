@@ -16,8 +16,8 @@ if [ $# -eq 0 ]; then
     cd ../container || exit
 
     # Start Application
-    docker compose build --no-cache mstr-app
-    docker compose up -d mstr-app
+    docker compose build --no-cache app
+    docker compose up -d app
 
     # Display Database's IP Address
     echo "Database's IP Address: $(docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' database)"

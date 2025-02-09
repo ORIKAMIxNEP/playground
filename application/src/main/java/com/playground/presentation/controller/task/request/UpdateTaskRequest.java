@@ -17,9 +17,5 @@ public record UpdateTaskRequest(
             maxLength = 20,
             example = "TaskName")
         String taskName,
-    @NotBlank
-        @Schema(
-            title = "割り当てられたアカウントIDリスト",
-            type = "array",
-            example = "[0000ABCDEFGHJKMNPQRSTVWXYZ]")
+    @Schema(title = "割り当てられたアカウントIDリスト", type = "array", example = "[0000ABCDEFGHJKMNPQRSTVWXYZ]")
         String[] assignedAccountIds) {}
