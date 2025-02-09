@@ -19,8 +19,8 @@ public record SetDeadlineRequest(
                         example = "2000-01-01T00:00:00")
                 String dueDate,
         @NotBlank
-                @Min(0)
-                @Max(10)
+                @Min(value = 0)
+                @Max(value = 10)
                 @Schema(
                         title = "最大延期回数",
                         type = "integer",
