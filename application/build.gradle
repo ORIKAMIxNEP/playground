@@ -32,7 +32,7 @@ dependencies {
     implementation group: 'org.jooq', name: 'jooq-codegen', version: '3.19.18'
     implementation group: 'org.jooq', name: 'jooq-postgres-extensions', version: '3.19.18'
     jooqCodegen group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
-    implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '3.0.3'
+    implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '3.0.4'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
