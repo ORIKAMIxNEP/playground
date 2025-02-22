@@ -1,10 +1,10 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.4.2'
-    id 'io.spring.dependency-management' version '1.1.4'
-    id 'org.jooq.jooq-codegen-gradle' version '3.19.18'
+    id 'org.springframework.boot' version '3.4.3'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.jooq.jooq-codegen-gradle' version '3.20.0'
     id 'checkstyle'
-    id 'com.diffplug.spotless' version '6.25.0'
+    id 'com.diffplug.spotless' version '7.0.2'
 }
 apply plugin: 'com.diffplug.spotless'
 
@@ -27,12 +27,11 @@ dependencies {
 
     // Database
     runtimeOnly group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
-    implementation group: 'org.jooq', name: 'jooq', version: '3.19.18'
-    implementation group: 'org.jooq', name: 'jooq-meta', version: '3.19.18'
-    implementation group: 'org.jooq', name: 'jooq-codegen', version: '3.19.18'
-    implementation group: 'org.jooq', name: 'jooq-postgres-extensions', version: '3.19.18'
+    implementation group: 'org.jooq', name: 'jooq', version: '3.20.0'
+    implementation group: 'org.jooq', name: 'jooq-meta', version: '3.20.0'
+    implementation group: 'org.jooq', name: 'jooq-codegen', version: '3.20.0'
+    implementation group: 'org.jooq', name: 'jooq-postgres-extensions', version: '3.20.0'
     jooqCodegen group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
-    implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '3.0.3'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
@@ -40,7 +39,7 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
 
-    // Utility
+    // Library
     implementation group: 'de.huxhorn.sulky', name: 'de.huxhorn.sulky.ulid', version: '8.3.0'
 
     // Testing
@@ -49,7 +48,7 @@ dependencies {
     testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '5.15.2'
 
     // Documentation
-    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.8.4'
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.8.5'
 }
 
 sourceSets.main {
