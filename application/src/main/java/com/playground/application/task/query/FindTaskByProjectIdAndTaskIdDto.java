@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public final class FetchTaskQueryDto {
+public final class FindTaskByProjectIdAndTaskIdDto {
   private final String taskName;
   private final String status;
   private final String assignedAccountId;

@@ -23,7 +23,6 @@ class DeleteTaskUseCaseImpl implements DeleteTaskUseCase {
   public void execute(final ProjectIdRequest projectIdRequest, final TaskIdRequest taskIdRequest) {
     final ProjectId projectId = new ProjectId(projectIdRequest.value());
     final Project project = projectRepository.findProjectByProjectId(projectId);
-
     final TaskId taskId = new TaskId(taskIdRequest.value());
     project.deleteTask(taskId, messageGenerator);
     projectRepository.saveProject(project);

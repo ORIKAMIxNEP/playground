@@ -1,8 +1,9 @@
 package com.playground.application.project.query;
 
 import com.playground.domain.model.account.value.AccountId;
-import com.playground.presentation.controller.project.response.FetchProjectsResponse;
+import java.util.List;
 
 public interface ProjectQueryService {
-  FetchProjectsResponse findProjectsByParticipatingAccountId(final AccountId partcipatingAccountId);
+  List<FindProjectsByParticipatingAccountIdDto> findProjectsByParticipatingAccountId(
+      final AccountId partcipatingAccountId);
 }

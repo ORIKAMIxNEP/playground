@@ -25,7 +25,6 @@ class AddTaskUseCaseImpl implements AddTaskUseCase {
       final ProjectIdRequest projectIdRequest, final AddTaskRequest addTaskRequest) {
     final ProjectId projectId = new ProjectId(projectIdRequest.value());
     final Project project = projectRepository.findProjectByProjectId(projectId);
-
     final TaskName taskName = new TaskName(addTaskRequest.taskName());
     final TaskId taskId = project.createTask(idGenerator, taskName);
     projectRepository.saveProject(project);

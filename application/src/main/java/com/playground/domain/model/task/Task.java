@@ -55,7 +55,6 @@ public final class Task {
       final List<AccountId> assignedAccountIds,
       final MessageGenerator messageGenerator) {
     this.taskName = taskName;
-
     this.assignedAccountIds.clear();
     assignedAccountIds.forEach(
         assignedAccountId -> {

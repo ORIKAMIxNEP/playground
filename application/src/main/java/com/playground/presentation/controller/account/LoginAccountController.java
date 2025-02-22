@@ -1,43 +1,38 @@
-package com.playground.presentation.controller.task;
+package com.playground.presentation.controller.account;
 
-import com.playground.application.task.AddTaskUseCase;
+import com.playground.application.account.LoginAccountUseCase;
 import com.playground.domain.exception.RequestInvalidException;
 import com.playground.domain.exception.ResourceNotFoundException;
-import com.playground.presentation.anotation.ValidUlid;
-import com.playground.presentation.controller.project.request.ProjectIdRequest;
-import com.playground.presentation.controller.task.request.AddTaskRequest;
+import com.playground.presentation.controller.account.request.LoginAccountRequest;
+import com.playground.presentation.module.AccountCredentialSessionGenerator;
 import com.playground.presentation.module.BindingResultHandler;
-import com.playground.presentation.module.UriBuilder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import java.net.URI;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-final class AddTaskController {
-  private final AddTaskUseCase addTaskUseCase;
+final class LoginAccountController {
+  private final LoginAccountUseCase loginAccountUseCase;
   private final BindingResultHandler bindingResultHandler;
-  private final UriBuilder uriBuilder;
+  private final AccountCredentialSessionGenerator accountCredentialSessionGenerator;
 
-  @PostMapping(
-      value = "/project/{projectIdRequest}/task",
-      consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/account/credential", consumes = MediaType.APPLICATION_JSON_VALUE)
   @Operation(
-      tags = {"task"},
-      summary = "タスクを追加する",
+      tags = {"account"},
+      summary = "アカウントにログインする",
       responses = {
-        @ApiResponse(responseCode = "201", description = "Created"),
+        @ApiResponse(responseCode = "204", description = "No Content"),
         @ApiResponse(
             responseCode = "400",
             description = "Bad Request",
@@ -48,12 +43,13 @@ final class AddTaskController {
             content = @Content(schema = @Schema(oneOf = {ResourceNotFoundException.class})))
       })
   private ResponseEntity<String> execute(
-      @PathVariable @ValidUlid final ProjectIdRequest projectIdRequest,
-      @RequestBody @Validated final AddTaskRequest addTaskRequest,
-      final BindingResult bindingResult) {
+      @RequestBody @Validated final LoginAccountRequest loginAccountRequest,
+      final BindingResult bindingResult,
+      final HttpServletRequest httpServletRequest) {
     bindingResultHandler.handleBindingResult(bindingResult);
-    final String taskId = addTaskUseCase.execute(projectIdRequest, addTaskRequest);
-    final URI uri = uriBuilder.buildUri(taskId);
-    return ResponseEntity.created(uri).build();
+    final String accountId = loginAccountUseCase.execute(loginAccountRequest);
+    accountCredentialSessionGenerator.generateAccountCredentialSession(
+        httpServletRequest, accountId);
+    return ResponseEntity.noContent().build();
   }
 }

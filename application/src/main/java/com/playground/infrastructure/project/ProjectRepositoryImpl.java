@@ -16,7 +16,6 @@ import com.playground.domain.model.task.value.TaskId;
 import com.playground.domain.model.task.value.TaskName;
 import com.playground.shared.constants.MessageCode;
 import com.playground.shared.module.MessageGenerator;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -35,17 +34,14 @@ class ProjectRepositoryImpl implements ProjectRepository {
 
   @Override
   public void saveProject(final Project project) {
-    final String projectId = project.getProjectId().value();
-    final String projectName = project.getProjectName().value();
+    final ProjectId projectId = project.getProjectId();
+    final ProjectName projectName = project.getProjectName();
     projectMapper.insertProject(projectId, projectName);
-
     projectMapper.deleteProjectAccountParticipations(projectId);
     final Set<AccountId> participatingAccountIds = project.getParticipatingAccountIds();
     participatingAccountIds.forEach(
-        projectAccountParticipation ->
-            projectMapper.insertProjectAccountParticipation(
-                projectId, projectAccountParticipation.value()));
-
+        participatingAccountId ->
+            projectMapper.insertProjectAccountParticipation(projectId, participatingAccountId));
     projectMapper.deleteTasks(projectId);
     final List<Task> tasks = new ArrayList<>(project.getTasks());
     saveTasks(projectId, tasks);
@@ -55,74 +51,64 @@ class ProjectRepositoryImpl implements ProjectRepository {
   public Project findProjectByProjectId(final ProjectId projectId) {
     final ProjectDto projectDto =
         projectMapper
-            .selectProjectByProjectId(projectId.value())
+            .selectProjectByProjectId(projectId)
             .orElseThrow(
                 () -> {
                   final String message =
                       messageGenerator.generateMessage(MessageCode.NOT_FOUND, Project.class);
                   return new ResourceNotFoundException(message);
                 });
-
     final ProjectName projectName = projectDto.projectName();
-
     final Set<AccountId> participatingAccountIds =
-        new HashSet<>(
-            projectMapper.selectProjectAccountParticipationsByProjectId(projectId.value()));
-
-    final LinkedHashSet<Task> tasks = findTasksByProjectId(projectId.value());
-
+        new HashSet<>(projectMapper.selectProjectAccountParticipationsByProjectId(projectId));
+    final LinkedHashSet<Task> tasks = findTasksByProjectId(projectId);
     return Project.reconstructProject(projectId, projectName, participatingAccountIds, tasks);
   }
 
   @Override
   public void deleteProject(final ProjectId projectId) {
-    projectMapper.deleteProject(projectId.value());
+    projectMapper.deleteProject(projectId);
   }
 
-  private void saveTasks(final String projectId, final List<Task> tasks) {
+  private void saveTasks(final ProjectId projectId, final List<Task> tasks) {
     tasks.forEach(
         task -> {
-          final String taskId = task.getTaskId().value();
-          final String taskName = task.getTaskName().value();
-          final String status = task.getStatus().toString();
+          final TaskId taskId = task.getTaskId();
+          final TaskName taskName = task.getTaskName();
+          final Status status = task.getStatus();
           final int index = tasks.indexOf(task);
           projectMapper.insertTask(projectId, taskId, taskName, status, index);
-
           final Set<AccountId> assignedAccountIds = task.getAssignedAccountIds();
           assignedAccountIds.forEach(
-              taskAccountAssignment ->
-                  projectMapper.insertTaskAccountAssignment(taskId, taskAccountAssignment.value()));
-
+              assignedAccountId ->
+                  projectMapper.insertTaskAccountAssignment(taskId, assignedAccountId));
           task.getDeadline().ifPresent(deadline -> saveDeadline(taskId, deadline));
         });
   }
 
-  private LinkedHashSet<Task> findTasksByProjectId(final String projectId) {
+  private LinkedHashSet<Task> findTasksByProjectId(final ProjectId projectId) {
     return projectMapper.selectTasksByProjectId(projectId).stream()
         .map(
             taskDto -> {
               final TaskId taskId = taskDto.taskId();
               final TaskName taskName = taskDto.taskName();
               final Status status = taskDto.status();
-
               final Set<AccountId> assignedAccountIds =
-                  new HashSet<>(projectMapper.selectTaskAccountAssignmentsByTaskId(taskId.value()));
-
-              final Deadline deadline = findDeadlineByTaskId(taskId.value()).orElse(null);
-
+                  new HashSet<>(projectMapper.selectTaskAccountAssignmentsByTaskId(taskId));
+              final Deadline deadline = findDeadlineByTaskId(taskId).orElse(null);
               return Task.reconstructTask(taskId, taskName, status, assignedAccountIds, deadline);
             })
         .collect(Collectors.toCollection(LinkedHashSet::new));
   }
 
-  private void saveDeadline(final String taskId, final Deadline deadline) {
-    final LocalDateTime dueDate = deadline.getDueDate().value();
-    final int postponeCount = deadline.getPostponeCount().value();
-    final int maxPostponeCount = deadline.getMaxPostponeCount().value();
+  private void saveDeadline(final TaskId taskId, final Deadline deadline) {
+    final DueDate dueDate = deadline.getDueDate();
+    final PostponeCount postponeCount = deadline.getPostponeCount();
+    final MaxPostponeCount maxPostponeCount = deadline.getMaxPostponeCount();
     projectMapper.insertDeadline(taskId, dueDate, postponeCount, maxPostponeCount);
   }
 
-  private Optional<Deadline> findDeadlineByTaskId(final String taskId) {
+  private Optional<Deadline> findDeadlineByTaskId(final TaskId taskId) {
     return projectMapper
         .selectDeadlineByTaskId(taskId)
         .map(

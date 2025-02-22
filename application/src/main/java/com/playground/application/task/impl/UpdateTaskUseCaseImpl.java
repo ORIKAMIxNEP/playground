@@ -31,7 +31,6 @@ public class UpdateTaskUseCaseImpl implements UpdateTaskUseCase {
       final UpdateTaskRequest updateTaskRequest) {
     final ProjectId projectId = new ProjectId(projectIdRequest.value());
     final Project project = projectRepository.findProjectByProjectId(projectId);
-
     final TaskId taskId = new TaskId(taskIdRequest.value());
     final TaskName taskName = new TaskName(updateTaskRequest.taskName());
     final List<AccountId> assignedAccountIds =

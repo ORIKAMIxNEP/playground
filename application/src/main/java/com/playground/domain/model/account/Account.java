@@ -18,12 +18,11 @@ public final class Account {
   public static Account createAccount(
       final IdGenerator idGenerator, final AccountName accountName, final Password password) {
     final AccountId accountId = new AccountId(idGenerator.generateId());
-
     return new Account(accountId, accountName, password);
   }
 
   public static Account reconstructAccount(
-      final AccountId accountId, final AccountName accountName, final Password password) {
-    return new Account(accountId, accountName, password);
+      final AccountId accountId, final AccountName accountName) {
+    return new Account(accountId, accountName, null);
   }
 }

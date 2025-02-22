@@ -56,7 +56,6 @@ final class UpdateTaskController {
       @RequestBody @Validated final UpdateTaskRequest updateTaskRequest,
       final BindingResult bindingResult) {
     bindingResultHandler.handleBindingResult(bindingResult);
-
     updateTaskUseCase.execute(projectIdRequest, taskIdRequest, updateTaskRequest);
     return ResponseEntity.noContent().build();
   }
