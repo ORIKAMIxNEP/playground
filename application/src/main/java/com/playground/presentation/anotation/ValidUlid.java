@@ -1,6 +1,6 @@
 package com.playground.presentation.anotation;
 
-import com.playground.presentation.module.UlidValidator;
+import com.playground.presentation.shared.module.UlidValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import java.lang.annotation.ElementType;

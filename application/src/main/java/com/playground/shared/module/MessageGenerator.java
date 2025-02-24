@@ -18,7 +18,8 @@ public final class MessageGenerator {
       final MessageCode messageCode, final Class<?> targetDomainObjectType) {
     final String code = messageCode.getValue();
     if (Objects.isNull(targetDomainObjectType)) {
-      return messageSource.getMessage(code, null, locale);
+      final Object[] args = new Object[] {};
+      return messageSource.getMessage(code, args, locale);
     }
     final String className = targetDomainObjectType.getSimpleName();
     final Object[] args = new Object[] {className};

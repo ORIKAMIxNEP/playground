@@ -32,6 +32,7 @@ final class AdvanceStatusController {
             responseCode = "400",
             description = "Bad Request",
             content = @Content(schema = @Schema(oneOf = {RequestInvalidException.class}))),
+        @ApiResponse(responseCode = "403", description = "Forbidden"),
         @ApiResponse(
             responseCode = "404",
             description = "Not Found",

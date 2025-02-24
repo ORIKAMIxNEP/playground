@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Schema(
-    title = "ログインするアカウント",
+    title = "更新するアカウント",
     requiredProperties = {"accountName", "password"})
-public record LoginAccountRequest(
+public record UpdateAccountRequest(
     @NotBlank
         @Size(min = 1, max = 20)
         @Schema(

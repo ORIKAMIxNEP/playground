@@ -1,15 +1,18 @@
-package com.playground.presentation.module;
+package com.playground.presentation.shared.module;
 
 import com.playground.domain.exception.DomainRuleViolationException;
 import com.playground.domain.exception.RequestInvalidException;
 import com.playground.domain.exception.ResourceConflictException;
 import com.playground.domain.exception.ResourceNotFoundException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 final class GlobalExceptionHandler {
   @ExceptionHandler(value = {RequestInvalidException.class})
   private ResponseEntity<String> handleRequestInvalidException(

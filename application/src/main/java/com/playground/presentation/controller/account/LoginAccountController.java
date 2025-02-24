@@ -4,8 +4,8 @@ import com.playground.application.account.LoginAccountUseCase;
 import com.playground.domain.exception.RequestInvalidException;
 import com.playground.domain.exception.ResourceNotFoundException;
 import com.playground.presentation.controller.account.request.LoginAccountRequest;
-import com.playground.presentation.module.AccountCredentialSessionGenerator;
-import com.playground.presentation.module.BindingResultHandler;
+import com.playground.presentation.shared.module.AccountSessionManager;
+import com.playground.presentation.shared.module.BindingResultHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 final class LoginAccountController {
   private final LoginAccountUseCase loginAccountUseCase;
   private final BindingResultHandler bindingResultHandler;
-  private final AccountCredentialSessionGenerator accountCredentialSessionGenerator;
+  private final AccountSessionManager accountSessionManager;
 
   @PostMapping(value = "/account/credential", consumes = MediaType.APPLICATION_JSON_VALUE)
   @Operation(
@@ -48,8 +48,7 @@ final class LoginAccountController {
       final HttpServletRequest httpServletRequest) {
     bindingResultHandler.handleBindingResult(bindingResult);
     final String accountId = loginAccountUseCase.execute(loginAccountRequest);
-    accountCredentialSessionGenerator.generateAccountCredentialSession(
-        httpServletRequest, accountId);
+    accountSessionManager.generateAccountSession(httpServletRequest, accountId);
     return ResponseEntity.noContent().build();
   }
 }

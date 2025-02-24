@@ -5,6 +5,7 @@ import static com.playground.jooq.Tables.ACCOUNTS;
 import com.playground.domain.model.account.value.AccountId;
 import com.playground.domain.model.account.value.AccountName;
 import com.playground.domain.model.account.value.Password;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
@@ -27,6 +28,15 @@ final class AccountMapperImpl implements AccountMapper {
         .set(ACCOUNTS.ACCOUNT_NAME, accountName.value())
         .set(ACCOUNTS.PASSWORD, password.value())
         .execute();
+  }
+
+  @Override
+  public List<AccountDto> selectAllAccount() {
+    return dslContext
+        .select(ACCOUNTS.ACCOUNT_NAME)
+        .from(ACCOUNTS)
+        .forUpdate()
+        .fetchInto(AccountDto.class);
   }
 
   @Override

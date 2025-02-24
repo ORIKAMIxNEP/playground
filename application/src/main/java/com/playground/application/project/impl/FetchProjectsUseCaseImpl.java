@@ -6,6 +6,7 @@ import com.playground.application.project.query.FindProjectsByParticipatingAccou
 import com.playground.application.project.query.ProjectQueryService;
 import com.playground.domain.model.account.value.AccountId;
 import com.playground.presentation.controller.project.response.FetchProjectsResponse;
+import com.playground.presentation.shared.dto.SessionAccountId;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,10 @@ public class FetchProjectsUseCaseImpl implements FetchProjectsUseCase {
 
   @Override
   @Transactional
-  public FetchProjectsResponse execute(final String participatingAccountIdRequest) {
-    final AccountId participatingAccountId = new AccountId(participatingAccountIdRequest);
+  public FetchProjectsResponse execute(final SessionAccountId sessionAccountId) {
+    final AccountId accountId = new AccountId(sessionAccountId.value());
     final List<FindProjectsByParticipatingAccountIdDto> findProjectsByParticipatingAccountIdDtos =
-        projectQueryService.findProjectsByParticipatingAccountId(participatingAccountId);
+        projectQueryService.findProjectsByParticipatingAccountId(accountId);
     return fetchProjectsResponseConverter.convertFetchProjectsResponse(
         findProjectsByParticipatingAccountIdDtos);
   }

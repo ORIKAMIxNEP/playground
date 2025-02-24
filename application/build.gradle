@@ -6,13 +6,12 @@ plugins {
     id 'checkstyle'
     id 'com.diffplug.spotless' version '7.0.2'
 }
-apply plugin: 'com.diffplug.spotless'
 
 group = 'com'
 version = '0.0.1-SNAPSHOT'
 
 java {
-    sourceCompatibility = '17'
+    sourceCompatibility = '21'
 }
 
 repositories {
@@ -24,28 +23,23 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // Database
-    runtimeOnly group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
     implementation group: 'org.jooq', name: 'jooq', version: '3.20.0'
-    implementation group: 'org.jooq', name: 'jooq-meta', version: '3.20.0'
-    implementation group: 'org.jooq', name: 'jooq-codegen', version: '3.20.0'
-    implementation group: 'org.jooq', name: 'jooq-postgres-extensions', version: '3.20.0'
     jooqCodegen group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
 
     // Lombok
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    testCompileOnly 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.36'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.36'
+    testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.36'
 
     // Library
     implementation group: 'de.huxhorn.sulky', name: 'de.huxhorn.sulky.ulid', version: '8.3.0'
 
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.15.2'
-    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '5.15.2'
 
     // Documentation
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.8.5'

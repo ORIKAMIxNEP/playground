@@ -2,7 +2,6 @@ package com.playground.domain.model.task;
 
 import com.playground.domain.exception.DomainRuleViolationException;
 import com.playground.domain.exception.ResourceConflictException;
-import com.playground.domain.model.account.Account;
 import com.playground.domain.model.account.value.AccountId;
 import com.playground.domain.model.deadline.Deadline;
 import com.playground.domain.model.task.value.Status;
@@ -58,12 +57,12 @@ public final class Task {
     this.assignedAccountIds.clear();
     assignedAccountIds.forEach(
         assignedAccountId -> {
-          final boolean isAssignableToTask = this.assignedAccountIds.add(assignedAccountId);
-          if (isAssignableToTask) {
+          final boolean wasAssignedToTask = this.assignedAccountIds.add(assignedAccountId);
+          if (wasAssignedToTask) {
             return;
           }
           final String message =
-              messageGenerator.generateMessage(MessageCode.ALREADY_ASSIGNED, Account.class);
+              messageGenerator.generateMessage(MessageCode.DUPLICATE_ACCOUNT_IDS_INCLUDED, null);
           throw new ResourceConflictException(message);
         });
   }
@@ -80,5 +79,7 @@ public final class Task {
                 });
   }
 
-  public void postponeDeadlineDate() {}
+  public void postponeDeadlineDueDate(final MessageGenerator messageGenerator) {
+    deadline.postponeDueDate(messageGenerator);
+  }
 }

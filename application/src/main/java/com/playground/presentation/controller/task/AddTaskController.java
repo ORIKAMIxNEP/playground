@@ -6,8 +6,8 @@ import com.playground.domain.exception.ResourceNotFoundException;
 import com.playground.presentation.anotation.ValidUlid;
 import com.playground.presentation.controller.project.request.ProjectIdRequest;
 import com.playground.presentation.controller.task.request.AddTaskRequest;
-import com.playground.presentation.module.BindingResultHandler;
-import com.playground.presentation.module.UriBuilder;
+import com.playground.presentation.shared.module.BindingResultHandler;
+import com.playground.presentation.shared.module.UriBuilder;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -42,6 +42,7 @@ final class AddTaskController {
             responseCode = "400",
             description = "Bad Request",
             content = @Content(schema = @Schema(oneOf = {RequestInvalidException.class}))),
+        @ApiResponse(responseCode = "403", description = "Forbidden"),
         @ApiResponse(
             responseCode = "404",
             description = "Not Found",

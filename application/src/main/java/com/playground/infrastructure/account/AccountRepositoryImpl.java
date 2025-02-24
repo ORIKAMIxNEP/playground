@@ -8,6 +8,8 @@ import com.playground.domain.model.account.value.AccountName;
 import com.playground.domain.model.account.value.Password;
 import com.playground.shared.constants.MessageCode;
 import com.playground.shared.module.MessageGenerator;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +25,18 @@ class AccountRepositoryImpl implements AccountRepository {
     final AccountName accountName = account.getAccountName();
     final Password password = account.getPassword();
     accountMapper.insertAccount(accountId, accountName, password);
+  }
+
+  @Override
+  public List<Account> findAllAccount() {
+    final List<AccountDto> accountDtos = accountMapper.selectAllAccount();
+    return accountDtos.stream()
+        .map(
+            accountDto -> {
+              final AccountName accountName = accountDto.accountName();
+              return Account.reconstructAccount(null, accountName);
+            })
+        .collect(Collectors.toList());
   }
 
   @Override

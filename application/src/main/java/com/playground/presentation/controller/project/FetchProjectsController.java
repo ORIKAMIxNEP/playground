@@ -1,13 +1,15 @@
 package com.playground.presentation.controller.project;
 
 import com.playground.application.project.FetchProjectsUseCase;
-import com.playground.domain.exception.RequestInvalidException;
 import com.playground.domain.exception.ResourceNotFoundException;
 import com.playground.presentation.controller.project.response.FetchProjectsResponse;
+import com.playground.presentation.shared.dto.SessionAccountId;
+import com.playground.presentation.shared.module.AccountSessionManager;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 final class FetchProjectsController {
   private final FetchProjectsUseCase fetchProjectsUseCase;
+  private final AccountSessionManager accountSessionManager;
 
   @GetMapping(value = "/projects")
   @ResponseBody
@@ -33,16 +36,13 @@ final class FetchProjectsController {
                     mediaType = "application/json",
                     schema = @Schema(implementation = FetchProjectsResponse.class))),
         @ApiResponse(
-            responseCode = "400",
-            description = "Bad Request",
-            content = @Content(schema = @Schema(oneOf = {RequestInvalidException.class}))),
-        @ApiResponse(
             responseCode = "404",
             description = "Not Found",
             content = @Content(schema = @Schema(oneOf = {ResourceNotFoundException.class})))
       })
-  private ResponseEntity<?> execute() {
-    final String participatingAccountIdRequest = "0000ABCDEFGHJKMNPQRSTVWXYZ";
-    return ResponseEntity.ok(fetchProjectsUseCase.execute(participatingAccountIdRequest));
+  private ResponseEntity<?> execute(final HttpServletRequest httpServletRequest) {
+    final SessionAccountId sessionAccountId =
+        accountSessionManager.fetchAccountId(httpServletRequest);
+    return ResponseEntity.ok(fetchProjectsUseCase.execute(sessionAccountId));
   }
 }

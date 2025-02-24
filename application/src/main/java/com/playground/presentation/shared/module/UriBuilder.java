@@ -1,4 +1,4 @@
-package com.playground.presentation.module;
+package com.playground.presentation.shared.module;
 
 import java.net.URI;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.playground.presentation.module;
+package com.playground.presentation.shared.module;
 
 import com.playground.domain.exception.RequestInvalidException;
 import com.playground.presentation.anotation.ValidUlid;
@@ -7,9 +7,10 @@ import com.playground.shared.constants.MessageCode;
 import com.playground.shared.module.MessageGenerator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UlidValidator implements ConstraintValidator<ValidUlid, UlidRequest> {
   private final MessageGenerator messageGenerator;
 

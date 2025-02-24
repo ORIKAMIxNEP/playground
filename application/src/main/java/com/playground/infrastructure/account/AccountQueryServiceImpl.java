@@ -20,15 +20,13 @@ final class AccountQueryServiceImpl implements AccountQueryService {
   @Override
   public FindAccountIdByAccountNameAndPasswordDto findAccountIdByAccountNameAndPassword(
       final AccountName accountName, final Password password) {
-    final FindAccountIdByAccountNameAndPasswordDto findAccountIdByAccountNameAndPasswordDto =
-        accountQueryMapper
-            .selectAccountIdByAccountNameAndPassword(accountName, password)
-            .orElseThrow(
-                () -> {
-                  final String message =
-                      messageGenerator.generateMessage(MessageCode.NOT_FOUND, Account.class);
-                  throw new ResourceNotFoundException(message);
-                });
-    return findAccountIdByAccountNameAndPasswordDto;
+    return accountQueryMapper
+        .selectAccountIdByAccountNameAndPassword(accountName, password)
+        .orElseThrow(
+            () -> {
+              final String message =
+                  messageGenerator.generateMessage(MessageCode.NOT_FOUND, Account.class);
+              return new ResourceNotFoundException(message);
+            });
   }
 }

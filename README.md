@@ -62,7 +62,7 @@ sh reset.sh
 - #### パッケージの更新
 
 ```console
-sudo apt update && sudo apt upgrade -y && sudo apt autoremove
+sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo apt clean
 ```
 
 - #### Dockerのインストール
@@ -86,7 +86,7 @@ sudo apt update && sudo apt upgrade -y && sudo apt autoremove
 - #### JDKのインストール
 
 ```console
-sudo apt install openjdk-17-jdk -y
+sudo apt install openjdk-21-jdk -y
 ```
 
 - #### Graphvizのインストール

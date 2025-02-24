@@ -19,6 +19,8 @@ class SecurityFilterChainConfiguration {
                 authorizationManagerRequestMatcherRegistry
                     .requestMatchers(HttpMethod.POST, "/account/credential")
                     .permitAll()
+                    .requestMatchers("/**")
+                    .permitAll()
                     .anyRequest()
                     .authenticated())
         .csrf(csrf -> csrf.ignoringRequestMatchers("/**"));

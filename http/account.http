@@ -1,0 +1,17 @@
+### UpdateAccount
+PUT {{baseUrl}}/account
+Content-Type: application/json
+
+{
+  "accountName": "UpdatedAccountName",
+  "password": "UpdatedPassword"
+}
+
+### LoginAccount
+POST {{baseUrl}}/account/credential
+Content-Type: application/json
+
+{
+  "accountName": "AccountName0",
+  "password": "Password0"
+}
