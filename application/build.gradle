@@ -8,10 +8,21 @@ plugins {
 }
 
 group = 'com'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 
 java {
-    sourceCompatibility = '21'
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    testCompileOnly {
+        extendsFrom testAnnotationProcessor
+    }
 }
 
 repositories {
@@ -26,14 +37,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // Database
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
-    implementation group: 'org.jooq', name: 'jooq', version: '3.20.1'
-    jooqCodegen group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
+    implementation 'org.postgresql:postgresql'
+    implementation 'org.jooq:jooq'
+    jooqCodegen 'org.postgresql:postgresql'
 
     // Lombok
-    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.36'
-    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.36'
-    testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.36'
+    annotationProcessor 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
     // Library
     implementation group: 'de.huxhorn.sulky', name: 'de.huxhorn.sulky.ulid', version: '8.3.0'
@@ -74,12 +84,6 @@ jooq {
                 }
             }
         }
-    }
-}
-
-bootRun {
-    if (project.hasProperty('args')) {
-        args project.args.toString().split('\\s+')
     }
 }
 
