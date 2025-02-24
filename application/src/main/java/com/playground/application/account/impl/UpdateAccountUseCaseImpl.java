@@ -8,7 +8,7 @@ import com.playground.domain.model.account.value.AccountName;
 import com.playground.domain.model.account.value.Password;
 import com.playground.domain.service.AccountNameExistenceChecker;
 import com.playground.presentation.controller.account.request.UpdateAccountRequest;
-import com.playground.presentation.shared.dto.SessionAccountId;
+import com.playground.presentation.shared.dto.AuthenticatedAccountId;
 import com.playground.shared.module.MessageGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -24,8 +24,9 @@ class UpdateAccountUseCaseImpl implements UpdateAccountUseCase {
   @Override
   @Transactional
   public void execute(
-      final SessionAccountId sessionAccountId, final UpdateAccountRequest updateAccountRequest) {
-    final AccountId accountId = new AccountId(sessionAccountId.value());
+      final AuthenticatedAccountId authenticatedAccountId,
+      final UpdateAccountRequest updateAccountRequest) {
+    final AccountId accountId = new AccountId(authenticatedAccountId.value());
     final Account account = accountRepository.findAccountByAccountId(accountId);
     final AccountName accountName = new AccountName(updateAccountRequest.accountName());
     final Password password = new Password(updateAccountRequest.password());

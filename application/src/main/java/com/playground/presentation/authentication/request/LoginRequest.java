@@ -1,13 +1,13 @@
-package com.playground.presentation.controller.account.request;
+package com.playground.presentation.authentication.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Schema(
-    title = "ログインするアカウント",
+    title = "ログイン認証情報",
     requiredProperties = {"accountName", "password"})
-public record LoginAccountRequest(
+public record LoginRequest(
     @NotBlank
         @Size(min = 1, max = 20)
         @Schema(

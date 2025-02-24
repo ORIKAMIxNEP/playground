@@ -46,9 +46,11 @@ final class FetchTaskController {
             description = "Not Found",
             content = @Content(schema = @Schema(oneOf = {ResourceNotFoundException.class})))
       })
-  private ResponseEntity<?> execute(
+  public ResponseEntity<FetchTaskResponse> execute(
       @PathVariable @ValidUlid final ProjectIdRequest projectIdRequest,
       @PathVariable @ValidUlid final TaskIdRequest taskIdRequest) {
-    return ResponseEntity.ok(fetchTaskUseCase.execute(projectIdRequest, taskIdRequest));
+    final FetchTaskResponse fetchTaskResponse =
+        fetchTaskUseCase.execute(projectIdRequest, taskIdRequest);
+    return ResponseEntity.ok(fetchTaskResponse);
   }
 }

@@ -51,7 +51,7 @@ final class UpdateTaskController {
             description = "Conflict",
             content = @Content(schema = @Schema(oneOf = {ResourceConflictException.class})))
       })
-  private ResponseEntity<?> execute(
+  public ResponseEntity<Void> execute(
       @PathVariable @ValidUlid final ProjectIdRequest projectIdRequest,
       @PathVariable @ValidUlid final TaskIdRequest taskIdRequest,
       @RequestBody @Validated final UpdateTaskRequest updateTaskRequest,

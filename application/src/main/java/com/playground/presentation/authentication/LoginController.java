@@ -1,10 +1,10 @@
-package com.playground.presentation.controller.account;
+package com.playground.presentation.authentication;
 
 import com.playground.application.account.LoginAccountUseCase;
 import com.playground.domain.exception.RequestInvalidException;
 import com.playground.domain.exception.ResourceNotFoundException;
-import com.playground.presentation.controller.account.request.LoginAccountRequest;
-import com.playground.presentation.shared.module.AccountSessionManager;
+import com.playground.presentation.authentication.request.LoginRequest;
+import com.playground.presentation.shared.module.AuthenticationManager;
 import com.playground.presentation.shared.module.BindingResultHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,15 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-final class LoginAccountController {
+final class LoginController {
   private final LoginAccountUseCase loginAccountUseCase;
   private final BindingResultHandler bindingResultHandler;
-  private final AccountSessionManager accountSessionManager;
+  private final AuthenticationManager authenticationManager;
 
-  @PostMapping(value = "/account/credential", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/authentication", consumes = MediaType.APPLICATION_JSON_VALUE)
   @Operation(
-      tags = {"account"},
-      summary = "アカウントにログインする",
+      tags = {"authentication"},
+      summary = "ログインする",
       responses = {
         @ApiResponse(responseCode = "204", description = "No Content"),
         @ApiResponse(
@@ -42,13 +42,14 @@ final class LoginAccountController {
             description = "Not Found",
             content = @Content(schema = @Schema(oneOf = {ResourceNotFoundException.class})))
       })
-  private ResponseEntity<String> execute(
-      @RequestBody @Validated final LoginAccountRequest loginAccountRequest,
+  public ResponseEntity<Void> execute(
+      @RequestBody @Validated final LoginRequest loginRequest,
       final BindingResult bindingResult,
       final HttpServletRequest httpServletRequest) {
     bindingResultHandler.handleBindingResult(bindingResult);
-    final String accountId = loginAccountUseCase.execute(loginAccountRequest);
-    accountSessionManager.generateAccountSession(httpServletRequest, accountId);
+    final String accountId = loginAccountUseCase.execute(loginRequest);
+    final String password = loginRequest.password();
+    authenticationManager.registerAuthentication(httpServletRequest, accountId, password);
     return ResponseEntity.noContent().build();
   }
 }

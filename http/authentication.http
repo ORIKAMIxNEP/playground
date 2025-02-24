@@ -1,0 +1,11 @@
+### Login
+POST {{baseUrl}}/authentication
+Content-Type: application/json
+
+{
+  "accountName": "AccountName0",
+  "password": "Password0"
+}
+
+### Logout
+DELETE {{baseUrl}}/authentication

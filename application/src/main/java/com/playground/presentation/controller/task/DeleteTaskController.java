@@ -37,7 +37,7 @@ final class DeleteTaskController {
             description = "Not Found",
             content = @Content(schema = @Schema(oneOf = {ResourceNotFoundException.class})))
       })
-  private ResponseEntity<?> execute(
+  public ResponseEntity<Void> execute(
       @PathVariable @ValidUlid final ProjectIdRequest projectIdRequest,
       @PathVariable @ValidUlid final TaskIdRequest taskIdRequest) {
     deleteTaskUseCase.execute(projectIdRequest, taskIdRequest);

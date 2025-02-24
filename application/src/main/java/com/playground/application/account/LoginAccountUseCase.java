@@ -1,7 +1,7 @@
 package com.playground.application.account;
 
-import com.playground.presentation.controller.account.request.LoginAccountRequest;
+import com.playground.presentation.authentication.request.LoginRequest;
 
 public interface LoginAccountUseCase {
-  String execute(final LoginAccountRequest loginAccountRequest);
+  String execute(final LoginRequest loginRequest);
 }

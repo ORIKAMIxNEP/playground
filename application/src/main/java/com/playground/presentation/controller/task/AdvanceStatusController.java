@@ -42,7 +42,7 @@ final class AdvanceStatusController {
             description = "Unprocessable Entity",
             content = @Content(schema = @Schema(oneOf = {DomainRuleViolationException.class})))
       })
-  private ResponseEntity<?> execute(
+  public ResponseEntity<Void> execute(
       @PathVariable @ValidUlid final ProjectIdRequest projectIdRequest,
       @PathVariable @ValidUlid final TaskIdRequest taskIdRequest) {
     advanceStatusUseCase.execute(projectIdRequest, taskIdRequest);

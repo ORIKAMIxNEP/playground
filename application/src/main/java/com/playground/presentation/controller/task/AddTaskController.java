@@ -48,7 +48,7 @@ final class AddTaskController {
             description = "Not Found",
             content = @Content(schema = @Schema(oneOf = {ResourceNotFoundException.class})))
       })
-  private ResponseEntity<String> execute(
+  public ResponseEntity<Void> execute(
       @PathVariable @ValidUlid final ProjectIdRequest projectIdRequest,
       @RequestBody @Validated final AddTaskRequest addTaskRequest,
       final BindingResult bindingResult) {

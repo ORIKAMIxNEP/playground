@@ -17,9 +17,7 @@ class SecurityFilterChainConfiguration {
         .authorizeHttpRequests(
             authorizationManagerRequestMatcherRegistry ->
                 authorizationManagerRequestMatcherRegistry
-                    .requestMatchers(HttpMethod.POST, "/account/credential")
-                    .permitAll()
-                    .requestMatchers("/**")
+                    .requestMatchers(HttpMethod.POST, "/authentication")
                     .permitAll()
                     .anyRequest()
                     .authenticated())

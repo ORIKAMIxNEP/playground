@@ -10,7 +10,7 @@ import com.playground.application.project.query.ProjectQueryService;
 import com.playground.domain.model.account.value.AccountId;
 import com.playground.presentation.controller.project.response.FetchProjectsResponse;
 import com.playground.presentation.controller.project.response.FetchProjectsResponseProjectElement;
-import com.playground.presentation.shared.dto.SessionAccountId;
+import com.playground.presentation.shared.dto.AuthenticatedAccountId;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
@@ -40,9 +40,10 @@ final class FetchProjectsUseCaseImplTest {
         .when(fetchProjectsResponseConverter)
         .convertFetchProjectsResponse(findProjectsByParticipatingAccountIdDtos);
 
-    final SessionAccountId sessionAccountId = new SessionAccountId("0000ABCDEFGHJKMNPQRSTVWXYZ");
+    final AuthenticatedAccountId authenticatedAccountId =
+        new AuthenticatedAccountId("0000ABCDEFGHJKMNPQRSTVWXYZ");
     final FetchProjectsResponse actualFetchProjectsResponse =
-        fetchProjectsUseCaseImpl.execute(sessionAccountId);
+        fetchProjectsUseCaseImpl.execute(authenticatedAccountId);
 
     assertThat(actualFetchProjectsResponse).isEqualTo(expectedFetchProjectsResponse);
   }

@@ -3,13 +3,12 @@ package com.playground.presentation.controller.project;
 import com.playground.application.project.FetchProjectsUseCase;
 import com.playground.domain.exception.ResourceNotFoundException;
 import com.playground.presentation.controller.project.response.FetchProjectsResponse;
-import com.playground.presentation.shared.dto.SessionAccountId;
-import com.playground.presentation.shared.module.AccountSessionManager;
+import com.playground.presentation.shared.dto.AuthenticatedAccountId;
+import com.playground.presentation.shared.module.AuthenticationManager;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 final class FetchProjectsController {
   private final FetchProjectsUseCase fetchProjectsUseCase;
-  private final AccountSessionManager accountSessionManager;
+  private final AuthenticationManager authenticationManager;
 
   @GetMapping(value = "/projects")
   @ResponseBody
@@ -40,9 +39,10 @@ final class FetchProjectsController {
             description = "Not Found",
             content = @Content(schema = @Schema(oneOf = {ResourceNotFoundException.class})))
       })
-  private ResponseEntity<?> execute(final HttpServletRequest httpServletRequest) {
-    final SessionAccountId sessionAccountId =
-        accountSessionManager.fetchAccountId(httpServletRequest);
-    return ResponseEntity.ok(fetchProjectsUseCase.execute(sessionAccountId));
+  public ResponseEntity<FetchProjectsResponse> execute() {
+    final AuthenticatedAccountId authenticatedAccountId = authenticationManager.fetchAccountId();
+    final FetchProjectsResponse fetchProjectsResponse =
+        fetchProjectsUseCase.execute(authenticatedAccountId);
+    return ResponseEntity.ok(fetchProjectsResponse);
   }
 }

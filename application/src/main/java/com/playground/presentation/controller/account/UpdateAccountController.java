@@ -5,14 +5,13 @@ import com.playground.domain.exception.DomainRuleViolationException;
 import com.playground.domain.exception.RequestInvalidException;
 import com.playground.domain.exception.ResourceNotFoundException;
 import com.playground.presentation.controller.account.request.UpdateAccountRequest;
-import com.playground.presentation.shared.dto.SessionAccountId;
-import com.playground.presentation.shared.module.AccountSessionManager;
+import com.playground.presentation.shared.dto.AuthenticatedAccountId;
+import com.playground.presentation.shared.module.AuthenticationManager;
 import com.playground.presentation.shared.module.BindingResultHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 final class UpdateAccountController {
   private final UpdateAccountUseCase updateAccountUseCase;
   private final BindingResultHandler bindingResultHandler;
-  private final AccountSessionManager accountSessionManager;
+  private final AuthenticationManager authenticationManager;
 
   @PutMapping(value = "/account", consumes = MediaType.APPLICATION_JSON_VALUE)
   @Operation(
@@ -49,14 +48,12 @@ final class UpdateAccountController {
             description = "Unprocessable Entity",
             content = @Content(schema = @Schema(oneOf = {DomainRuleViolationException.class})))
       })
-  private ResponseEntity<?> execute(
+  public ResponseEntity<Void> execute(
       @RequestBody @Validated final UpdateAccountRequest updateAccountRequest,
-      final BindingResult bindingResult,
-      final HttpServletRequest httpServletRequest) {
+      final BindingResult bindingResult) {
     bindingResultHandler.handleBindingResult(bindingResult);
-    final SessionAccountId sessionAccountId =
-        accountSessionManager.fetchAccountId(httpServletRequest);
-    updateAccountUseCase.execute(sessionAccountId, updateAccountRequest);
+    final AuthenticatedAccountId authenticatedAccountId = authenticationManager.fetchAccountId();
+    updateAccountUseCase.execute(authenticatedAccountId, updateAccountRequest);
     return ResponseEntity.noContent().build();
   }
 }
