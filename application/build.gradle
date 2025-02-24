@@ -28,7 +28,7 @@ dependencies {
     // Database
     runtimeOnly group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
     implementation group: 'org.jooq', name: 'jooq', version: '3.20.0'
-    implementation group: 'org.jooq', name: 'jooq-meta', version: '3.20.0'
+    implementation group: 'org.jooq', name: 'jooq-meta', version: '3.20.1'
     implementation group: 'org.jooq', name: 'jooq-codegen', version: '3.20.0'
     implementation group: 'org.jooq', name: 'jooq-postgres-extensions', version: '3.20.0'
     jooqCodegen group: 'org.postgresql', name: 'postgresql', version: '42.7.5'
