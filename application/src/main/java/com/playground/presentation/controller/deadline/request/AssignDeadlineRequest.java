@@ -7,9 +7,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 @Schema(
-    title = "設定する締め切り",
+    title = "割り当てる締め切り",
     requiredProperties = {"dueDate, maxPostponeCount"})
-public record SetDeadlineRequest(
+public record AssignDeadlineRequest(
     @NotBlank
         @Pattern(regexp = "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}")
         @Schema(
