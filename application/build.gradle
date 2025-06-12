@@ -38,7 +38,7 @@ dependencies {
 
     // Database
     implementation 'org.postgresql:postgresql'
-    implementation group: 'org.jooq', name: 'jooq', version: '3.20.4'
+    implementation group: 'org.jooq', name: 'jooq', version: '3.20.5'
     jooqCodegen 'org.postgresql:postgresql'
 
     // Lombok
