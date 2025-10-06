@@ -10,14 +10,16 @@ import jakarta.validation.ConstraintValidatorContext;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
+@Component
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UlidValidator implements ConstraintValidator<ValidUlid, UlidRequest> {
+  private static final String ULID_REGEX = "^(?!.*[ILOU])[0-9A-Z]{26}$";
+
   private final MessageGenerator messageGenerator;
 
   @Override
   public boolean isValid(final UlidRequest ulidRequest, final ConstraintValidatorContext context) {
-    final String ulidRegex = "^(?!.*[ILOU])[0-9A-Z]{26}$";
-    if (ulidRequest.value().matches(ulidRegex)) {
+    if (ulidRequest.value().matches(ULID_REGEX)) {
       return true;
     }
     final String message =
