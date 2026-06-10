@@ -62,7 +62,7 @@ sh reset.sh
 - #### パッケージの更新
 
 ```console
-sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo apt clean
+sudo bash -c 'apt update && apt full-upgrade -y && apt autoremove -y && apt clean'
 ```
 
 - #### Dockerのインストール
